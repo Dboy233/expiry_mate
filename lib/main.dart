@@ -1,12 +1,20 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:foods_assistant/config_provider.dart';
 import 'package:foods_assistant/db/db.dart';
 import 'package:foods_assistant/page/home/page.dart';
+import 'package:foods_assistant/theme.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(ProviderScope(
-    child: _InitWidget(child: MyApp()),
+    observers: [],
+    child: _InitWidget(
+        child: Home(
+      key: ValueKey("HomePage1"),
+    )),
   ));
 }
 
@@ -18,27 +26,45 @@ class _InitWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var watch = ref.watch(dbStoreProvider);
-    if (!watch.hasValue) {
-      return MaterialApp(
-        home: Scaffold(
-          body: Center(
-            child: CircularProgressIndicator(),
-          ),
-        ),
-      );
-    }
-    return child;
+    var view = watch.hasValue
+        ? child
+        : _InitLoadingPage(key: ValueKey('_InitLoadingPage'));
+
+    var themeModeData = ref.watch(themeConfigProvider);
+    var theme = themeModeData.valueOrNull ?? 0;
+    var materialTheme = MaterialTheme(Theme.of(context).textTheme);
+    var themeMode =
+        theme == 0 ? materialTheme.lightHighContrast() : materialTheme.dark();
+
+    return MaterialApp(
+      theme: themeMode,
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('zh',"CH"),
+        const Locale('en', 'US'),
+      ],
+      locale: const Locale('zh'),
+      home: AnimatedSwitcher(
+        duration: Duration(seconds: 1),
+        child: view,
+      ),
+    );
   }
 }
 
-class MyApp extends ConsumerWidget {
-  const MyApp({super.key});
+class _InitLoadingPage extends StatelessWidget {
+  const _InitLoadingPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp(
-      title: "Hello",
-      home: Home(),
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 }

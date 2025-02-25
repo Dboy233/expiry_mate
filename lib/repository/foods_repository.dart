@@ -1,10 +1,10 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:foods_assistant/bean/food.dart';
 import 'package:foods_assistant/bean/result.dart';
+import 'package:foods_assistant/db/data/food_type.dart';
+import 'package:foods_assistant/db/data/food.dart';
 
 abstract class FoodsRepository {
   ///获取所有食品
-  Future<FoodResult<List<Food>>> getAllFoods();
+  Future<DataResult<List<Foods>>> getAllFoods();
 
   ///获取即将临期食品
   ///从数据库中查询过期的食品，
@@ -12,22 +12,21 @@ abstract class FoodsRepository {
   ///如果lastDays不为空，则只查询距离过期时间小于lastDays的食品(lastDays<now<保质期)，
   ///否则查询所有食品自身即将临期时间(reminderDays<now<保质期)
   ///[lastDays] 几天内过期的食品
-  Future<FoodResult<List<Food>>> getExpirationFoods(
-      {FoodCategory? category, int? lastDays});
+  Future<DataResult<List<Foods>>> getExpirationFoods(
+      {FoodType? type, int? lastDays});
 
   ///添加食品信息
-  Future<FoodResult<Food>> addFood(Food food);
+  Future<DataResult<Foods>> addFood(Foods food);
 
   ///删除食品信息
-  Future<FoodResult<bool>> deleteFood(int foodId);
+  Future<DataResult<bool>> deleteFood(int foodId);
 
   ///修改食品信息
-  Future<FoodResult<Food>> updateFood(Food food);
+  Future<DataResult<Foods>> updateFood(Foods newFood);
 
   ///获取某个分类的食品
-  Future<FoodResult<List<Food>>> getFoodsByCategory(FoodCategory category);
+  Future<DataResult<List<Foods>>> getFoodsByType(FoodType type);
 
   ///获取某个分类的食品数量
-  Future<FoodResult<int>> getSizeByCategory(FoodCategory category);
+  Future<DataResult<int>> getSizeByType(FoodType type);
 }
-

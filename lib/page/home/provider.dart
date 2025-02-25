@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:foods_assistant/bean/food.dart';
+import 'package:foods_assistant/db/data/food_type.dart';
+import 'package:foods_assistant/db/data/food.dart';
 import 'package:foods_assistant/repository/foods_repository_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -7,7 +8,7 @@ part 'provider.g.dart';
 
 ///获取所有即将临期食品
 @riverpod
-Future<List<Food>> getExpiryFood(Ref ref) async {
+Future<List<Foods>> getExpiryFood(Ref ref) async {
   var foodsRepository = await ref.watch(foodRepositoryProvider.future);
   var allFoods = await foodsRepository.getAllFoods();
   allFoods.data?.forEach((e) => print(e));
@@ -21,20 +22,30 @@ Future<List<Food>> getExpiryFood(Ref ref) async {
 }
 
 @riverpod
-Future<List<FoodCardInfo>> getFoodsCategoryInfo(Ref ref) async {
+Future<List<FoodCardInfo>> getFoodsTypeInfo(Ref ref) async {
   var foodsRepository = await ref.watch(foodRepositoryProvider.future);
   var list = <FoodCardInfo>[];
-  for (var fc in FoodCategory.values) {
-    var foodResult = await foodsRepository.getSizeByCategory(fc);
+  for (var fc in FoodType.values) {
+    var foodResult = await foodsRepository.getSizeByType(fc);
     var i = foodResult.data ?? 0;
     list.add(FoodCardInfo(
-      FoodCategoryHelper.getName(fc),
-      FoodCategoryHelper.getExample(fc).join(','),
-      FoodCategoryHelper.getCategoryImage(fc).path,
+      fc.getTypeName(),
+      fc.getExample().join(','),
+      fc.getIconAsset().path,
       i,
     ));
   }
   return list;
+}
+
+@riverpod
+Future<int> dbAllFoodsSize(Ref ref) async {
+  var foodsRepository = await ref.watch(foodRepositoryProvider.future);
+  var result = await foodsRepository.getAllFoods();
+  if(result.isSuccess){
+    return result.data!.length;
+  }
+  return 0;
 }
 
 class FoodCardInfo {

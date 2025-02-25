@@ -1,32 +1,34 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:foods_assistant/bean/food.dart';
+import 'package:foods_assistant/db/data/config.dart';
+import 'package:foods_assistant/db/data/food.dart';
+import 'package:foods_assistant/repository/fake_data_generation.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../objectbox.g.dart';
-import 'data/food_collection.dart';
 
 part 'db.g.dart';
 
 @riverpod
 Future<Store> dbStore(Ref ref) async {
+  print("dbStore init 和");
   final docsDir = await getApplicationDocumentsDirectory();
   final store = await openStore(directory: p.join(docsDir.path, "foods_db"));
-  var foods = Box<FoodCollection>(store);
+  var foods = Box<Foods>(store);
   ///添加假数据
   if (foods.isEmpty()) {
-    var list = generateFakeFoods(10);
-    for (var element in list) {
-      foods.put(FoodCollection(
-        name: element.name,
-        productionDate: element.productionDate,
-        category: element.category.index,
-        safeguardDay: element.safeguardDay!,
-        expiredDate: element.expiredTime!,
-      ));
-    }
+    var list = FakeDataGen.generateFakeFoods(10);
+   await foods.putManyAsync(list);
   }
+
+  var config = Box<Config>(store);
+  if(config.isEmpty()){
+    var put = config.put(Config(
+        themeMode: 0
+    ));
+    print("put config $put");
+  }
+
   return store;
 }

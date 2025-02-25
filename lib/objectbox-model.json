@@ -4,63 +4,88 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:1703458862176656042",
-      "lastPropertyId": "11:4793971275281203512",
-      "name": "FoodCollection",
+      "id": "1:8247850119236088470",
+      "lastPropertyId": "9:6573651186418774517",
+      "name": "Foods",
       "properties": [
         {
-          "id": "1:8971254639589330985",
+          "id": "1:1978703825323363665",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:401704908366773315",
+          "id": "2:3670068430286556413",
           "name": "name",
           "type": 9
         },
         {
-          "id": "3:504877015282192482",
-          "name": "productionDate",
+          "id": "3:5826363443805004389",
+          "name": "createDate",
           "type": 10
         },
         {
-          "id": "4:6627372625428995582",
-          "name": "safeguardDay",
-          "type": 6
-        },
-        {
-          "id": "8:7010430439051640251",
-          "name": "category",
-          "type": 6
-        },
-        {
-          "id": "10:6733119755010236047",
-          "name": "expiredDate",
+          "id": "4:8301933375774155232",
+          "name": "overDate",
           "type": 10
         },
         {
-          "id": "11:4793971275281203512",
+          "id": "6:284636853671815333",
+          "name": "type",
+          "type": 6
+        },
+        {
+          "id": "7:1231897560487208768",
           "name": "reminderDays",
+          "type": 6
+        },
+        {
+          "id": "8:9192684848696853522",
+          "name": "tag",
+          "type": 9
+        },
+        {
+          "id": "9:6573651186418774517",
+          "name": "safeDays",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:9211070878658700025",
+      "lastPropertyId": "2:3331200561438842247",
+      "name": "Config",
+      "properties": [
+        {
+          "id": "1:4639962289372667724",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3331200561438842247",
+          "name": "themeMode",
           "type": 6
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "1:1703458862176656042",
+  "lastEntityId": "3:9211070878658700025",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
-  "retiredEntityUids": [],
+  "retiredEntityUids": [
+    7724500105936233552
+  ],
   "retiredIndexUids": [],
   "retiredPropertyUids": [
-    8178031381453831784,
-    7698965590161338805,
-    6451520587619713678,
-    6917913852055480676
+    3357574269527499781,
+    5807427184758940291,
+    8748127674798035626
   ],
   "retiredRelationUids": [],
   "version": 1

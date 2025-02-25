@@ -1,0 +1,7 @@
+#global_options:
+#  objectbox_generator|resolver:
+#    runs_before:
+#      - freezed:freezed
+#  objectbox_generator:generator:
+#    runs_before:
+#      - freezed:freezed
