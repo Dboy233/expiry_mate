@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:expiry_mate/bean/result.dart';
-import 'package:expiry_mate/db/data/food.dart';
-import 'package:expiry_mate/repository/foods_repository_provider.dart';
+import 'package:expiry_mate/db/data/expiry_item.dart';
+import 'package:expiry_mate/repository/expiry_repository_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'provider.g.dart';
@@ -29,18 +29,14 @@ const int errorCodeRDaysOverFlowDays = 40;
 ///       更新时间，只修改时间，然后再去将自己更新后的时间交给附属有关联的
 ///       更新函数去处理，不负责其他参数的主动修改。
 @riverpod
-class CreateNewFood extends _$CreateNewFood {
+class CreateNewItem extends _$CreateNewItem {
   @override
-  DataResult<Foods> build() {
-    debugPrint('构建了一个新的Foods');
-    return DataResult.success(Foods(
+  DataResult<ExpiryItem> build() {
+    debugPrint('构建了一个新的条目');
+    return DataResult.success(ExpiryItem(
       //没有调整类型的话默认0=谷物类,因为UI默认选中位置就是0
       type: 0,
     ));
-  }
-
-  void updateFoods(Foods food) {
-    // state = food;
   }
 
   void updateName(String? name) {
@@ -255,10 +251,10 @@ class CreateNewFood extends _$CreateNewFood {
     //如果没有设置提醒日，默认7天
     data.reminderDays ??= 7;
 
-    var repository = await ref.read(foodRepositoryProvider.future);
-    var dataResult = await repository.addFood(state.requiredData);
+    var repository = await ref.read(appRepositoryProvider.future);
+    var dataResult = await repository.addExpiryItem(state.requiredData);
     debugPrint('${dataResult.data?.toJson()}');
-    ref.invalidate(foodRepositoryProvider);
+    ref.invalidate(appRepositoryProvider);
     return DataResult.success(0);
   }
 }

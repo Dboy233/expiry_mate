@@ -15,60 +15,11 @@ import 'package:objectbox/objectbox.dart' as obx;
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
 import 'db/data/config.dart';
-import 'db/data/food.dart';
+import 'db/data/expiry_item.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
 final _entities = <obx_int.ModelEntity>[
-  obx_int.ModelEntity(
-      id: const obx_int.IdUid(1, 8247850119236088470),
-      name: 'Foods',
-      lastPropertyId: const obx_int.IdUid(9, 6573651186418774517),
-      flags: 0,
-      properties: <obx_int.ModelProperty>[
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 1978703825323363665),
-            name: 'id',
-            type: 6,
-            flags: 1),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 3670068430286556413),
-            name: 'name',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 5826363443805004389),
-            name: 'createDate',
-            type: 10,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 8301933375774155232),
-            name: 'overDate',
-            type: 10,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(6, 284636853671815333),
-            name: 'type',
-            type: 6,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(7, 1231897560487208768),
-            name: 'reminderDays',
-            type: 6,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(8, 9192684848696853522),
-            name: 'tag',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(9, 6573651186418774517),
-            name: 'safeDays',
-            type: 6,
-            flags: 0)
-      ],
-      relations: <obx_int.ModelRelation>[],
-      backlinks: <obx_int.ModelBacklink>[]),
   obx_int.ModelEntity(
       id: const obx_int.IdUid(3, 9211070878658700025),
       name: 'Config',
@@ -84,6 +35,55 @@ final _entities = <obx_int.ModelEntity>[
             id: const obx_int.IdUid(2, 3331200561438842247),
             name: 'themeMode',
             type: 6,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(4, 8810905333952543261),
+      name: 'ExpiryItem',
+      lastPropertyId: const obx_int.IdUid(8, 6908881240499527582),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 8704008710110213458),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 3012602871261470637),
+            name: 'name',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 2161724489291423193),
+            name: 'createDate',
+            type: 10,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 1426451602107114792),
+            name: 'overDate',
+            type: 10,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 3935313527756206063),
+            name: 'safeDays',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(6, 4836352647100276804),
+            name: 'type',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(7, 5876574005763686454),
+            name: 'reminderDays',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(8, 6908881240499527582),
+            name: 'tag',
+            type: 9,
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
@@ -125,16 +125,24 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(3, 9211070878658700025),
+      lastEntityId: const obx_int.IdUid(4, 8810905333952543261),
       lastIndexId: const obx_int.IdUid(0, 0),
       lastRelationId: const obx_int.IdUid(0, 0),
       lastSequenceId: const obx_int.IdUid(0, 0),
-      retiredEntityUids: const [7724500105936233552],
+      retiredEntityUids: const [7724500105936233552, 8247850119236088470],
       retiredIndexUids: const [],
       retiredPropertyUids: const [
         3357574269527499781,
         5807427184758940291,
-        8748127674798035626
+        8748127674798035626,
+        1978703825323363665,
+        3670068430286556413,
+        5826363443805004389,
+        8301933375774155232,
+        284636853671815333,
+        1231897560487208768,
+        9192684848696853522,
+        6573651186418774517
       ],
       retiredRelationUids: const [],
       modelVersion: 5,
@@ -142,70 +150,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
       version: 1);
 
   final bindings = <Type, obx_int.EntityDefinition>{
-    Foods: obx_int.EntityDefinition<Foods>(
-        model: _entities[0],
-        toOneRelations: (Foods object) => [],
-        toManyRelations: (Foods object) => {},
-        getId: (Foods object) => object.id,
-        setId: (Foods object, int id) {
-          object.id = id;
-        },
-        objectToFB: (Foods object, fb.Builder fbb) {
-          final nameOffset =
-              object.name == null ? null : fbb.writeString(object.name!);
-          final tagOffset =
-              object.tag == null ? null : fbb.writeString(object.tag!);
-          fbb.startTable(10);
-          fbb.addInt64(0, object.id ?? 0);
-          fbb.addOffset(1, nameOffset);
-          fbb.addInt64(2, object.createDate?.millisecondsSinceEpoch);
-          fbb.addInt64(3, object.overDate?.millisecondsSinceEpoch);
-          fbb.addInt64(5, object.type);
-          fbb.addInt64(6, object.reminderDays);
-          fbb.addOffset(7, tagOffset);
-          fbb.addInt64(8, object.safeDays);
-          fbb.finish(fbb.endTable());
-          return object.id ?? 0;
-        },
-        objectFromFB: (obx.Store store, ByteData fbData) {
-          final buffer = fb.BufferContext(fbData);
-          final rootOffset = buffer.derefObject(0);
-          final createDateValue =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 8);
-          final overDateValue =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 10);
-          final idParam =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
-          final nameParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGetNullable(buffer, rootOffset, 6);
-          final createDateParam = createDateValue == null
-              ? null
-              : DateTime.fromMillisecondsSinceEpoch(createDateValue);
-          final overDateParam = overDateValue == null
-              ? null
-              : DateTime.fromMillisecondsSinceEpoch(overDateValue);
-          final safeDaysParam =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 20);
-          final typeParam =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 14);
-          final reminderDaysParam =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 16);
-          final tagParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGetNullable(buffer, rootOffset, 18);
-          final object = Foods(
-              id: idParam,
-              name: nameParam,
-              createDate: createDateParam,
-              overDate: overDateParam,
-              safeDays: safeDaysParam,
-              type: typeParam,
-              reminderDays: reminderDaysParam,
-              tag: tagParam);
-
-          return object;
-        }),
     Config: obx_int.EntityDefinition<Config>(
-        model: _entities[1],
+        model: _entities[0],
         toOneRelations: (Config object) => [],
         toManyRelations: (Config object) => {},
         getId: (Config object) => object.id,
@@ -229,52 +175,116 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final object = Config(id: idParam, themeMode: themeModeParam);
 
           return object;
+        }),
+    ExpiryItem: obx_int.EntityDefinition<ExpiryItem>(
+        model: _entities[1],
+        toOneRelations: (ExpiryItem object) => [],
+        toManyRelations: (ExpiryItem object) => {},
+        getId: (ExpiryItem object) => object.id,
+        setId: (ExpiryItem object, int id) {
+          object.id = id;
+        },
+        objectToFB: (ExpiryItem object, fb.Builder fbb) {
+          final nameOffset =
+              object.name == null ? null : fbb.writeString(object.name!);
+          final tagOffset =
+              object.tag == null ? null : fbb.writeString(object.tag!);
+          fbb.startTable(9);
+          fbb.addInt64(0, object.id ?? 0);
+          fbb.addOffset(1, nameOffset);
+          fbb.addInt64(2, object.createDate?.millisecondsSinceEpoch);
+          fbb.addInt64(3, object.overDate?.millisecondsSinceEpoch);
+          fbb.addInt64(4, object.safeDays);
+          fbb.addInt64(5, object.type);
+          fbb.addInt64(6, object.reminderDays);
+          fbb.addOffset(7, tagOffset);
+          fbb.finish(fbb.endTable());
+          return object.id ?? 0;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final createDateValue =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 8);
+          final overDateValue =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 10);
+          final idParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
+          final nameParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 6);
+          final createDateParam = createDateValue == null
+              ? null
+              : DateTime.fromMillisecondsSinceEpoch(createDateValue);
+          final overDateParam = overDateValue == null
+              ? null
+              : DateTime.fromMillisecondsSinceEpoch(overDateValue);
+          final safeDaysParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 12);
+          final typeParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 14);
+          final reminderDaysParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 16);
+          final tagParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 18);
+          final object = ExpiryItem(
+              id: idParam,
+              name: nameParam,
+              createDate: createDateParam,
+              overDate: overDateParam,
+              safeDays: safeDaysParam,
+              type: typeParam,
+              reminderDays: reminderDaysParam,
+              tag: tagParam);
+
+          return object;
         })
   };
 
   return obx_int.ModelDefinition(model, bindings);
 }
 
-/// [Foods] entity fields to define ObjectBox queries.
-class Foods_ {
-  /// See [Foods.id].
-  static final id = obx.QueryIntegerProperty<Foods>(_entities[0].properties[0]);
-
-  /// See [Foods.name].
-  static final name =
-      obx.QueryStringProperty<Foods>(_entities[0].properties[1]);
-
-  /// See [Foods.createDate].
-  static final createDate =
-      obx.QueryDateProperty<Foods>(_entities[0].properties[2]);
-
-  /// See [Foods.overDate].
-  static final overDate =
-      obx.QueryDateProperty<Foods>(_entities[0].properties[3]);
-
-  /// See [Foods.type].
-  static final type =
-      obx.QueryIntegerProperty<Foods>(_entities[0].properties[4]);
-
-  /// See [Foods.reminderDays].
-  static final reminderDays =
-      obx.QueryIntegerProperty<Foods>(_entities[0].properties[5]);
-
-  /// See [Foods.tag].
-  static final tag = obx.QueryStringProperty<Foods>(_entities[0].properties[6]);
-
-  /// See [Foods.safeDays].
-  static final safeDays =
-      obx.QueryIntegerProperty<Foods>(_entities[0].properties[7]);
-}
-
 /// [Config] entity fields to define ObjectBox queries.
 class Config_ {
   /// See [Config.id].
   static final id =
-      obx.QueryIntegerProperty<Config>(_entities[1].properties[0]);
+      obx.QueryIntegerProperty<Config>(_entities[0].properties[0]);
 
   /// See [Config.themeMode].
   static final themeMode =
-      obx.QueryIntegerProperty<Config>(_entities[1].properties[1]);
+      obx.QueryIntegerProperty<Config>(_entities[0].properties[1]);
+}
+
+/// [ExpiryItem] entity fields to define ObjectBox queries.
+class ExpiryItem_ {
+  /// See [ExpiryItem.id].
+  static final id =
+      obx.QueryIntegerProperty<ExpiryItem>(_entities[1].properties[0]);
+
+  /// See [ExpiryItem.name].
+  static final name =
+      obx.QueryStringProperty<ExpiryItem>(_entities[1].properties[1]);
+
+  /// See [ExpiryItem.createDate].
+  static final createDate =
+      obx.QueryDateProperty<ExpiryItem>(_entities[1].properties[2]);
+
+  /// See [ExpiryItem.overDate].
+  static final overDate =
+      obx.QueryDateProperty<ExpiryItem>(_entities[1].properties[3]);
+
+  /// See [ExpiryItem.safeDays].
+  static final safeDays =
+      obx.QueryIntegerProperty<ExpiryItem>(_entities[1].properties[4]);
+
+  /// See [ExpiryItem.type].
+  static final type =
+      obx.QueryIntegerProperty<ExpiryItem>(_entities[1].properties[5]);
+
+  /// See [ExpiryItem.reminderDays].
+  static final reminderDays =
+      obx.QueryIntegerProperty<ExpiryItem>(_entities[1].properties[6]);
+
+  /// See [ExpiryItem.tag].
+  static final tag =
+      obx.QueryStringProperty<ExpiryItem>(_entities[1].properties[7]);
 }

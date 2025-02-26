@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:expiry_mate/db/data/food_type.dart';
+import 'package:expiry_mate/db/data/expiry_type.dart';
 import 'package:expiry_mate/ext/date_ext.dart';
 import 'package:expiry_mate/page/add/provider.dart';
 import 'package:expiry_mate/widget/theme_button_widget.dart';
@@ -27,7 +27,7 @@ class AddPage extends StatelessWidget {
           spacing: 16,
           children: [
             // _DebugPrintFood(),
-            _FoodName(),
+            _ItemNameWidget(),
             _CreateDateWidget(),
             _OverDateContainer(),
             _RemindDaysWidget(),
@@ -49,7 +49,7 @@ class _CreateWidget extends ConsumerWidget {
       backgroundColor: Theme.of(context).colorScheme.tertiary,
       shape: CircleBorder(),
       onPressed: () async {
-        final result = await ref.read(createNewFoodProvider.notifier).create();
+        final result = await ref.read(createNewItemProvider.notifier).create();
         if (!context.mounted) {
           return;
         }
@@ -83,8 +83,8 @@ class _CreateWidget extends ConsumerWidget {
   }
 }
 
-class _FoodName extends HookConsumerWidget {
-  const _FoodName({super.key});
+class _ItemNameWidget extends HookConsumerWidget {
+  const _ItemNameWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -92,7 +92,7 @@ class _FoodName extends HookConsumerWidget {
     return TextField(
       controller: editCtl,
       onChanged: (value) {
-        ref.read(createNewFoodProvider.notifier).updateName(value);
+        ref.read(createNewItemProvider.notifier).updateName(value);
       },
       decoration: InputDecoration(
         counterText: '',
@@ -103,7 +103,7 @@ class _FoodName extends HookConsumerWidget {
           ),
           onPressed: () {
             editCtl.clear();
-            ref.read(createNewFoodProvider.notifier).updateName('');
+            ref.read(createNewItemProvider.notifier).updateName('');
           },
         ),
       ),
@@ -123,7 +123,7 @@ class _CreateDateWidget extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var editCtl = useTextEditingController();
     var now = DateTime.now();
-    var data = ref.watch(createNewFoodProvider);
+    var data = ref.watch(createNewItemProvider);
     var createDate = data.requiredData.createDate ?? now;
     String? errorText;
     if (!data.isSuccess) {
@@ -147,7 +147,7 @@ class _CreateDateWidget extends HookConsumerWidget {
           currentDate: now,
         );
         if (date != null) {
-          ref.read(createNewFoodProvider.notifier).updateCreateDate(date);
+          ref.read(createNewItemProvider.notifier).updateCreateDate(date);
         }
       },
       child: AbsorbPointer(
@@ -224,7 +224,7 @@ class _OverDateWidget extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var editCtl = useTextEditingController();
     var now = DateTime.now();
-    var data = ref.watch(createNewFoodProvider);
+    var data = ref.watch(createNewItemProvider);
     var choiceDate = data.requiredData.overDate ?? now;
     if (now != choiceDate) {
       //不是默认现在的值就显示
@@ -252,7 +252,7 @@ class _OverDateWidget extends HookConsumerWidget {
           currentDate: now,
         );
         if (date != null) {
-          ref.read(createNewFoodProvider.notifier).updateOverDate(date);
+          ref.read(createNewItemProvider.notifier).updateOverDate(date);
         }
       },
       child: AbsorbPointer(
@@ -277,7 +277,7 @@ class _SafeDaysWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var editCtl = useTextEditingController();
-    var data = ref.watch(createNewFoodProvider);
+    var data = ref.watch(createNewItemProvider);
     var days = data.requiredData.safeDays;
     editCtl.text = days != null ? '$days' : '';
     String? errorText;
@@ -288,12 +288,12 @@ class _SafeDaysWidget extends HookConsumerWidget {
       controller: editCtl,
       onChanged: (value) {
         ref
-            .read(createNewFoodProvider.notifier)
+            .read(createNewItemProvider.notifier)
             .updateSafeDays(int.tryParse(value));
       },
       onSubmitted: (value) {
         ref
-            .read(createNewFoodProvider.notifier)
+            .read(createNewItemProvider.notifier)
             .updateSafeDays(int.tryParse(value) ?? 0);
       },
       decoration: InputDecoration(
@@ -318,7 +318,7 @@ class _RemindDaysWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final editCtl = useTextEditingController();
-    var data = ref.watch(createNewFoodProvider);
+    var data = ref.watch(createNewItemProvider);
     String? errorText;
     if (!data.isSuccess) {
       switch (data.code) {
@@ -333,7 +333,7 @@ class _RemindDaysWidget extends HookConsumerWidget {
       controller: editCtl,
       onChanged: (value) {
         ref
-            .read(createNewFoodProvider.notifier)
+            .read(createNewItemProvider.notifier)
             .updateRemindDays(int.tryParse(value) ?? 0);
       },
       decoration: InputDecoration(
@@ -365,7 +365,7 @@ class _DebugPrintFood extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var watch = ref.watch(createNewFoodProvider);
+    var watch = ref.watch(createNewItemProvider);
     return Center(
       child: Text('${watch.data?.toJson()}',
           style: Theme.of(context).textTheme.titleMedium),
@@ -392,7 +392,7 @@ class _TypeWidget extends ConsumerWidget {
         itemExtent: 50,
         diameterRatio: 1,
         onSelectedItemChanged: (value) {
-          ref.read(createNewFoodProvider.notifier).updateType(value);
+          ref.read(createNewItemProvider.notifier).updateType(value);
         },
         selectionOverlay: Container(
           margin: EdgeInsets.only(left: 8, right: 8),
@@ -409,7 +409,7 @@ class _TypeWidget extends ConsumerWidget {
   }
 
   List<Widget> _createItem(BuildContext context) {
-    return FoodType.values.map(
+    return ExpiryType.values.map(
       (e) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,

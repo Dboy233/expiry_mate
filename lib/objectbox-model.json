@@ -4,55 +4,6 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:8247850119236088470",
-      "lastPropertyId": "9:6573651186418774517",
-      "name": "Foods",
-      "properties": [
-        {
-          "id": "1:1978703825323363665",
-          "name": "id",
-          "type": 6,
-          "flags": 1
-        },
-        {
-          "id": "2:3670068430286556413",
-          "name": "name",
-          "type": 9
-        },
-        {
-          "id": "3:5826363443805004389",
-          "name": "createDate",
-          "type": 10
-        },
-        {
-          "id": "4:8301933375774155232",
-          "name": "overDate",
-          "type": 10
-        },
-        {
-          "id": "6:284636853671815333",
-          "name": "type",
-          "type": 6
-        },
-        {
-          "id": "7:1231897560487208768",
-          "name": "reminderDays",
-          "type": 6
-        },
-        {
-          "id": "8:9192684848696853522",
-          "name": "tag",
-          "type": 9
-        },
-        {
-          "id": "9:6573651186418774517",
-          "name": "safeDays",
-          "type": 6
-        }
-      ],
-      "relations": []
-    },
-    {
       "id": "3:9211070878658700025",
       "lastPropertyId": "2:3331200561438842247",
       "name": "Config",
@@ -70,22 +21,80 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "4:8810905333952543261",
+      "lastPropertyId": "8:6908881240499527582",
+      "name": "ExpiryItem",
+      "properties": [
+        {
+          "id": "1:8704008710110213458",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3012602871261470637",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:2161724489291423193",
+          "name": "createDate",
+          "type": 10
+        },
+        {
+          "id": "4:1426451602107114792",
+          "name": "overDate",
+          "type": 10
+        },
+        {
+          "id": "5:3935313527756206063",
+          "name": "safeDays",
+          "type": 6
+        },
+        {
+          "id": "6:4836352647100276804",
+          "name": "type",
+          "type": 6
+        },
+        {
+          "id": "7:5876574005763686454",
+          "name": "reminderDays",
+          "type": 6
+        },
+        {
+          "id": "8:6908881240499527582",
+          "name": "tag",
+          "type": 9
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "3:9211070878658700025",
+  "lastEntityId": "4:8810905333952543261",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [
-    7724500105936233552
+    7724500105936233552,
+    8247850119236088470
   ],
   "retiredIndexUids": [],
   "retiredPropertyUids": [
     3357574269527499781,
     5807427184758940291,
-    8748127674798035626
+    8748127674798035626,
+    1978703825323363665,
+    3670068430286556413,
+    5826363443805004389,
+    8301933375774155232,
+    284636853671815333,
+    1231897560487208768,
+    9192684848696853522,
+    6573651186418774517
   ],
   "retiredRelationUids": [],
   "version": 1

@@ -1,35 +1,34 @@
-import 'package:flutter/cupertino.dart';
+import 'package:expiry_mate/db/data/expiry_item.dart';
+import 'package:expiry_mate/db/data/expiry_type.dart';
+import 'package:expiry_mate/repository/expiry_repository_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:expiry_mate/db/data/food_type.dart';
-import 'package:expiry_mate/db/data/food.dart';
-import 'package:expiry_mate/repository/foods_repository_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'provider.g.dart';
 
 ///获取所有即将临期食品
 @riverpod
-Future<List<Foods>> getExpiryFood(Ref ref) async {
-  var foodsRepository = await ref.watch(foodRepositoryProvider.future);
-  var allFoods = await foodsRepository.getAllFoods();
-  allFoods.data?.forEach((e) => debugPrint("${e.toJson()}"));
+Future<List<ExpiryItem>> getSoonExpiryItem(Ref ref) async {
+  var appRepository = await ref.watch(appRepositoryProvider.future);
+  // var all = await appRepository.getAllExpiryItems();
+  // all.data?.forEach((e) => debugPrint("${e.toJson()}"));
 
-  ///获取举例过期还剩7天的食物
-  var foodResult = await foodsRepository.getExpirationFoods();
-  if (foodResult.data == null) {
+  ///获取快要过期的
+  var result = await appRepository.getExpirationItem();
+  if (result.data == null) {
     return [];
   }
-  return foodResult.data!;
+  return result.data!;
 }
 
 @riverpod
-Future<List<FoodCardInfo>> getFoodsTypeInfo(Ref ref) async {
-  var foodsRepository = await ref.watch(foodRepositoryProvider.future);
-  var list = <FoodCardInfo>[];
-  for (var fc in FoodType.values) {
-    var foodResult = await foodsRepository.getSizeByType(fc);
-    var i = foodResult.data ?? 0;
-    list.add(FoodCardInfo(
+Future<List<ExpiryCardInfo>> getExpiryItemTypeInfo(Ref ref) async {
+  var appRepository = await ref.watch(appRepositoryProvider.future);
+  var list = <ExpiryCardInfo>[];
+  for (var fc in ExpiryType.values) {
+    var result = await appRepository.getSizeByType(fc);
+    var i = result.data ?? 0;
+    list.add(ExpiryCardInfo(
       fc.getTypeName(),
       fc.getExample().join(','),
       fc.getIconAsset().path,
@@ -40,20 +39,20 @@ Future<List<FoodCardInfo>> getFoodsTypeInfo(Ref ref) async {
 }
 
 @riverpod
-Future<int> dbAllFoodsSize(Ref ref) async {
-  var foodsRepository = await ref.watch(foodRepositoryProvider.future);
-  var result = await foodsRepository.getAllFoods();
-  if(result.isSuccess){
+Future<int> dbAllExpirySize(Ref ref) async {
+  var appRepository = await ref.watch(appRepositoryProvider.future);
+  var result = await appRepository.getAllExpiryItems();
+  if (result.isSuccess) {
     return result.data!.length;
   }
   return 0;
 }
 
-class FoodCardInfo {
+class ExpiryCardInfo {
   String name;
   String example;
   String iconAssets;
   int size;
 
-  FoodCardInfo(this.name, this.example, this.iconAssets, this.size);
+  ExpiryCardInfo(this.name, this.example, this.iconAssets, this.size);
 }

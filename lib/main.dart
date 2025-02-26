@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,6 +36,7 @@ class _InitWidget extends ConsumerWidget {
     var themeMode = theme == 0 ? materialTheme.light() : materialTheme.dark();
 
     return MaterialApp(
+      scrollBehavior: MyScroll(),
       theme: themeMode,
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
@@ -65,4 +67,20 @@ class _InitLoadingPage extends StatelessWidget {
       ),
     );
   }
+}
+
+
+class MyScroll extends MaterialScrollBehavior{
+
+  @override
+  Set<PointerDeviceKind> get dragDevices => <PointerDeviceKind>{
+    PointerDeviceKind.touch,
+    PointerDeviceKind.mouse,
+    PointerDeviceKind.stylus,
+    PointerDeviceKind.invertedStylus,
+    PointerDeviceKind.trackpad,
+    // The VoiceAccess sends pointer events with unknown type when scrolling
+    // scrollables.
+    PointerDeviceKind.unknown,
+  };
 }

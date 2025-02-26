@@ -1,11 +1,13 @@
+import 'package:expiry_mate/db/data/expiry_item.dart';
+import 'package:expiry_mate/db/data/expiry_type.dart';
+import 'package:expiry_mate/ext/date_ext.dart';
+import 'package:expiry_mate/page/add/page.dart';
+import 'package:expiry_mate/page/all/page.dart';
+import 'package:expiry_mate/page/home/provider.dart';
+import 'package:expiry_mate/widget/theme_button_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:expiry_mate/db/data/food.dart';
-import 'package:expiry_mate/ext/date_ext.dart';
-import 'package:expiry_mate/page/add/page.dart';
-import 'package:expiry_mate/page/home/provider.dart';
-import 'package:expiry_mate/widget/theme_button_widget.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -29,12 +31,12 @@ class Home extends StatelessWidget {
             sliver: SliverToBoxAdapter(
               child: SizedBox(
                 height: 150,
-                child: _OverdueFood(),
+                child: _OverdueItem(),
               ),
             ),
           ),
           _TypeListTitle(),
-          _FoodTypeList(),
+          _ItemTypeList(),
         ],
       ),
       floatingActionButton: Consumer(
@@ -68,16 +70,14 @@ class _OverDateTitle extends StatelessWidget {
     return SliverToBoxAdapter(
       child: Consumer(
         builder: (context, ref, child) {
-          var data = ref.watch(getExpiryFoodProvider);
-          var hasOverDateFood = data.value != null && data.value!.isNotEmpty;
-          return _HomeTitle(
-            '即将过期',
-            moreTap: !hasOverDateFood
-                ? null
-                : () {
-                    //todo 允许打开列表页
-                  },
-          );
+          var data = ref.watch(getSoonExpiryItemProvider);
+          var hasOverDateItem = data.value != null && data.value!.isNotEmpty;
+          return _HomeTitle('即将过期',
+              moreTap: !hasOverDateItem
+                  ? null
+                  : () {
+                      goTypeAllPage(context);
+                    });
         },
       ),
     );
@@ -93,14 +93,14 @@ class _TypeListTitle extends StatelessWidget {
     return SliverToBoxAdapter(
       child: Consumer(
         builder: (context, ref, child) {
-          var data = ref.watch(dbAllFoodsSizeProvider);
-          var hasFoods = data.value != null && data.requireValue > 0;
+          var data = ref.watch(dbAllExpirySizeProvider);
+          var hasItem = data.value != null && data.requireValue > 0;
           return _HomeTitle(
             '分类',
-            moreTap: !hasFoods
+            moreTap: !hasItem
                 ? null
                 : () {
-                    //todo 允许打开所有食品列表
+                    goTypeAllPage(context);
                   },
           );
         },
@@ -160,29 +160,29 @@ class _HomeTitle extends StatelessWidget {
 }
 
 //临期食品列表展示
-class _OverdueFood extends ConsumerWidget {
-  const _OverdueFood({super.key});
+class _OverdueItem extends ConsumerWidget {
+  const _OverdueItem({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var data = ref.watch(getExpiryFoodProvider);
+    var data = ref.watch(getSoonExpiryItemProvider);
     var list = data.hasValue ? data.requireValue : [];
     // var list = [];
     return list.isEmpty
         ? _createEmptyWidget(context)
         : ListView.builder(
-            key: ValueKey('overdue_food'),
+            key: ValueKey('overdue_item'),
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.only(left: 16, right: 8),
             itemCount: list.length,
-            itemBuilder: (context, index) => _OverdueFoodCard(list[index]),
+            itemBuilder: (context, index) => _OverdueItemCard(list[index]),
           );
   }
 
   ///没有临期食品的时候展示
   Widget _createEmptyWidget(BuildContext context) {
     return Padding(
-      key: ValueKey("empty_food_view"),
+      key: ValueKey("empty_Item_view"),
       padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
       child: Card(
         margin: EdgeInsets.zero,
@@ -201,10 +201,10 @@ class _OverdueFood extends ConsumerWidget {
   }
 }
 
-class _OverdueFoodCard extends StatelessWidget {
-  final Foods food;
+class _OverdueItemCard extends StatelessWidget {
+  final ExpiryItem item;
 
-  _OverdueFoodCard(this.food) : super(key: ValueKey(food.id));
+  _OverdueItemCard(this.item) : super(key: ValueKey(item.id));
 
   @override
   Widget build(BuildContext context) {
@@ -224,19 +224,19 @@ class _OverdueFoodCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  food.name!,
+                  item.name!,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 Text(
-                  "生产日期 : ${food.createDate?.formatCn()}",
+                  "生产日期 : ${item.createDate?.formatCn()}",
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 Text(
-                  "失效日期 : ${food.overDate?.formatCn()}",
+                  "失效日期 : ${item.overDate?.formatCn()}",
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 Text(
-                  "剩余有效天数 :${food.overDate?.difference(DateTime.now()).inDays ?? 0}",
+                  "剩余有效天数 :${item.overDate?.difference(DateTime.now()).inDays ?? 0}",
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
@@ -249,12 +249,12 @@ class _OverdueFoodCard extends StatelessWidget {
 }
 
 ///食品类型列表
-class _FoodTypeList extends ConsumerWidget {
-  const _FoodTypeList({super.key});
+class _ItemTypeList extends ConsumerWidget {
+  const _ItemTypeList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var data = ref.watch(getFoodsTypeInfoProvider);
+    var data = ref.watch(getExpiryItemTypeInfoProvider);
     if (!data.hasValue) {
       return SliverToBoxAdapter(
         child: Center(
@@ -270,7 +270,7 @@ class _FoodTypeList extends ConsumerWidget {
       sliver: SliverGrid(
         delegate: SliverChildBuilderDelegate(
           (context, index) {
-            return _FoodTypeCard(data.requireValue[index]);
+            return _ItemTypeCard(data.requireValue[index]);
           },
           childCount: data.requireValue.length,
         ),
@@ -285,45 +285,56 @@ class _FoodTypeList extends ConsumerWidget {
 }
 
 ///食品类型卡片
-class _FoodTypeCard extends ConsumerWidget {
-  final FoodCardInfo info;
+class _ItemTypeCard extends ConsumerWidget {
+  final ExpiryCardInfo info;
 
-  const _FoodTypeCard(this.info, {super.key});
+  const _ItemTypeCard(this.info, {super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Card(
-      child: GridTile(
-        header: GridTileBar(
-          leading: Image.asset(
-            info.iconAssets,
-            height: 24,
-            width: 24,
-            color: Theme.of(context).iconTheme.color,
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      child: InkWell(
+        onTap: () {
+          goTypeAllPage(context);
+        },
+        child: GridTile(
+          header: GridTileBar(
+            leading: Image.asset(
+              info.iconAssets,
+              height: 24,
+              width: 24,
+              color: Theme.of(context).iconTheme.color,
+            ),
+            title: Text(
+              info.name,
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+            subtitle: Text(
+              info.example,
+              style: Theme.of(context).textTheme.labelSmall,
+            ),
           ),
-          title: Text(
-            info.name,
-            style: Theme.of(context).textTheme.titleSmall,
+          footer: Padding(
+            padding: const EdgeInsets.only(
+              left: 8,
+              right: 8,
+              top: 8,
+              bottom: 10,
+            ),
+            child: Text(
+              '已录入 ${info.size}',
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
           ),
-          subtitle: Text(
-            info.example,
-            style: Theme.of(context).textTheme.labelSmall,
-          ),
+          child: Container(),
         ),
-        footer: Padding(
-          padding: const EdgeInsets.only(
-            left: 8,
-            right: 8,
-            top: 8,
-            bottom: 10,
-          ),
-          child: Text(
-            '已录入 ${info.size}',
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
-        ),
-        child: Container(),
       ),
     );
   }
+}
+
+void goTypeAllPage(BuildContext context,{ExpiryType? type,bool isExpiry = false}) {
+  Navigator.of(context)
+      .push(CupertinoPageRoute(builder: (context) => ExpiryItemListPage()));
 }

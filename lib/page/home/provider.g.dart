@@ -6,59 +6,62 @@ part of 'provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getExpiryFoodHash() => r'e2c8f73a14650e1846ceada2852d7a1ca5a5a83a';
+String _$getSoonExpiryItemHash() => r'01006cc7342b259921e31f00ea36ef4342352bbe';
 
 ///获取所有即将临期食品
 ///
-/// Copied from [getExpiryFood].
-@ProviderFor(getExpiryFood)
-final getExpiryFoodProvider = AutoDisposeFutureProvider<List<Foods>>.internal(
-  getExpiryFood,
-  name: r'getExpiryFoodProvider',
+/// Copied from [getSoonExpiryItem].
+@ProviderFor(getSoonExpiryItem)
+final getSoonExpiryItemProvider =
+    AutoDisposeFutureProvider<List<ExpiryItem>>.internal(
+  getSoonExpiryItem,
+  name: r'getSoonExpiryItemProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$getExpiryFoodHash,
+      : _$getSoonExpiryItemHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef GetExpiryFoodRef = AutoDisposeFutureProviderRef<List<Foods>>;
-String _$getFoodsTypeInfoHash() => r'f6125305a88fa38f8cf3ff0d9ec13c8b74be53e0';
+typedef GetSoonExpiryItemRef = AutoDisposeFutureProviderRef<List<ExpiryItem>>;
+String _$getExpiryItemTypeInfoHash() =>
+    r'9b0bbaefa8a997cf802ff09e4829dc34595f8da6';
 
-/// See also [getFoodsTypeInfo].
-@ProviderFor(getFoodsTypeInfo)
-final getFoodsTypeInfoProvider =
-    AutoDisposeFutureProvider<List<FoodCardInfo>>.internal(
-  getFoodsTypeInfo,
-  name: r'getFoodsTypeInfoProvider',
+/// See also [getExpiryItemTypeInfo].
+@ProviderFor(getExpiryItemTypeInfo)
+final getExpiryItemTypeInfoProvider =
+    AutoDisposeFutureProvider<List<ExpiryCardInfo>>.internal(
+  getExpiryItemTypeInfo,
+  name: r'getExpiryItemTypeInfoProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$getFoodsTypeInfoHash,
+      : _$getExpiryItemTypeInfoHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef GetFoodsTypeInfoRef = AutoDisposeFutureProviderRef<List<FoodCardInfo>>;
-String _$dbAllFoodsSizeHash() => r'0d8e83eaf9090618c99f32e36d61128e775c130f';
+typedef GetExpiryItemTypeInfoRef
+    = AutoDisposeFutureProviderRef<List<ExpiryCardInfo>>;
+String _$dbAllExpirySizeHash() => r'c16308cb70634a5cf6dfe2739347bfe856329195';
 
-/// See also [dbAllFoodsSize].
-@ProviderFor(dbAllFoodsSize)
-final dbAllFoodsSizeProvider = AutoDisposeFutureProvider<int>.internal(
-  dbAllFoodsSize,
-  name: r'dbAllFoodsSizeProvider',
+/// See also [dbAllExpirySize].
+@ProviderFor(dbAllExpirySize)
+final dbAllExpirySizeProvider = AutoDisposeFutureProvider<int>.internal(
+  dbAllExpirySize,
+  name: r'dbAllExpirySizeProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$dbAllFoodsSizeHash,
+      : _$dbAllExpirySizeHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef DbAllFoodsSizeRef = AutoDisposeFutureProviderRef<int>;
+typedef DbAllExpirySizeRef = AutoDisposeFutureProviderRef<int>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -1,12 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'food.dart';
+part of 'expiry_item.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$FoodsImpl _$$FoodsImplFromJson(Map<String, dynamic> json) => _$FoodsImpl(
+_$ExpiryItemImpl _$$ExpiryItemImplFromJson(Map<String, dynamic> json) =>
+    _$ExpiryItemImpl(
       id: (json['id'] as num?)?.toInt(),
       name: json['name'] as String?,
       createDate: json['createDate'] == null
@@ -21,7 +22,7 @@ _$FoodsImpl _$$FoodsImplFromJson(Map<String, dynamic> json) => _$FoodsImpl(
       tag: json['tag'] as String?,
     );
 
-Map<String, dynamic> _$$FoodsImplToJson(_$FoodsImpl instance) =>
+Map<String, dynamic> _$$ExpiryItemImplToJson(_$ExpiryItemImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

@@ -2,13 +2,13 @@ import 'package:expiry_mate/ext/date_ext.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:objectbox/objectbox.dart';
 
-part 'food.freezed.dart';
-part 'food.g.dart';
+part 'expiry_item.freezed.dart';
+part 'expiry_item.g.dart';
 
 @unfreezed
-class Foods with _$Foods {
-  @Entity(realClass: Foods)
-  factory Foods({
+class ExpiryItem with _$ExpiryItem {
+  @Entity(realClass: ExpiryItem)
+  factory ExpiryItem({
     ///唯一id
     @JsonKey(name: 'id') @Id() int? id,
 
@@ -36,13 +36,13 @@ class Foods with _$Foods {
 
     ///标签
     @JsonKey(name: 'tag') String? tag,
-  }) = _Foods;
+  }) = _ExpiryItem;
 
-  factory Foods.fromJson(Map<String, Object?> json) => _$FoodsFromJson(json);
+  factory ExpiryItem.fromJson(Map<String, Object?> json) => _$ExpiryItemFromJson(json);
 }
 
 
-extension FoodExtension on Foods {
+extension ExpiryItemExtension on ExpiryItem {
   ///食品是否过期
   bool? isExpired() {
     var now = DateTime.now();

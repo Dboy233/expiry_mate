@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'food.dart';
+part of 'expiry_item.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-Foods _$FoodsFromJson(Map<String, dynamic> json) {
-  return _Foods.fromJson(json);
+ExpiryItem _$ExpiryItemFromJson(Map<String, dynamic> json) {
+  return _ExpiryItem.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Foods {
+mixin _$ExpiryItem {
   ///唯一id
   @JsonKey(name: 'id')
   @Id()
@@ -90,19 +90,21 @@ mixin _$Foods {
   @JsonKey(name: 'tag')
   set tag(String? value) => throw _privateConstructorUsedError;
 
-  /// Serializes this Foods to a JSON map.
+  /// Serializes this ExpiryItem to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of Foods
+  /// Create a copy of ExpiryItem
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $FoodsCopyWith<Foods> get copyWith => throw _privateConstructorUsedError;
+  $ExpiryItemCopyWith<ExpiryItem> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $FoodsCopyWith<$Res> {
-  factory $FoodsCopyWith(Foods value, $Res Function(Foods) then) =
-      _$FoodsCopyWithImpl<$Res, Foods>;
+abstract class $ExpiryItemCopyWith<$Res> {
+  factory $ExpiryItemCopyWith(
+          ExpiryItem value, $Res Function(ExpiryItem) then) =
+      _$ExpiryItemCopyWithImpl<$Res, ExpiryItem>;
   @useResult
   $Res call(
       {@JsonKey(name: 'id') @Id() int? id,
@@ -120,16 +122,16 @@ abstract class $FoodsCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$FoodsCopyWithImpl<$Res, $Val extends Foods>
-    implements $FoodsCopyWith<$Res> {
-  _$FoodsCopyWithImpl(this._value, this._then);
+class _$ExpiryItemCopyWithImpl<$Res, $Val extends ExpiryItem>
+    implements $ExpiryItemCopyWith<$Res> {
+  _$ExpiryItemCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Foods
+  /// Create a copy of ExpiryItem
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -181,10 +183,11 @@ class _$FoodsCopyWithImpl<$Res, $Val extends Foods>
 }
 
 /// @nodoc
-abstract class _$$FoodsImplCopyWith<$Res> implements $FoodsCopyWith<$Res> {
-  factory _$$FoodsImplCopyWith(
-          _$FoodsImpl value, $Res Function(_$FoodsImpl) then) =
-      __$$FoodsImplCopyWithImpl<$Res>;
+abstract class _$$ExpiryItemImplCopyWith<$Res>
+    implements $ExpiryItemCopyWith<$Res> {
+  factory _$$ExpiryItemImplCopyWith(
+          _$ExpiryItemImpl value, $Res Function(_$ExpiryItemImpl) then) =
+      __$$ExpiryItemImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -203,14 +206,14 @@ abstract class _$$FoodsImplCopyWith<$Res> implements $FoodsCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$FoodsImplCopyWithImpl<$Res>
-    extends _$FoodsCopyWithImpl<$Res, _$FoodsImpl>
-    implements _$$FoodsImplCopyWith<$Res> {
-  __$$FoodsImplCopyWithImpl(
-      _$FoodsImpl _value, $Res Function(_$FoodsImpl) _then)
+class __$$ExpiryItemImplCopyWithImpl<$Res>
+    extends _$ExpiryItemCopyWithImpl<$Res, _$ExpiryItemImpl>
+    implements _$$ExpiryItemImplCopyWith<$Res> {
+  __$$ExpiryItemImplCopyWithImpl(
+      _$ExpiryItemImpl _value, $Res Function(_$ExpiryItemImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Foods
+  /// Create a copy of ExpiryItem
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -224,7 +227,7 @@ class __$$FoodsImplCopyWithImpl<$Res>
     Object? reminderDays = freezed,
     Object? tag = freezed,
   }) {
-    return _then(_$FoodsImpl(
+    return _then(_$ExpiryItemImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -263,9 +266,9 @@ class __$$FoodsImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-@Entity(realClass: Foods)
-class _$FoodsImpl implements _Foods {
-  _$FoodsImpl(
+@Entity(realClass: ExpiryItem)
+class _$ExpiryItemImpl implements _ExpiryItem {
+  _$ExpiryItemImpl(
       {@JsonKey(name: 'id') @Id() this.id,
       @JsonKey(name: 'name') this.name,
       @JsonKey(name: 'createDate')
@@ -279,8 +282,8 @@ class _$FoodsImpl implements _Foods {
       @JsonKey(name: 'reminderDays') this.reminderDays,
       @JsonKey(name: 'tag') this.tag});
 
-  factory _$FoodsImpl.fromJson(Map<String, dynamic> json) =>
-      _$$FoodsImplFromJson(json);
+  factory _$ExpiryItemImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ExpiryItemImplFromJson(json);
 
   ///唯一id
   @override
@@ -327,27 +330,27 @@ class _$FoodsImpl implements _Foods {
 
   @override
   String toString() {
-    return 'Foods(id: $id, name: $name, createDate: $createDate, overDate: $overDate, safeDays: $safeDays, type: $type, reminderDays: $reminderDays, tag: $tag)';
+    return 'ExpiryItem(id: $id, name: $name, createDate: $createDate, overDate: $overDate, safeDays: $safeDays, type: $type, reminderDays: $reminderDays, tag: $tag)';
   }
 
-  /// Create a copy of Foods
+  /// Create a copy of ExpiryItem
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$FoodsImplCopyWith<_$FoodsImpl> get copyWith =>
-      __$$FoodsImplCopyWithImpl<_$FoodsImpl>(this, _$identity);
+  _$$ExpiryItemImplCopyWith<_$ExpiryItemImpl> get copyWith =>
+      __$$ExpiryItemImplCopyWithImpl<_$ExpiryItemImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$FoodsImplToJson(
+    return _$$ExpiryItemImplToJson(
       this,
     );
   }
 }
 
-abstract class _Foods implements Foods {
-  factory _Foods(
+abstract class _ExpiryItem implements ExpiryItem {
+  factory _ExpiryItem(
       {@JsonKey(name: 'id') @Id() int? id,
       @JsonKey(name: 'name') String? name,
       @JsonKey(name: 'createDate')
@@ -359,9 +362,10 @@ abstract class _Foods implements Foods {
       @JsonKey(name: 'safeDays') int? safeDays,
       @JsonKey(name: 'type') int? type,
       @JsonKey(name: 'reminderDays') int? reminderDays,
-      @JsonKey(name: 'tag') String? tag}) = _$FoodsImpl;
+      @JsonKey(name: 'tag') String? tag}) = _$ExpiryItemImpl;
 
-  factory _Foods.fromJson(Map<String, dynamic> json) = _$FoodsImpl.fromJson;
+  factory _ExpiryItem.fromJson(Map<String, dynamic> json) =
+      _$ExpiryItemImpl.fromJson;
 
   ///唯一id
   @override
@@ -441,10 +445,10 @@ abstract class _Foods implements Foods {
   @JsonKey(name: 'tag')
   set tag(String? value);
 
-  /// Create a copy of Foods
+  /// Create a copy of ExpiryItem
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$FoodsImplCopyWith<_$FoodsImpl> get copyWith =>
+  _$$ExpiryItemImplCopyWith<_$ExpiryItemImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
