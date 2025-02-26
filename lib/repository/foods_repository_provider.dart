@@ -11,3 +11,4 @@ Future<FoodsRepository> foodRepository(Ref ref) async {
   var store = await ref.watch(dbStoreProvider.future);
   return LocalFoodRepository(store);
 }
+

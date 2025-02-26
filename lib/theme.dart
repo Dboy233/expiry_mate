@@ -345,8 +345,11 @@ class MaterialTheme {
           bodyColor: colorScheme.onSurface,
           displayColor: colorScheme.onSurface,
         ),
-        scaffoldBackgroundColor: colorScheme.background,
+        scaffoldBackgroundColor: colorScheme.surface,
         canvasColor: colorScheme.surface,
+        iconTheme: IconThemeData(
+          color: colorScheme.onSurface
+        ),
         cardTheme: CardThemeData(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
@@ -355,11 +358,11 @@ class MaterialTheme {
         inputDecorationTheme: InputDecorationTheme(
           contentPadding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
           border: OutlineInputBorder(
-            borderSide: BorderSide(color: colorScheme.outline, width: 2),
+            borderSide: BorderSide(color: colorScheme.secondaryContainer, width: 2),
             borderRadius: BorderRadius.circular(16),
           ),
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: colorScheme.outline, width: 2),
+            borderSide: BorderSide(color: colorScheme.secondaryContainer, width: 2),
             borderRadius: BorderRadius.circular(16)
           ),
           disabledBorder: OutlineInputBorder(

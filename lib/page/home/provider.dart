@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_assistant/db/data/food_type.dart';
 import 'package:foods_assistant/db/data/food.dart';
@@ -11,7 +12,7 @@ part 'provider.g.dart';
 Future<List<Foods>> getExpiryFood(Ref ref) async {
   var foodsRepository = await ref.watch(foodRepositoryProvider.future);
   var allFoods = await foodsRepository.getAllFoods();
-  allFoods.data?.forEach((e) => print(e));
+  allFoods.data?.forEach((e) => debugPrint("${e.toJson()}"));
 
   ///获取举例过期还剩7天的食物
   var foodResult = await foodsRepository.getExpirationFoods();

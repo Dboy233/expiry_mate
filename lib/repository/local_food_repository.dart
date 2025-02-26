@@ -1,6 +1,5 @@
 import 'package:foods_assistant/bean/result.dart';
 import 'package:foods_assistant/db/data/food_type.dart';
-import 'package:foods_assistant/ext/date_ext.dart';
 import 'package:foods_assistant/objectbox.g.dart';
 import 'package:foods_assistant/repository/foods_repository.dart';
 
@@ -46,7 +45,7 @@ class LocalFoodRepository extends FoodsRepository {
     }
     DateTime now = DateTime.now();
     if (lastDays != null) {
-      var lastDate = now.add(Duration(days: lastDays));
+      var lastDate = now.add(Duration(days: lastDays+1));
       var queryRules = Foods_.overDate
           //在临期范围内
           .betweenDate(now, lastDate)
@@ -73,8 +72,7 @@ class LocalFoodRepository extends FoodsRepository {
             return true;
           }
           //移除不在临期范围内或者没有过期的食物
-          return !now.isBetweenC(reminderDate, overDate) ||
-              overDate.isAfter(now);
+          return now.isBefore(reminderDate);
         },
       );
     }

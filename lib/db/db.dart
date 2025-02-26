@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foods_assistant/db/data/config.dart';
 import 'package:foods_assistant/db/data/food.dart';
@@ -12,7 +13,7 @@ part 'db.g.dart';
 
 @riverpod
 Future<Store> dbStore(Ref ref) async {
-  print("dbStore init 和");
+  debugPrint("dbStore init 和");
   final docsDir = await getApplicationDocumentsDirectory();
   final store = await openStore(directory: p.join(docsDir.path, "foods_db"));
   var foods = Box<Foods>(store);
@@ -27,7 +28,7 @@ Future<Store> dbStore(Ref ref) async {
     var put = config.put(Config(
         themeMode: 0
     ));
-    print("put config $put");
+    debugPrint("put config $put");
   }
 
   return store;

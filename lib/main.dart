@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,8 +32,7 @@ class _InitWidget extends ConsumerWidget {
     var themeModeData = ref.watch(themeConfigProvider);
     var theme = themeModeData.valueOrNull ?? 0;
     var materialTheme = MaterialTheme(Theme.of(context).textTheme);
-    var themeMode =
-        theme == 0 ? materialTheme.lightHighContrast() : materialTheme.dark();
+    var themeMode = theme == 0 ? materialTheme.light() : materialTheme.dark();
 
     return MaterialApp(
       theme: themeMode,
@@ -44,12 +42,12 @@ class _InitWidget extends ConsumerWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: [
-        const Locale('zh',"CH"),
+        const Locale('zh', "CH"),
         const Locale('en', 'US'),
       ],
       locale: const Locale('zh'),
       home: AnimatedSwitcher(
-        duration: Duration(seconds: 1),
+        duration: Duration(seconds: 2),
         child: view,
       ),
     );

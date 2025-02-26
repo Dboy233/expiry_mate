@@ -2,22 +2,41 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foods_assistant/bean/result.dart';
 import 'package:foods_assistant/db/data/food.dart';
+import 'package:foods_assistant/repository/foods_repository_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'provider.g.dart';
 
-const int resultErrorCodeCreateDateOverflowDays = 11;
-const int resultErrorCodeOverDate = 20;
-const int resultErrorCodeOverDateOverflowDays = 21;
-const int resultErrorCodeSafeDays = 30;
-const int resultErrorCodeSafeDaysOverflowDays = 31;
+///创建时间溢出，生产时间和保质期差距太大
+const int errorCodeCreateDateOverflowDays = 11;
 
+///保质期错误，保质期小于生产日期错误
+const int errorCodeOverDate = 20;
+
+///保质期错误，保质期和生产日期差距太大
+const int errorCodeOverDateOverflowDays = 21;
+
+///有效时长错误，有效期小于0
+const int errorCodeSafeDays = 30;
+
+///有效时长错误，有效期过长
+const int errorCodeSafeDaysOverflowDays = 31;
+
+///提醒日错误，提醒日大于有效时长
+const int errorCodeRDaysOverFlowDays = 40;
+
+///fixme: 有一个更好的更新优化逻辑：
+///       更新时间，只修改时间，然后再去将自己更新后的时间交给附属有关联的
+///       更新函数去处理，不负责其他参数的主动修改。
 @riverpod
 class CreateNewFood extends _$CreateNewFood {
   @override
   DataResult<Foods> build() {
     debugPrint('构建了一个新的Foods');
-    return DataResult.success(Foods());
+    return DataResult.success(Foods(
+      //没有调整类型的话默认0=谷物类,因为UI默认选中位置就是0
+      type: 0,
+    ));
   }
 
   void updateFoods(Foods food) {
@@ -42,7 +61,9 @@ class CreateNewFood extends _$CreateNewFood {
       if (days != null && days > 9999) {
         ///这是不允许的，时间太长了。
         state = state.copyWith(
-            code: resultErrorCodeCreateDateOverflowDays, msg: '你看看这保质期太久了吧');
+          code: errorCodeCreateDateOverflowDays,
+          msg: '你看看这保质期太久了吧',
+        );
         return false;
       }
       return true;
@@ -93,6 +114,8 @@ class CreateNewFood extends _$CreateNewFood {
         safeDays: safeDays,
       ),
     );
+
+    updateRemindDays(state.requiredData.reminderDays ?? 0);
   }
 
   void updateOverDate(DateTime date) {
@@ -106,7 +129,7 @@ class CreateNewFood extends _$CreateNewFood {
         if (safeDays > 9999) {
           ///这是不允许的，时间太长了。
           state = state.copyWith(
-              code: resultErrorCodeOverDateOverflowDays, msg: '咱自己都活不了那么久');
+              code: errorCodeOverDateOverflowDays, msg: '咱自己都活不了那么久');
           return;
         }
 
@@ -120,10 +143,12 @@ class CreateNewFood extends _$CreateNewFood {
             );
           },
         );
+
+        updateRemindDays(state.requiredData.reminderDays ?? 0);
       } else {
         //必须通知用户，因为需要让他知道自己要干什么。
         state = state.copyWith(
-          code: resultErrorCodeOverDate,
+          code: errorCodeOverDate,
           msg: '保质期必须大于生产日期',
         );
       }
@@ -154,7 +179,7 @@ class CreateNewFood extends _$CreateNewFood {
     }
     if (days <= 0) {
       state = state.copyWith(
-        code: resultErrorCodeSafeDays,
+        code: errorCodeSafeDays,
         msg: '有效期必须大于0天',
         callData: (data) => data?.copyWith(
           overDate: null,
@@ -181,7 +206,59 @@ class CreateNewFood extends _$CreateNewFood {
         safeDays: days,
       ),
     );
+    updateRemindDays(state.requiredData.reminderDays ?? 0);
   }
 
-  void create() {}
+  void updateRemindDays(int days) {
+    var safeDays = state.requiredData.safeDays;
+    if (safeDays != null && days > safeDays) {
+      //提醒日不能大于有效期天数
+      //NOTE: UI需要在出现错误的时候修正输入的值
+      state = state.copyWith(
+        code: errorCodeRDaysOverFlowDays,
+        msg: '提醒天数不能大于保质期时长',
+        callData: (data) => data?.copyWith(
+          //将提醒时间修改为有效时长
+          reminderDays: safeDays,
+        ),
+      );
+      return;
+    }
+
+    state = state.copyWith(
+      code: RESULT_SUCCESS_CODE,
+      callData: (data) => data?.copyWith(
+        reminderDays: days,
+      ),
+    );
+  }
+
+  void updateType(int typeIndex) {
+    state = state.copyWith(
+      code: RESULT_SUCCESS_CODE,
+      callData: (data) => data?.copyWith(type: typeIndex),
+    );
+  }
+
+  Future<DataResult> create() async {
+    var data = state.requiredData;
+    if (data.name == null || data.name!.isEmpty) {
+      return DataResult.error(msg: '名称不能为空');
+    }
+    if (data.createDate == null) {
+      return DataResult.error(msg: '生产日期不能为空');
+    }
+
+    if (data.overDate == null || data.safeDays == null) {
+      return DataResult.error(msg: '保质期不能为空');
+    }
+    //如果没有设置提醒日，默认7天
+    data.reminderDays ??= 7;
+
+    var repository = await ref.read(foodRepositoryProvider.future);
+    var dataResult = await repository.addFood(state.requiredData);
+    debugPrint('${dataResult.data?.toJson()}');
+    ref.invalidate(foodRepositoryProvider);
+    return DataResult.success(0);
+  }
 }

@@ -1,9 +1,8 @@
-import 'package:date_time_format/date_time_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:foods_assistant/config_provider.dart';
 import 'package:foods_assistant/db/data/food.dart';
+import 'package:foods_assistant/ext/date_ext.dart';
 import 'package:foods_assistant/page/add/page.dart';
 import 'package:foods_assistant/page/home/provider.dart';
 import 'package:foods_assistant/widget/theme_button_widget.dart';
@@ -26,7 +25,7 @@ class Home extends StatelessWidget {
           ),
           _OverDateTitle(),
           SliverPadding(
-            padding: const EdgeInsets.only(top: 16,bottom: 16),
+            padding: const EdgeInsets.only(top: 16, bottom: 16),
             sliver: SliverToBoxAdapter(
               child: SizedBox(
                 height: 150,
@@ -41,6 +40,7 @@ class Home extends StatelessWidget {
       floatingActionButton: Consumer(
         builder: (context, ref, child) {
           return FloatingActionButton(
+            backgroundColor: Theme.of(context).colorScheme.tertiary,
             onPressed: () {
               Navigator.of(context).push(CupertinoPageRoute(
                 builder: (context) {
@@ -48,7 +48,10 @@ class Home extends StatelessWidget {
                 },
               ));
             },
-            child: Icon(Icons.add),
+            child: Icon(
+              Icons.add,
+              color: Theme.of(context).colorScheme.surfaceBright,
+            ),
           );
         },
       ),
@@ -116,7 +119,7 @@ class _HomeTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 16,right: 16),
+      margin: EdgeInsets.only(left: 16, right: 16),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.tertiaryContainer,
         borderRadius: BorderRadius.circular(16),
@@ -170,7 +173,7 @@ class _OverdueFood extends ConsumerWidget {
         : ListView.builder(
             key: ValueKey('overdue_food'),
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.only(left: 16,right: 8),
+            padding: const EdgeInsets.only(left: 16, right: 8),
             itemCount: list.length,
             itemBuilder: (context, index) => _OverdueFoodCard(list[index]),
           );
@@ -180,7 +183,7 @@ class _OverdueFood extends ConsumerWidget {
   Widget _createEmptyWidget(BuildContext context) {
     return Padding(
       key: ValueKey("empty_food_view"),
-      padding: const EdgeInsets.only(left: 16,right: 16,top: 8,bottom: 8),
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
       child: Card(
         margin: EdgeInsets.zero,
         child: Padding(
@@ -206,7 +209,7 @@ class _OverdueFoodCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 8,bottom: 8,right: 8),
+      padding: const EdgeInsets.only(top: 8, bottom: 8, right: 8),
       child: SizedBox(
         width: 350,
         height: double.infinity,
@@ -225,11 +228,11 @@ class _OverdueFoodCard extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 Text(
-                  "生产日期 : ${food.createDate?.format(r'Y年m月d日')}",
+                  "生产日期 : ${food.createDate?.formatCn()}",
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 Text(
-                  "失效日期 : ${food.overDate?.format(r'Y年m月d日')}",
+                  "失效日期 : ${food.overDate?.formatCn()}",
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 Text(
