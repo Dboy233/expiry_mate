@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:foods_assistant/bean/result.dart';
-import 'package:foods_assistant/db/data/food.dart';
-import 'package:foods_assistant/repository/foods_repository_provider.dart';
+import 'package:expiry_mate/bean/result.dart';
+import 'package:expiry_mate/db/data/food.dart';
+import 'package:expiry_mate/repository/foods_repository_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'provider.g.dart';

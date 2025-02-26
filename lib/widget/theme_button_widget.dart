@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:foods_assistant/config_provider.dart';
+import 'package:expiry_mate/config_provider.dart';
 
 class ThemeButton extends ConsumerWidget {
   const ThemeButton({super.key});

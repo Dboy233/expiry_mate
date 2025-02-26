@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:foods_assistant/db/db.dart';
-import 'package:foods_assistant/repository/foods_repository.dart';
-import 'package:foods_assistant/repository/local_food_repository.dart';
+import 'package:expiry_mate/db/db.dart';
+import 'package:expiry_mate/repository/foods_repository.dart';
+import 'package:expiry_mate/repository/local_food_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'foods_repository_provider.g.dart';

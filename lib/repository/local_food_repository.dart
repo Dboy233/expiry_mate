@@ -1,7 +1,7 @@
-import 'package:foods_assistant/bean/result.dart';
-import 'package:foods_assistant/db/data/food_type.dart';
-import 'package:foods_assistant/objectbox.g.dart';
-import 'package:foods_assistant/repository/foods_repository.dart';
+import 'package:expiry_mate/bean/result.dart';
+import 'package:expiry_mate/db/data/food_type.dart';
+import 'package:expiry_mate/objectbox.g.dart';
+import 'package:expiry_mate/repository/foods_repository.dart';
 
 import '../db/data/food.dart';
 

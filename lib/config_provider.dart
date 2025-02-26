@@ -1,5 +1,5 @@
-import 'package:foods_assistant/db/data/config.dart';
-import 'package:foods_assistant/db/db.dart';
+import 'package:expiry_mate/db/data/config.dart';
+import 'package:expiry_mate/db/db.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'config_provider.g.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:foods_assistant/db/data/config.dart';
-import 'package:foods_assistant/db/data/food.dart';
-import 'package:foods_assistant/repository/fake_data_generation.dart';
+import 'package:expiry_mate/db/data/config.dart';
+import 'package:expiry_mate/db/data/food.dart';
+import 'package:expiry_mate/repository/fake_data_generation.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:foods_assistant/db/data/food_type.dart';
-import 'package:foods_assistant/ext/date_ext.dart';
-import 'package:foods_assistant/page/add/provider.dart';
-import 'package:foods_assistant/widget/theme_button_widget.dart';
+import 'package:expiry_mate/db/data/food_type.dart';
+import 'package:expiry_mate/ext/date_ext.dart';
+import 'package:expiry_mate/page/add/provider.dart';
+import 'package:expiry_mate/widget/theme_button_widget.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AddPage extends StatelessWidget {

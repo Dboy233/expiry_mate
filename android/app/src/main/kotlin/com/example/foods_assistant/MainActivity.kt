@@ -1,4 +1,4 @@
-package com.example.foods_assistant
+package com.example.expiry_mate
 
 import io.flutter.embedding.android.FlutterActivity
 

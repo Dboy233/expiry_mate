@@ -1,6 +1,6 @@
 {
-    "name": "foods_assistant",
-    "short_name": "foods_assistant",
+    "name": "expiry_mate",
+    "short_name": "expiry_mate",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

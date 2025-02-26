@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "foods_assistant" "\0"
+            VALUE "FileDescription", "expiry_mate" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "foods_assistant" "\0"
+            VALUE "InternalName", "expiry_mate" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2025 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "foods_assistant.exe" "\0"
-            VALUE "ProductName", "foods_assistant" "\0"
+            VALUE "OriginalFilename", "expiry_mate.exe" "\0"
+            VALUE "ProductName", "expiry_mate" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

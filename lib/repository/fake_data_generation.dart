@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:foods_assistant/db/data/food_type.dart';
-import 'package:foods_assistant/db/data/food.dart';
+import 'package:expiry_mate/db/data/food_type.dart';
+import 'package:expiry_mate/db/data/food.dart';
 
 class FakeDataGen{
 

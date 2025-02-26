@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:foods_assistant/config_provider.dart';
-import 'package:foods_assistant/db/db.dart';
-import 'package:foods_assistant/page/home/page.dart';
-import 'package:foods_assistant/theme.dart';
+import 'package:expiry_mate/config_provider.dart';
+import 'package:expiry_mate/db/db.dart';
+import 'package:expiry_mate/page/home/page.dart';
+import 'package:expiry_mate/theme.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

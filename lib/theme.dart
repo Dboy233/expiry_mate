@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "package:foods_assistant/gen/fonts.gen.dart";
+import "package:expiry_mate/gen/fonts.gen.dart";
 
 class MaterialTheme {
   final TextTheme textTheme;

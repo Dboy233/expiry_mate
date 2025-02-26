@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:foods_assistant/db/data/food.dart';
-import 'package:foods_assistant/ext/date_ext.dart';
-import 'package:foods_assistant/page/add/page.dart';
-import 'package:foods_assistant/page/home/provider.dart';
-import 'package:foods_assistant/widget/theme_button_widget.dart';
+import 'package:expiry_mate/db/data/food.dart';
+import 'package:expiry_mate/ext/date_ext.dart';
+import 'package:expiry_mate/page/add/page.dart';
+import 'package:expiry_mate/page/home/provider.dart';
+import 'package:expiry_mate/widget/theme_button_widget.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});

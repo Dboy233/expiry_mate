@@ -1,6 +1,6 @@
-import 'package:foods_assistant/bean/result.dart';
-import 'package:foods_assistant/db/data/food_type.dart';
-import 'package:foods_assistant/db/data/food.dart';
+import 'package:expiry_mate/bean/result.dart';
+import 'package:expiry_mate/db/data/food_type.dart';
+import 'package:expiry_mate/db/data/food.dart';
 
 abstract class FoodsRepository {
   ///获取所有食品

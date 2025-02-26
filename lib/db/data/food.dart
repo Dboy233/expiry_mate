@@ -1,4 +1,4 @@
-import 'package:foods_assistant/ext/date_ext.dart';
+import 'package:expiry_mate/ext/date_ext.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:objectbox/objectbox.dart';
 
