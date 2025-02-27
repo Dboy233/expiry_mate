@@ -138,7 +138,7 @@ class _HomeTitle extends StatelessWidget {
             Text(
               title,
               style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.onTertiaryContainer,
                   ),
             ),
             AnimatedOpacity(
@@ -148,7 +148,7 @@ class _HomeTitle extends StatelessWidget {
                 onPressed: moreTap,
                 icon: Icon(
                   Icons.list,
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.onTertiaryContainer,
                 ),
               ),
             )

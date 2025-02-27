@@ -1,11 +1,11 @@
+import 'package:expiry_mate/app_theme.dart';
+import 'package:expiry_mate/config_provider.dart';
+import 'package:expiry_mate/db/db.dart';
+import 'package:expiry_mate/page/home/page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:expiry_mate/config_provider.dart';
-import 'package:expiry_mate/db/db.dart';
-import 'package:expiry_mate/page/home/page.dart';
-import 'package:expiry_mate/theme.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,13 +31,18 @@ class _InitWidget extends ConsumerWidget {
         : _InitLoadingPage(key: ValueKey('_InitLoadingPage'));
 
     var themeModeData = ref.watch(themeConfigProvider);
-    var theme = themeModeData.valueOrNull ?? 0;
-    var materialTheme = MaterialTheme(Theme.of(context).textTheme);
-    var themeMode = theme == 0 ? materialTheme.light() : materialTheme.dark();
+    var themeCode = themeModeData.valueOrNull ?? 3;
+    var themeMode = themeCode == 0
+        ? ThemeMode.light
+        : themeCode == 1
+            ? ThemeMode.dark
+            : ThemeMode.system;
 
     return MaterialApp(
       scrollBehavior: MyScroll(),
-      theme: themeMode,
+      themeMode: themeMode,
+      darkTheme: AppTheme.dark,
+      theme: AppTheme.light,
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -69,18 +74,16 @@ class _InitLoadingPage extends StatelessWidget {
   }
 }
 
-
-class MyScroll extends MaterialScrollBehavior{
-
+class MyScroll extends MaterialScrollBehavior {
   @override
   Set<PointerDeviceKind> get dragDevices => <PointerDeviceKind>{
-    PointerDeviceKind.touch,
-    PointerDeviceKind.mouse,
-    PointerDeviceKind.stylus,
-    PointerDeviceKind.invertedStylus,
-    PointerDeviceKind.trackpad,
-    // The VoiceAccess sends pointer events with unknown type when scrolling
-    // scrollables.
-    PointerDeviceKind.unknown,
-  };
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+        PointerDeviceKind.stylus,
+        PointerDeviceKind.invertedStylus,
+        PointerDeviceKind.trackpad,
+        // The VoiceAccess sends pointer events with unknown type when scrolling
+        // scrollables.
+        PointerDeviceKind.unknown,
+      };
 }

@@ -178,7 +178,7 @@ class _OverDateContainer extends HookConsumerWidget {
           margin: EdgeInsets.only(top: 8),
           decoration: BoxDecoration(
             border: Border.all(
-                width: 2, color: themeData.colorScheme.secondaryContainer),
+                width: 2, color: themeData.colorScheme.primary.withValues(alpha: 0.6)),
             borderRadius: BorderRadius.circular(16),
           ),
           child: Column(
@@ -192,7 +192,7 @@ class _OverDateContainer extends HookConsumerWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: Text('日期 or 天数',
                     style: themeData.textTheme.bodyMedium
-                        ?.copyWith(color: themeData.colorScheme.secondary)),
+                        ?.copyWith(color: themeData.colorScheme.primary.withValues(alpha: 0.6))),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8, right: 8, bottom: 16),
@@ -208,7 +208,7 @@ class _OverDateContainer extends HookConsumerWidget {
             child: Text(
               '保质期',
               style: themeData.textTheme.titleSmall
-                  ?.copyWith(color: themeData.colorScheme.secondary),
+                  ?.copyWith(color: themeData.colorScheme.primary.withValues(alpha: 0.6)),
             ),
           ),
         )
@@ -384,8 +384,8 @@ class _TypeWidget extends ConsumerWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(16)),
         border: Border.all(
-          color: Theme.of(context).colorScheme.secondaryContainer,
-          width: 2,
+          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.6),
+          width: 1.5,
         ),
       ),
       child: CupertinoPicker(
@@ -400,8 +400,8 @@ class _TypeWidget extends ConsumerWidget {
               borderRadius: BorderRadius.all(Radius.circular(16)),
               color: Theme.of(context)
                   .colorScheme
-                  .secondaryContainer
-                  .withValues(alpha: 0.5)),
+                  .primary
+                  .withValues(alpha: 0.2)),
         ),
         children: _createItem(context),
       ),

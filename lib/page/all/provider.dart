@@ -13,10 +13,10 @@ class ExpiryItemList extends _$ExpiryItemList {
     ///类型锁定，如果为null则使用[ExpiryFilterData]的类型值
     ExpiryType? lockType,
   ) async {
+    var filter = ref.watch(expiryFilterProvider(lockType));
     var repository = await ref.read(appRepositoryProvider.future);
-
-
-    return [];
+    var result = await repository.queryExpiryItem(filter);
+    return result.data ?? [];
   }
 
   ///删除临期条目

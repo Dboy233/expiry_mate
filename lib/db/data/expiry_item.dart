@@ -38,18 +38,17 @@ class ExpiryItem with _$ExpiryItem {
     @JsonKey(name: 'tag') String? tag,
   }) = _ExpiryItem;
 
-  factory ExpiryItem.fromJson(Map<String, Object?> json) => _$ExpiryItemFromJson(json);
+  factory ExpiryItem.fromJson(Map<String, Object?> json) =>
+      _$ExpiryItemFromJson(json);
 }
-
 
 extension ExpiryItemExtension on ExpiryItem {
   ///食品是否过期
-  bool? isExpired() {
-    var now = DateTime.now();
+  bool isExpired() {
     if (overDate != null) {
-      return now.isBefore(overDate!);
+      return overDate!.isBefore(DateTime.now());
     }
-    return null;
+    return true;
   }
 
   ///是否需要提醒
@@ -63,10 +62,17 @@ extension ExpiryItemExtension on ExpiryItem {
   }
 
   ///获取需要提醒的日期
-  DateTime? getReminderDate(){
+  DateTime? getReminderDate() {
     if (reminderDays == null || overDate == null) {
       return null;
     }
-     return overDate!.subtract(Duration(days: reminderDays!));
+    return overDate!.subtract(Duration(days: reminderDays!));
+  }
+
+  int get lastDays {
+    if (overDate == null) {
+      return 0;
+    }
+    return overDate!.difference(DateTime.now()).inDays;
   }
 }

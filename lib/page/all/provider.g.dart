@@ -6,7 +6,7 @@ part of 'provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$expiryItemListHash() => r'8d0240c0fd418f0d408f45f3923eefbdaea6467e';
+String _$expiryItemListHash() => r'3fddb75887723714f610b2c5b83b012b5dd6c062';
 
 /// Copied from Dart SDK
 class _SystemHash {

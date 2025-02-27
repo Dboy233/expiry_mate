@@ -126,8 +126,47 @@ class LocalRepository extends ExpiryRepository {
 
   @override
   Future<DataResult<List<ExpiryItem>>> queryExpiryItem(
-      ExpiryFilterData filter) {
-    // TODO: implement queryExpiryItem
-    throw UnimplementedError();
+      ExpiryFilterData filter) async {
+    var box = Box<ExpiryItem>(_store);
+    //用类型进行初始查询条件，设置类型了就查询某个类型，没设置就反向查
+    Condition<ExpiryItem> condition = filter.type == null
+        ? ExpiryItem_.type.notEquals(-1) //不等于-1就是全部类型
+        : ExpiryItem_.type.equals(filter.type!);
+
+    //生产日期的筛选
+    if (filter.createTimeFirst != null && filter.createTimeLast == null) {
+      condition.and(
+          ExpiryItem_.createDate.greaterOrEqualDate(filter.createTimeLast!));
+    } else if (filter.createTimeFirst == null &&
+        filter.createTimeLast != null) {
+      condition
+          .and(ExpiryItem_.createDate.lessOrEqualDate(filter.createTimeLast!));
+    } else if (filter.createTimeFirst != null &&
+        filter.createTimeLast != null) {
+      condition.and(ExpiryItem_.createDate
+          .betweenDate(filter.createTimeFirst!, filter.createTimeLast!));
+    }
+
+    //保质期时间查询
+    if (filter.overDateFirst != null && filter.overDateLast == null) {
+      condition
+          .and(ExpiryItem_.overDate.greaterOrEqualDate(filter.overDateLast!));
+    } else if (filter.overDateFirst == null && filter.overDateLast != null) {
+      condition.and(ExpiryItem_.overDate.lessOrEqualDate(filter.overDateLast!));
+    } else if (filter.overDateFirst != null && filter.overDateLast != null) {
+      condition.and(ExpiryItem_.overDate
+          .betweenDate(filter.overDateFirst!, filter.overDateLast!));
+    }
+
+    //剩余天数查询
+    if (filter.lastDays != null) {
+      final now = DateTime.now();
+      final lastDate = now.add(Duration(days: filter.lastDays!));
+      condition.and(ExpiryItem_.overDate.betweenDate(now, lastDate));
+    }
+
+    var list =  box.query(condition).build().find();
+
+    return DataResult.success(list);
   }
 }
