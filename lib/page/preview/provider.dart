@@ -1,6 +1,5 @@
 import 'package:expiry_mate/db/data/expiry_item.dart';
 import 'package:expiry_mate/repository/expiry_repository_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'provider.g.dart';
@@ -76,7 +75,7 @@ class ItemDetails extends _$ItemDetails {
 
   String? canUpdateRemindDays(int days) {
     var item = state.requireValue;
-    if (days>item.overDate!.difference(item.createDate!).inDays) {
+    if (days > item.overDate!.difference(item.createDate!).inDays) {
       return '提醒时间超过了有效时间';
     }
     return null;

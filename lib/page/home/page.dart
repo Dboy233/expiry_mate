@@ -228,7 +228,9 @@ class _OverdueItemCard extends StatelessWidget {
                 children: [
                   Text(
                     item.name!,
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold
+                    ),
                   ),
                   Text(
                     "生产日期 : ${item.createDate?.format()}",

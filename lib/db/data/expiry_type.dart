@@ -47,6 +47,9 @@ enum ExpiryType {
   /// 调味品类
   seasonings,
 
+  ///医疗药品
+  medicalProducts,
+
   /// 其他（包括以上分类不涵盖的食物品种）
   other;
 }
@@ -70,6 +73,7 @@ extension FoodTypeExt on ExpiryType {
       ExpiryType.alcoholicBeverages => Assets.images.iconAlcoholic,
       ExpiryType.oilsAndFats => Assets.images.iconOilsFats,
       ExpiryType.seasonings => Assets.images.iconSeasonings,
+      ExpiryType.medicalProducts => Assets.images.iconDoctor,
       ExpiryType.other => Assets.images.iconOther,
     };
   }
@@ -92,6 +96,7 @@ extension FoodTypeExt on ExpiryType {
       ExpiryType.alcoholicBeverages => '酒精饮料',
       ExpiryType.oilsAndFats => '油脂类',
       ExpiryType.seasonings => '调味品',
+      ExpiryType.medicalProducts => '医疗药品',
       ExpiryType.other => '其他',
     };
   }
@@ -122,6 +127,7 @@ extension FoodTypeExt on ExpiryType {
       ExpiryType.alcoholicBeverages => ['啤酒', '白酒', '红酒', '黄酒'],
       ExpiryType.oilsAndFats => ['花生油', '豆油', '菜籽油', '橄榄油', '猪油'],
       ExpiryType.seasonings => ['盐', '酱油', '醋', '糖', '鸡精', '味精'],
+      ExpiryType.medicalProducts => ['感冒药', '阿莫西林胶囊', '开塞露'],
       ExpiryType.other => ['预制菜', '速食粥', '方便米粉', '方便面'],
     };
   }

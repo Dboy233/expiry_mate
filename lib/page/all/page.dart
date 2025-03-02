@@ -88,10 +88,14 @@ class _ListViewWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     var themeData = Theme.of(context);
-    var onErrorTextTheme = themeData.textTheme.bodyMedium
-        ?.copyWith(color: themeData.colorScheme.onError);
-    var onArchiveTextTheme = themeData.textTheme.bodyMedium
-        ?.copyWith(color: themeData.colorScheme.onPrimary);
+    var onErrorTextTheme = themeData.textTheme.bodyMedium?.copyWith(
+      color: Colors.white.withValues(alpha: 0.8),
+      fontWeight: FontWeight.bold,
+    );
+    var onArchiveTextTheme = themeData.textTheme.bodyMedium?.copyWith(
+      color: Colors.white.withValues(alpha: 0.8),
+      fontWeight: FontWeight.bold,
+    );
     return ListView.builder(
       padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
       itemBuilder: (_, index) {
@@ -117,10 +121,18 @@ class _ListViewWidget extends ConsumerWidget {
                       builder: (context) => ItemDetailsPage(item.id!, true))) ==
                   'delete';
             } else {
-              await ref
-                  .read(expiryItemListProvider(type).notifier)
-                  .delete(item.id!);
-              return true;
+              //二次确认
+              final isConfirm = await showDialog(
+                  context: context,
+                  builder: (context) => _ConfirmTheDeletionDialog());
+              if (isConfirm == true) {
+                await ref
+                    .read(expiryItemListProvider(type).notifier)
+                    .delete(item.id!);
+                return true;
+              } else {
+                return false;
+              }
             }
           },
         );
@@ -193,6 +205,42 @@ class _ExpiryTipsWidget extends StatelessWidget {
     return Text(
       '${item.lastDays}天后过期',
       style: theme,
+    );
+  }
+}
+
+class _ConfirmTheDeletionDialog extends StatelessWidget {
+  const _ConfirmTheDeletionDialog({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text("确认要删除?"),
+      content: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        spacing: 8,
+        children: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(null);
+            },
+            child: Text(
+              '取消',
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
+            child: Text(
+              '确认',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.error,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -24,6 +24,10 @@ class $AssetsImagesGen {
   AssetGenImage get iconDairy =>
       const AssetGenImage('assets/images/icon_dairy.png');
 
+  /// File path: assets/images/icon_doctor.png
+  AssetGenImage get iconDoctor =>
+      const AssetGenImage('assets/images/icon_doctor.png');
+
   /// File path: assets/images/icon_dry.png
   AssetGenImage get iconDry =>
       const AssetGenImage('assets/images/icon_dry.png');
@@ -85,6 +89,7 @@ class $AssetsImagesGen {
         iconAlcoholic,
         iconBeverages,
         iconDairy,
+        iconDoctor,
         iconDry,
         iconEggs,
         iconEmpty,

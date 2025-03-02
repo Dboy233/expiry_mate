@@ -1,4 +1,5 @@
 ///默认成功相应
+//#ignore:lowerCamelCase
 const  RESULT_SUCCESS_CODE = 0;
 
 class DataResult<T> {
