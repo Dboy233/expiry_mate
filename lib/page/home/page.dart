@@ -170,7 +170,7 @@ class _OverdueItem extends ConsumerWidget {
         : ListView.builder(
             key: ValueKey('overdue_item'),
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.only(left: 16, right: 8),
+            padding: const EdgeInsets.only(left: 16),
             itemCount: list.length,
             itemBuilder: (context, index) => _OverdueItemCard(list[index]),
           );
@@ -206,9 +206,9 @@ class _OverdueItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 8, bottom: 8, right: 8),
+      padding: const EdgeInsets.only(top: 8, bottom: 8, right: 16),
       child: SizedBox(
-        width: 350,
+        width: 200,
         height: double.infinity,
         child: Card(
           margin: EdgeInsets.zero,
