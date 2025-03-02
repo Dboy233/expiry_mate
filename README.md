@@ -32,6 +32,30 @@ dart run build_runner build --delete-conflicting-outputs
 
 ```
 
+项目中第三方包存在jdk版本冲突。为了解决java8，java11冲突问题。
+在android项目的根目录的[build.gradle](android/build.gradle)添加以下内容。
+
+```
+allprojects {
+    仓库 {
+        google()
+        mavenCentral()
+    }
+//-------------------------------
+//解决第三方库中jkd版本冲突，统一修改为java8
+    afterEvaluate { project ->
+        // 仅对 Android 模块生效（含第三方库）
+        if (project.plugins.hasPlugin('com.android.application') || project.plugins.hasPlugin('com.android.library')) {
+            project.android.compileOptions {
+                sourceCompatibility = JavaVersion.VERSION_1_8
+                targetCompatibility = JavaVersion.VERSION_1_8
+            }
+        }
+    }
+//------------------------------
+}
+```
+
 
 ## 已完成功能
 
