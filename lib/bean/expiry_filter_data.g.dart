@@ -9,29 +9,33 @@ part of 'expiry_filter_data.dart';
 _$ExpiryFilterDataImpl _$$ExpiryFilterDataImplFromJson(
         Map<String, dynamic> json) =>
     _$ExpiryFilterDataImpl(
-      createTimeFirst: json['createTimeFirst'] == null
+      name: json['name'] as String?,
+      createDateStart: json['createDateStart'] == null
           ? null
-          : DateTime.parse(json['createTimeFirst'] as String),
-      createTimeLast: json['createTimeLast'] == null
+          : DateTime.parse(json['createDateStart'] as String),
+      createDateEnd: json['createDateEnd'] == null
           ? null
-          : DateTime.parse(json['createTimeLast'] as String),
-      overDateFirst: json['overDateFirst'] == null
+          : DateTime.parse(json['createDateEnd'] as String),
+      overDateStart: json['overDateStart'] == null
           ? null
-          : DateTime.parse(json['overDateFirst'] as String),
-      overDateLast: json['overDateLast'] == null
+          : DateTime.parse(json['overDateStart'] as String),
+      overDateEnd: json['overDateEnd'] == null
           ? null
-          : DateTime.parse(json['overDateLast'] as String),
+          : DateTime.parse(json['overDateEnd'] as String),
       lastDays: (json['lastDays'] as num?)?.toInt(),
       type: (json['type'] as num?)?.toInt(),
+      isExpiry: json['isExpiry'] as bool?,
     );
 
 Map<String, dynamic> _$$ExpiryFilterDataImplToJson(
         _$ExpiryFilterDataImpl instance) =>
     <String, dynamic>{
-      'createTimeFirst': instance.createTimeFirst?.toIso8601String(),
-      'createTimeLast': instance.createTimeLast?.toIso8601String(),
-      'overDateFirst': instance.overDateFirst?.toIso8601String(),
-      'overDateLast': instance.overDateLast?.toIso8601String(),
+      'name': instance.name,
+      'createDateStart': instance.createDateStart?.toIso8601String(),
+      'createDateEnd': instance.createDateEnd?.toIso8601String(),
+      'overDateStart': instance.overDateStart?.toIso8601String(),
+      'overDateEnd': instance.overDateEnd?.toIso8601String(),
       'lastDays': instance.lastDays,
       'type': instance.type,
+      'isExpiry': instance.isExpiry,
     };

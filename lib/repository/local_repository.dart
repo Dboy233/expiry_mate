@@ -3,6 +3,7 @@ import 'package:expiry_mate/bean/result.dart';
 import 'package:expiry_mate/db/data/expiry_type.dart';
 import 'package:expiry_mate/objectbox.g.dart';
 import 'package:expiry_mate/repository/expiry_repository.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../db/data/expiry_item.dart';
 
@@ -10,6 +11,16 @@ class LocalRepository extends ExpiryRepository {
   final Store _store;
 
   LocalRepository(this._store);
+
+  @override
+  Future<DataResult<ExpiryItem>> getItem(int id) {
+    var box = Box<ExpiryItem>(_store);
+    var expiryItem = box.get(id);
+    if (expiryItem == null) {
+      return Future.error('没有id:$id的数据');
+    }
+    return Future.value(DataResult.success(expiryItem));
+  }
 
   @override
   Future<DataResult<ExpiryItem>> addExpiryItem(ExpiryItem item) {
@@ -128,44 +139,55 @@ class LocalRepository extends ExpiryRepository {
   Future<DataResult<List<ExpiryItem>>> queryExpiryItem(
       ExpiryFilterData filter) async {
     var box = Box<ExpiryItem>(_store);
+    debugPrint(filter.toString());
+    if (filter.isExpiry == true) {
+      return getExpirationItem();
+    }
+
     //用类型进行初始查询条件，设置类型了就查询某个类型，没设置就反向查
+    //todo 查询有问题
     Condition<ExpiryItem> condition = filter.type == null
-        ? ExpiryItem_.type.notEquals(-1) //不等于-1就是全部类型
+        ? ExpiryItem_.type.notNull() //不为null就是全部类型
         : ExpiryItem_.type.equals(filter.type!);
+    //名字
+    if (filter.name != null && filter.name!.isNotEmpty) {
+      condition = condition.and(ExpiryItem_.name.equals(filter.name!));
+    }
 
     //生产日期的筛选
-    if (filter.createTimeFirst != null && filter.createTimeLast == null) {
-      condition.and(
-          ExpiryItem_.createDate.greaterOrEqualDate(filter.createTimeLast!));
-    } else if (filter.createTimeFirst == null &&
-        filter.createTimeLast != null) {
-      condition
-          .and(ExpiryItem_.createDate.lessOrEqualDate(filter.createTimeLast!));
-    } else if (filter.createTimeFirst != null &&
-        filter.createTimeLast != null) {
-      condition.and(ExpiryItem_.createDate
-          .betweenDate(filter.createTimeFirst!, filter.createTimeLast!));
+    if (filter.createDateStart != null && filter.createDateEnd == null) {
+      condition = condition.and(
+          ExpiryItem_.createDate.greaterOrEqualDate(filter.createDateStart!));
+    } else if (filter.createDateStart == null && filter.createDateEnd != null) {
+      condition = condition
+          .and(ExpiryItem_.createDate.lessOrEqualDate(filter.createDateEnd!));
+    } else if (filter.createDateStart != null && filter.createDateEnd != null) {
+      condition = condition.and(ExpiryItem_.createDate
+          .betweenDate(filter.createDateStart!, filter.createDateEnd!));
     }
 
     //保质期时间查询
-    if (filter.overDateFirst != null && filter.overDateLast == null) {
-      condition
-          .and(ExpiryItem_.overDate.greaterOrEqualDate(filter.overDateLast!));
-    } else if (filter.overDateFirst == null && filter.overDateLast != null) {
-      condition.and(ExpiryItem_.overDate.lessOrEqualDate(filter.overDateLast!));
-    } else if (filter.overDateFirst != null && filter.overDateLast != null) {
-      condition.and(ExpiryItem_.overDate
-          .betweenDate(filter.overDateFirst!, filter.overDateLast!));
+    if (filter.overDateStart != null && filter.overDateEnd == null) {
+      condition = condition
+          .and(ExpiryItem_.overDate.greaterOrEqualDate(filter.overDateStart!));
+    } else if (filter.overDateStart == null && filter.overDateEnd != null) {
+      condition = condition
+          .and(ExpiryItem_.overDate.lessOrEqualDate(filter.overDateEnd!));
+    } else if (filter.overDateStart != null && filter.overDateEnd != null) {
+      debugPrint('保质期筛选');
+      condition = condition.and(ExpiryItem_.overDate
+          .betweenDate(filter.overDateStart!, filter.overDateEnd!));
     }
 
     //剩余天数查询
     if (filter.lastDays != null) {
       final now = DateTime.now();
-      final lastDate = now.add(Duration(days: filter.lastDays!));
-      condition.and(ExpiryItem_.overDate.betweenDate(now, lastDate));
+      final lastDate = now.add(Duration(days: filter.lastDays!+1));
+      condition =
+          condition.and(ExpiryItem_.overDate.betweenDate(now, lastDate));
     }
 
-    var list =  box.query(condition).build().find();
+    var list = box.query(condition).order(ExpiryItem_.overDate).build().find();
 
     return DataResult.success(list);
   }

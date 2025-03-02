@@ -33,6 +33,7 @@ Future<List<ExpiryCardInfo>> getExpiryItemTypeInfo(Ref ref) async {
       fc.getExample().join(','),
       fc.getIconAsset().path,
       i,
+      fc,
     ));
   }
   return list;
@@ -53,6 +54,6 @@ class ExpiryCardInfo {
   String example;
   String iconAssets;
   int size;
-
-  ExpiryCardInfo(this.name, this.example, this.iconAssets, this.size);
+  ExpiryType type;
+  ExpiryCardInfo(this.name, this.example, this.iconAssets, this.size,this.type);
 }

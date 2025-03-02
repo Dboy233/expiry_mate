@@ -21,7 +21,7 @@ Future<Store> dbStore(Ref ref) async {
   ///添加假数据
   var expiryBox = Box<ExpiryItem>(store);
   if (expiryBox.isEmpty()) {
-    var list = FakeDataGen.generateFakeData(10);
+    var list = FakeDataGen.generateFakeData(18);
    await expiryBox.putManyAsync(list);
   }
   debugPrint("初始化设置...");

@@ -6,6 +6,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +39,9 @@ class _InitWidget extends ConsumerWidget {
             ? ThemeMode.dark
             : ThemeMode.system;
 
+    const locale =   Locale('zh');
+    Intl.defaultLocale = 'zh';
+
     return MaterialApp(
       scrollBehavior: MyScroll(),
       themeMode: themeMode,
@@ -52,7 +56,7 @@ class _InitWidget extends ConsumerWidget {
         const Locale('zh', "CH"),
         const Locale('en', 'US'),
       ],
-      locale: const Locale('zh'),
+      locale: locale,
       home: AnimatedSwitcher(
         duration: Duration(seconds: 2),
         child: view,

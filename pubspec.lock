@@ -270,14 +270,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.9"
-  date_time_format:
-    dependency: "direct main"
-    description:
-      name: date_time_format
-      sha256: dc47de14c95a7511e98ca429e1ebfd98c339badb496c9f2aaf56a70d07c7c0bf
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.0.1"
   fake_async:
     dependency: transitive
     description:
@@ -339,6 +331,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_dismissible_tile:
+    dependency: "direct main"
+    description:
+      name: flutter_dismissible_tile
+      sha256: "37795139ad3bd7127ac92cf787ac454f80f9bddce3dbe792951850917b461f3d"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.3"
   flutter_gen_core:
     dependency: transitive
     description:
@@ -486,7 +486,7 @@ packages:
     source: hosted
     version: "2.4.0"
   intl:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: intl
       sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf

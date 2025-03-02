@@ -6,7 +6,7 @@ part of 'provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$expiryItemListHash() => r'3fddb75887723714f610b2c5b83b012b5dd6c062';
+String _$expiryItemListHash() => r'fe632b7be897223ce91fbb2c0dc93ffdf254726e';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -174,7 +174,7 @@ class _ExpiryItemListProviderElement
   ExpiryType? get lockType => (origin as ExpiryItemListProvider).lockType;
 }
 
-String _$expiryFilterHash() => r'b3ed80d4b5d5f204f7f74119417e67b1ecc1f687';
+String _$expiryFilterHash() => r'1c29f64bb39b1ae429eff3b2a454f91866416137';
 
 abstract class _$ExpiryFilter
     extends BuildlessAutoDisposeNotifier<ExpiryFilterData> {

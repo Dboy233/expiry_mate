@@ -20,22 +20,26 @@ ExpiryFilterData _$ExpiryFilterDataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ExpiryFilterData {
-  @JsonKey(name: 'createTimeFirst')
-  DateTime? get createTimeFirst => throw _privateConstructorUsedError;
-  @JsonKey(name: 'createTimeFirst')
-  set createTimeFirst(DateTime? value) => throw _privateConstructorUsedError;
-  @JsonKey(name: 'createTimeLast')
-  DateTime? get createTimeLast => throw _privateConstructorUsedError;
-  @JsonKey(name: 'createTimeLast')
-  set createTimeLast(DateTime? value) => throw _privateConstructorUsedError;
-  @JsonKey(name: 'overDateFirst')
-  DateTime? get overDateFirst => throw _privateConstructorUsedError;
-  @JsonKey(name: 'overDateFirst')
-  set overDateFirst(DateTime? value) => throw _privateConstructorUsedError;
-  @JsonKey(name: 'overDateLast')
-  DateTime? get overDateLast => throw _privateConstructorUsedError;
-  @JsonKey(name: 'overDateLast')
-  set overDateLast(DateTime? value) => throw _privateConstructorUsedError;
+  @JsonKey(name: 'name')
+  String? get name => throw _privateConstructorUsedError;
+  @JsonKey(name: 'name')
+  set name(String? value) => throw _privateConstructorUsedError;
+  @JsonKey(name: 'createDateStart')
+  DateTime? get createDateStart => throw _privateConstructorUsedError;
+  @JsonKey(name: 'createDateStart')
+  set createDateStart(DateTime? value) => throw _privateConstructorUsedError;
+  @JsonKey(name: 'createDateEnd')
+  DateTime? get createDateEnd => throw _privateConstructorUsedError;
+  @JsonKey(name: 'createDateEnd')
+  set createDateEnd(DateTime? value) => throw _privateConstructorUsedError;
+  @JsonKey(name: 'overDateStart')
+  DateTime? get overDateStart => throw _privateConstructorUsedError;
+  @JsonKey(name: 'overDateStart')
+  set overDateStart(DateTime? value) => throw _privateConstructorUsedError;
+  @JsonKey(name: 'overDateEnd')
+  DateTime? get overDateEnd => throw _privateConstructorUsedError;
+  @JsonKey(name: 'overDateEnd')
+  set overDateEnd(DateTime? value) => throw _privateConstructorUsedError;
   @JsonKey(name: 'lastDays')
   int? get lastDays => throw _privateConstructorUsedError;
   @JsonKey(name: 'lastDays')
@@ -44,6 +48,10 @@ mixin _$ExpiryFilterData {
   int? get type => throw _privateConstructorUsedError;
   @JsonKey(name: 'type')
   set type(int? value) => throw _privateConstructorUsedError;
+  @JsonKey(name: 'isExpiry')
+  bool? get isExpiry => throw _privateConstructorUsedError;
+  @JsonKey(name: 'isExpiry')
+  set isExpiry(bool? value) => throw _privateConstructorUsedError;
 
   /// Serializes this ExpiryFilterData to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -62,12 +70,14 @@ abstract class $ExpiryFilterDataCopyWith<$Res> {
       _$ExpiryFilterDataCopyWithImpl<$Res, ExpiryFilterData>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'createTimeFirst') DateTime? createTimeFirst,
-      @JsonKey(name: 'createTimeLast') DateTime? createTimeLast,
-      @JsonKey(name: 'overDateFirst') DateTime? overDateFirst,
-      @JsonKey(name: 'overDateLast') DateTime? overDateLast,
+      {@JsonKey(name: 'name') String? name,
+      @JsonKey(name: 'createDateStart') DateTime? createDateStart,
+      @JsonKey(name: 'createDateEnd') DateTime? createDateEnd,
+      @JsonKey(name: 'overDateStart') DateTime? overDateStart,
+      @JsonKey(name: 'overDateEnd') DateTime? overDateEnd,
       @JsonKey(name: 'lastDays') int? lastDays,
-      @JsonKey(name: 'type') int? type});
+      @JsonKey(name: 'type') int? type,
+      @JsonKey(name: 'isExpiry') bool? isExpiry});
 }
 
 /// @nodoc
@@ -85,29 +95,35 @@ class _$ExpiryFilterDataCopyWithImpl<$Res, $Val extends ExpiryFilterData>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? createTimeFirst = freezed,
-    Object? createTimeLast = freezed,
-    Object? overDateFirst = freezed,
-    Object? overDateLast = freezed,
+    Object? name = freezed,
+    Object? createDateStart = freezed,
+    Object? createDateEnd = freezed,
+    Object? overDateStart = freezed,
+    Object? overDateEnd = freezed,
     Object? lastDays = freezed,
     Object? type = freezed,
+    Object? isExpiry = freezed,
   }) {
     return _then(_value.copyWith(
-      createTimeFirst: freezed == createTimeFirst
-          ? _value.createTimeFirst
-          : createTimeFirst // ignore: cast_nullable_to_non_nullable
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createDateStart: freezed == createDateStart
+          ? _value.createDateStart
+          : createDateStart // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      createTimeLast: freezed == createTimeLast
-          ? _value.createTimeLast
-          : createTimeLast // ignore: cast_nullable_to_non_nullable
+      createDateEnd: freezed == createDateEnd
+          ? _value.createDateEnd
+          : createDateEnd // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      overDateFirst: freezed == overDateFirst
-          ? _value.overDateFirst
-          : overDateFirst // ignore: cast_nullable_to_non_nullable
+      overDateStart: freezed == overDateStart
+          ? _value.overDateStart
+          : overDateStart // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      overDateLast: freezed == overDateLast
-          ? _value.overDateLast
-          : overDateLast // ignore: cast_nullable_to_non_nullable
+      overDateEnd: freezed == overDateEnd
+          ? _value.overDateEnd
+          : overDateEnd // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       lastDays: freezed == lastDays
           ? _value.lastDays
@@ -117,6 +133,10 @@ class _$ExpiryFilterDataCopyWithImpl<$Res, $Val extends ExpiryFilterData>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as int?,
+      isExpiry: freezed == isExpiry
+          ? _value.isExpiry
+          : isExpiry // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -130,12 +150,14 @@ abstract class _$$ExpiryFilterDataImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'createTimeFirst') DateTime? createTimeFirst,
-      @JsonKey(name: 'createTimeLast') DateTime? createTimeLast,
-      @JsonKey(name: 'overDateFirst') DateTime? overDateFirst,
-      @JsonKey(name: 'overDateLast') DateTime? overDateLast,
+      {@JsonKey(name: 'name') String? name,
+      @JsonKey(name: 'createDateStart') DateTime? createDateStart,
+      @JsonKey(name: 'createDateEnd') DateTime? createDateEnd,
+      @JsonKey(name: 'overDateStart') DateTime? overDateStart,
+      @JsonKey(name: 'overDateEnd') DateTime? overDateEnd,
       @JsonKey(name: 'lastDays') int? lastDays,
-      @JsonKey(name: 'type') int? type});
+      @JsonKey(name: 'type') int? type,
+      @JsonKey(name: 'isExpiry') bool? isExpiry});
 }
 
 /// @nodoc
@@ -151,29 +173,35 @@ class __$$ExpiryFilterDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? createTimeFirst = freezed,
-    Object? createTimeLast = freezed,
-    Object? overDateFirst = freezed,
-    Object? overDateLast = freezed,
+    Object? name = freezed,
+    Object? createDateStart = freezed,
+    Object? createDateEnd = freezed,
+    Object? overDateStart = freezed,
+    Object? overDateEnd = freezed,
     Object? lastDays = freezed,
     Object? type = freezed,
+    Object? isExpiry = freezed,
   }) {
     return _then(_$ExpiryFilterDataImpl(
-      createTimeFirst: freezed == createTimeFirst
-          ? _value.createTimeFirst
-          : createTimeFirst // ignore: cast_nullable_to_non_nullable
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createDateStart: freezed == createDateStart
+          ? _value.createDateStart
+          : createDateStart // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      createTimeLast: freezed == createTimeLast
-          ? _value.createTimeLast
-          : createTimeLast // ignore: cast_nullable_to_non_nullable
+      createDateEnd: freezed == createDateEnd
+          ? _value.createDateEnd
+          : createDateEnd // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      overDateFirst: freezed == overDateFirst
-          ? _value.overDateFirst
-          : overDateFirst // ignore: cast_nullable_to_non_nullable
+      overDateStart: freezed == overDateStart
+          ? _value.overDateStart
+          : overDateStart // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      overDateLast: freezed == overDateLast
-          ? _value.overDateLast
-          : overDateLast // ignore: cast_nullable_to_non_nullable
+      overDateEnd: freezed == overDateEnd
+          ? _value.overDateEnd
+          : overDateEnd // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       lastDays: freezed == lastDays
           ? _value.lastDays
@@ -183,6 +211,10 @@ class __$$ExpiryFilterDataImplCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as int?,
+      isExpiry: freezed == isExpiry
+          ? _value.isExpiry
+          : isExpiry // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -191,38 +223,46 @@ class __$$ExpiryFilterDataImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ExpiryFilterDataImpl implements _ExpiryFilterData {
   _$ExpiryFilterDataImpl(
-      {@JsonKey(name: 'createTimeFirst') this.createTimeFirst,
-      @JsonKey(name: 'createTimeLast') this.createTimeLast,
-      @JsonKey(name: 'overDateFirst') this.overDateFirst,
-      @JsonKey(name: 'overDateLast') this.overDateLast,
+      {@JsonKey(name: 'name') this.name,
+      @JsonKey(name: 'createDateStart') this.createDateStart,
+      @JsonKey(name: 'createDateEnd') this.createDateEnd,
+      @JsonKey(name: 'overDateStart') this.overDateStart,
+      @JsonKey(name: 'overDateEnd') this.overDateEnd,
       @JsonKey(name: 'lastDays') this.lastDays,
-      @JsonKey(name: 'type') this.type});
+      @JsonKey(name: 'type') this.type,
+      @JsonKey(name: 'isExpiry') this.isExpiry});
 
   factory _$ExpiryFilterDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$ExpiryFilterDataImplFromJson(json);
 
   @override
-  @JsonKey(name: 'createTimeFirst')
-  DateTime? createTimeFirst;
+  @JsonKey(name: 'name')
+  String? name;
   @override
-  @JsonKey(name: 'createTimeLast')
-  DateTime? createTimeLast;
+  @JsonKey(name: 'createDateStart')
+  DateTime? createDateStart;
   @override
-  @JsonKey(name: 'overDateFirst')
-  DateTime? overDateFirst;
+  @JsonKey(name: 'createDateEnd')
+  DateTime? createDateEnd;
   @override
-  @JsonKey(name: 'overDateLast')
-  DateTime? overDateLast;
+  @JsonKey(name: 'overDateStart')
+  DateTime? overDateStart;
+  @override
+  @JsonKey(name: 'overDateEnd')
+  DateTime? overDateEnd;
   @override
   @JsonKey(name: 'lastDays')
   int? lastDays;
   @override
   @JsonKey(name: 'type')
   int? type;
+  @override
+  @JsonKey(name: 'isExpiry')
+  bool? isExpiry;
 
   @override
   String toString() {
-    return 'ExpiryFilterData(createTimeFirst: $createTimeFirst, createTimeLast: $createTimeLast, overDateFirst: $overDateFirst, overDateLast: $overDateLast, lastDays: $lastDays, type: $type)';
+    return 'ExpiryFilterData(name: $name, createDateStart: $createDateStart, createDateEnd: $createDateEnd, overDateStart: $overDateStart, overDateEnd: $overDateEnd, lastDays: $lastDays, type: $type, isExpiry: $isExpiry)';
   }
 
   /// Create a copy of ExpiryFilterData
@@ -244,36 +284,43 @@ class _$ExpiryFilterDataImpl implements _ExpiryFilterData {
 
 abstract class _ExpiryFilterData implements ExpiryFilterData {
   factory _ExpiryFilterData(
-      {@JsonKey(name: 'createTimeFirst') DateTime? createTimeFirst,
-      @JsonKey(name: 'createTimeLast') DateTime? createTimeLast,
-      @JsonKey(name: 'overDateFirst') DateTime? overDateFirst,
-      @JsonKey(name: 'overDateLast') DateTime? overDateLast,
+      {@JsonKey(name: 'name') String? name,
+      @JsonKey(name: 'createDateStart') DateTime? createDateStart,
+      @JsonKey(name: 'createDateEnd') DateTime? createDateEnd,
+      @JsonKey(name: 'overDateStart') DateTime? overDateStart,
+      @JsonKey(name: 'overDateEnd') DateTime? overDateEnd,
       @JsonKey(name: 'lastDays') int? lastDays,
-      @JsonKey(name: 'type') int? type}) = _$ExpiryFilterDataImpl;
+      @JsonKey(name: 'type') int? type,
+      @JsonKey(name: 'isExpiry') bool? isExpiry}) = _$ExpiryFilterDataImpl;
 
   factory _ExpiryFilterData.fromJson(Map<String, dynamic> json) =
       _$ExpiryFilterDataImpl.fromJson;
 
   @override
-  @JsonKey(name: 'createTimeFirst')
-  DateTime? get createTimeFirst;
-  @JsonKey(name: 'createTimeFirst')
-  set createTimeFirst(DateTime? value);
+  @JsonKey(name: 'name')
+  String? get name;
+  @JsonKey(name: 'name')
+  set name(String? value);
   @override
-  @JsonKey(name: 'createTimeLast')
-  DateTime? get createTimeLast;
-  @JsonKey(name: 'createTimeLast')
-  set createTimeLast(DateTime? value);
+  @JsonKey(name: 'createDateStart')
+  DateTime? get createDateStart;
+  @JsonKey(name: 'createDateStart')
+  set createDateStart(DateTime? value);
   @override
-  @JsonKey(name: 'overDateFirst')
-  DateTime? get overDateFirst;
-  @JsonKey(name: 'overDateFirst')
-  set overDateFirst(DateTime? value);
+  @JsonKey(name: 'createDateEnd')
+  DateTime? get createDateEnd;
+  @JsonKey(name: 'createDateEnd')
+  set createDateEnd(DateTime? value);
   @override
-  @JsonKey(name: 'overDateLast')
-  DateTime? get overDateLast;
-  @JsonKey(name: 'overDateLast')
-  set overDateLast(DateTime? value);
+  @JsonKey(name: 'overDateStart')
+  DateTime? get overDateStart;
+  @JsonKey(name: 'overDateStart')
+  set overDateStart(DateTime? value);
+  @override
+  @JsonKey(name: 'overDateEnd')
+  DateTime? get overDateEnd;
+  @JsonKey(name: 'overDateEnd')
+  set overDateEnd(DateTime? value);
   @override
   @JsonKey(name: 'lastDays')
   int? get lastDays;
@@ -284,6 +331,11 @@ abstract class _ExpiryFilterData implements ExpiryFilterData {
   int? get type;
   @JsonKey(name: 'type')
   set type(int? value);
+  @override
+  @JsonKey(name: 'isExpiry')
+  bool? get isExpiry;
+  @JsonKey(name: 'isExpiry')
+  set isExpiry(bool? value);
 
   /// Create a copy of ExpiryFilterData
   /// with the given fields replaced by the non-null parameter values.

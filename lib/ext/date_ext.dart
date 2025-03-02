@@ -1,4 +1,4 @@
-import 'package:date_time_format/date_time_format.dart';
+import 'package:intl/intl.dart';
 
 extension DateExt on DateTime {
   ///判断此时间是否在before和after之间，开区间，相等了不属于。
@@ -20,7 +20,8 @@ extension DateExt on DateTime {
     return false;
   }
 
-  String formatCn(){
-    return format(r'Y年m月d日');
+  String format(){
+    var dateFormat = DateFormat.yMd();
+    return dateFormat.format(this);
   }
 }

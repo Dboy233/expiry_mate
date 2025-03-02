@@ -19,10 +19,16 @@ class ExpiryItemList extends _$ExpiryItemList {
     return result.data ?? [];
   }
 
-  ///删除临期条目
-  void deleteExpiryItem(int id) async {
+
+  Future<bool> delete(int id) async {
     var repository = await ref.read(appRepositoryProvider.future);
-    await repository.deleteExpiryItem(id);
+    final result = await repository.deleteExpiryItem(id);
+    if (result.isSuccess) {
+      ref.invalidate(appRepositoryProvider);
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 
@@ -34,12 +40,5 @@ class ExpiryFilter extends _$ExpiryFilter {
     ExpiryType? lockType,
   ) {
     return ExpiryFilterData(type: lockType?.index);
-  }
-
-  void setCreateTimeFilter(DateTime createTimeEarly, DateTime createTimeLater) {
-    state = state.copyWith(
-      createTimeFirst: createTimeEarly,
-      createTimeLast: createTimeLater,
-    );
   }
 }

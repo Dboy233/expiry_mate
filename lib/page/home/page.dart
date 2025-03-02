@@ -4,6 +4,7 @@ import 'package:expiry_mate/ext/date_ext.dart';
 import 'package:expiry_mate/page/add/page.dart';
 import 'package:expiry_mate/page/all/page.dart';
 import 'package:expiry_mate/page/home/provider.dart';
+import 'package:expiry_mate/page/preview/page.dart';
 import 'package:expiry_mate/widget/theme_button_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -39,23 +40,19 @@ class Home extends StatelessWidget {
           _ItemTypeList(),
         ],
       ),
-      floatingActionButton: Consumer(
-        builder: (context, ref, child) {
-          return FloatingActionButton(
-            backgroundColor: Theme.of(context).colorScheme.tertiary,
-            onPressed: () {
-              Navigator.of(context).push(CupertinoPageRoute(
-                builder: (context) {
-                  return AddPage();
-                },
-              ));
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
+        onPressed: () {
+          Navigator.of(context).push(CupertinoPageRoute(
+            builder: (context) {
+              return AddPage();
             },
-            child: Icon(
-              Icons.add,
-              color: Theme.of(context).colorScheme.surfaceBright,
-            ),
-          );
+          ));
         },
+        child: Icon(
+          Icons.add,
+          color: Theme.of(context).colorScheme.surfaceBright,
+        ),
       ),
     );
   }
@@ -76,7 +73,7 @@ class _OverDateTitle extends StatelessWidget {
               moreTap: !hasOverDateItem
                   ? null
                   : () {
-                      goTypeAllPage(context);
+                      goAllItemPage(context,isOnlyExpiry: true);
                     });
         },
       ),
@@ -100,7 +97,7 @@ class _TypeListTitle extends StatelessWidget {
             moreTap: !hasItem
                 ? null
                 : () {
-                    goTypeAllPage(context);
+                    goAllItemPage(context);
                   },
           );
         },
@@ -215,31 +212,38 @@ class _OverdueItemCard extends StatelessWidget {
         height: double.infinity,
         child: Card(
           margin: EdgeInsets.zero,
-          child: Padding(
-            padding:
-                const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  item.name!,
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                Text(
-                  "生产日期 : ${item.createDate?.formatCn()}",
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-                Text(
-                  "失效日期 : ${item.overDate?.formatCn()}",
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-                Text(
-                  "剩余有效天数 :${item.overDate?.difference(DateTime.now()).inDays ?? 0}",
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              ],
+          child: InkWell(
+            onTap: () {
+              Navigator.of(context).push(CupertinoPageRoute(
+                builder: (context) => ItemDetailsPage(item.id!, false),
+              ));
+            },
+            child: Padding(
+              padding:
+                  const EdgeInsets.only(top: 8, left: 16, right: 16, bottom: 8),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    item.name!,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  Text(
+                    "生产日期 : ${item.createDate?.format()}",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  Text(
+                    "失效日期 : ${item.overDate?.format()}",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  Text(
+                    "剩余有效天数 :${item.overDate?.difference(DateTime.now()).inDays ?? 0}",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -296,7 +300,7 @@ class _ItemTypeCard extends ConsumerWidget {
       clipBehavior: Clip.antiAliasWithSaveLayer,
       child: InkWell(
         onTap: () {
-          goTypeAllPage(context);
+          goAllItemPage(context, lockType: info.type);
         },
         child: GridTile(
           header: GridTileBar(
@@ -334,7 +338,20 @@ class _ItemTypeCard extends ConsumerWidget {
   }
 }
 
-void goTypeAllPage(BuildContext context,{ExpiryType? type,bool isExpiry = false}) {
-  Navigator.of(context)
-      .push(CupertinoPageRoute(builder: (context) => ExpiryItemListPage()));
+void goAllItemPage(
+  BuildContext context, {
+  ///锁定类型
+  ExpiryType? lockType,
+
+  ///是否之查看临期内容
+  bool isOnlyExpiry = false,
+}) {
+  Navigator.of(context).push(
+    CupertinoPageRoute(
+      builder: (context) => ExpiryItemListPage(
+        type: lockType,
+        isOnlyExpiry: isOnlyExpiry,
+      ),
+    ),
+  );
 }

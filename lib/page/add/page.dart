@@ -134,7 +134,7 @@ class _CreateDateWidget extends HookConsumerWidget {
       }
     }
     if (createDate != now) {
-      editCtl.text = createDate.formatCn();
+      editCtl.text = createDate.format();
     }
     return GestureDetector(
       onTap: () async {
@@ -228,7 +228,7 @@ class _OverDateWidget extends HookConsumerWidget {
     var choiceDate = data.requiredData.overDate ?? now;
     if (now != choiceDate) {
       //不是默认现在的值就显示
-      editCtl.text = choiceDate.formatCn();
+      editCtl.text = choiceDate.format();
     } else if (now == choiceDate) {
       editCtl.text = '';
     }
@@ -378,7 +378,6 @@ class _TypeWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //todo
     return Container(
       height: 200,
       decoration: BoxDecoration(

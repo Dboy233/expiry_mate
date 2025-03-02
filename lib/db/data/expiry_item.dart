@@ -1,3 +1,4 @@
+import 'package:expiry_mate/db/data/expiry_type.dart';
 import 'package:expiry_mate/ext/date_ext.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:objectbox/objectbox.dart';
@@ -74,5 +75,10 @@ extension ExpiryItemExtension on ExpiryItem {
       return 0;
     }
     return overDate!.difference(DateTime.now()).inDays;
+  }
+
+  ExpiryType get typeEnum{
+    assert(type!=null);
+    return ExpiryType.values[type!];
   }
 }

@@ -4,6 +4,10 @@ import 'package:expiry_mate/db/data/expiry_item.dart';
 import 'package:expiry_mate/db/data/expiry_type.dart';
 
 abstract class ExpiryRepository {
+
+
+  Future<DataResult<ExpiryItem>> getItem(int id);
+
   ///获取所有临期项目
   Future<DataResult<List<ExpiryItem>>> getAllExpiryItems();
 
