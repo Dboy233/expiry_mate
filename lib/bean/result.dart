@@ -1,6 +1,5 @@
 ///默认成功相应
-//#ignore:lowerCamelCase
-const  RESULT_SUCCESS_CODE = 0;
+const resultSuccessCode = 0;
 
 class DataResult<T> {
   ///响应代码 RESULT_SUCCESS_CODE=成功=success
@@ -20,7 +19,7 @@ class DataResult<T> {
 
   DataResult.success(this.data)
       : msg = "Ok",
-        code = RESULT_SUCCESS_CODE;
+        code = resultSuccessCode;
 
   DataResult.error({String? msg, int errorCode = -1})
       : msg = msg ?? "Error",

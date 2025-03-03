@@ -41,7 +41,7 @@ class CreateNewItem extends _$CreateNewItem {
 
   void updateName(String? name) {
     state = state.copyWith(
-      code: RESULT_SUCCESS_CODE,
+      code: resultSuccessCode,
       callData: (data) => data?.copyWith(name: name),
     );
   }
@@ -103,7 +103,7 @@ class CreateNewItem extends _$CreateNewItem {
     }
 
     state = state.copyWith(
-      code: RESULT_SUCCESS_CODE,
+      code: resultSuccessCode,
       callData: (data) => data?.copyWith(
         createDate: date,
         overDate: overDate,
@@ -131,7 +131,7 @@ class CreateNewItem extends _$CreateNewItem {
 
         //更新
         state = state.copyWith(
-          code: RESULT_SUCCESS_CODE,
+          code: resultSuccessCode,
           callData: (data) {
             return data?.copyWith(
               overDate: date,
@@ -151,7 +151,7 @@ class CreateNewItem extends _$CreateNewItem {
     } else {
       //没有设置生产日期,那就只更新保质期时间
       state = state.copyWith(
-        code: RESULT_SUCCESS_CODE,
+        code: resultSuccessCode,
         callData: (data) {
           return data?.copyWith(
             overDate: date,
@@ -166,7 +166,7 @@ class CreateNewItem extends _$CreateNewItem {
     if (days == null) {
       //清空了当前的有效期
       state = state.copyWith(
-        code: RESULT_SUCCESS_CODE,
+        code: resultSuccessCode,
         callData: (data) => data?.copyWith(
           safeDays: null,
         ),
@@ -196,7 +196,7 @@ class CreateNewItem extends _$CreateNewItem {
     }
 
     state = state.copyWith(
-      code: RESULT_SUCCESS_CODE,
+      code: resultSuccessCode,
       callData: (data) => data?.copyWith(
         overDate: overDate,
         safeDays: days,
@@ -222,7 +222,7 @@ class CreateNewItem extends _$CreateNewItem {
     }
 
     state = state.copyWith(
-      code: RESULT_SUCCESS_CODE,
+      code: resultSuccessCode,
       callData: (data) => data?.copyWith(
         reminderDays: days,
       ),
@@ -231,7 +231,7 @@ class CreateNewItem extends _$CreateNewItem {
 
   void updateType(int typeIndex) {
     state = state.copyWith(
-      code: RESULT_SUCCESS_CODE,
+      code: resultSuccessCode,
       callData: (data) => data?.copyWith(type: typeIndex),
     );
   }
