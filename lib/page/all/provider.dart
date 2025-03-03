@@ -19,7 +19,6 @@ class ExpiryItemList extends _$ExpiryItemList {
     return result.data ?? [];
   }
 
-
   Future<bool> delete(int id) async {
     var repository = await ref.read(appRepositoryProvider.future);
     final result = await repository.deleteExpiryItem(id);

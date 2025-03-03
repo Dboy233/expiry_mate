@@ -1,5 +1,6 @@
 import 'package:expiry_mate/config_provider.dart';
 import 'package:expiry_mate/gen/assets.gen.dart';
+import 'package:expiry_mate/gen/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -42,7 +43,7 @@ class _SelectLanguageDialog extends StatelessWidget {
           currentLanguage == 'en'),
     ];
     return SimpleDialog(
-      title: Text('Language'),
+      title: Text(Language.current.language),
       children: [
         ...items.map((e) => _buildLanguageItem(context, e)),
       ],
@@ -52,7 +53,7 @@ class _SelectLanguageDialog extends StatelessWidget {
   Widget _buildLanguageItem(BuildContext context, _LanguageData lang) {
     // country
     return Container(
-      margin: EdgeInsets.all(8),
+      margin: EdgeInsets.only(left: 16,right: 16,top: 8,bottom: 8),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(16)),
           border: Border.all(

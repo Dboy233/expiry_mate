@@ -1,8 +1,9 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:expiry_mate/bean/result.dart';
 import 'package:expiry_mate/db/data/expiry_item.dart';
+import 'package:expiry_mate/gen/l10n.dart';
 import 'package:expiry_mate/repository/expiry_repository_provider.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'provider.g.dart';
@@ -58,7 +59,7 @@ class CreateNewItem extends _$CreateNewItem {
         ///这是不允许的，时间太长了。
         state = state.copyWith(
           code: errorCodeCreateDateOverflowDays,
-          msg: '你看看这保质期太久了吧',
+          msg: Language.current.addPageErrorDateBig,
         );
         return false;
       }
@@ -125,7 +126,8 @@ class CreateNewItem extends _$CreateNewItem {
         if (safeDays > 9999) {
           ///这是不允许的，时间太长了。
           state = state.copyWith(
-              code: errorCodeOverDateOverflowDays, msg: '咱自己都活不了那么久');
+              code: errorCodeOverDateOverflowDays,
+              msg: Language.current.addPageErrorTimeTooLong);
           return;
         }
 
@@ -145,7 +147,7 @@ class CreateNewItem extends _$CreateNewItem {
         //必须通知用户，因为需要让他知道自己要干什么。
         state = state.copyWith(
           code: errorCodeOverDate,
-          msg: '保质期必须大于生产日期',
+          msg: Language.current.addPageErrorShelfLifeTooSmall,
         );
       }
     } else {
@@ -176,7 +178,7 @@ class CreateNewItem extends _$CreateNewItem {
     if (days <= 0) {
       state = state.copyWith(
         code: errorCodeSafeDays,
-        msg: '有效期必须大于0天',
+        msg: Language.current.addPageErrorDateZero,
         callData: (data) => data?.copyWith(
           overDate: null,
           safeDays: null,
@@ -212,7 +214,7 @@ class CreateNewItem extends _$CreateNewItem {
       //NOTE: UI需要在出现错误的时候修正输入的值
       state = state.copyWith(
         code: errorCodeRDaysOverFlowDays,
-        msg: '提醒天数不能大于保质期时长',
+        msg: Language.current.addPageErrorRDaysOverflow,
         callData: (data) => data?.copyWith(
           //将提醒时间修改为有效时长
           reminderDays: safeDays,
@@ -239,14 +241,15 @@ class CreateNewItem extends _$CreateNewItem {
   Future<DataResult> create() async {
     var data = state.requiredData;
     if (data.name == null || data.name!.isEmpty) {
-      return DataResult.error(msg: '名称不能为空');
+      return DataResult.error(msg: Language.current.addPageErrorNameEmpty);
     }
     if (data.createDate == null) {
-      return DataResult.error(msg: '生产日期不能为空');
+      return DataResult.error(
+          msg: Language.current.addPageErrorCreateDateEmpty);
     }
 
     if (data.overDate == null || data.safeDays == null) {
-      return DataResult.error(msg: '保质期不能为空');
+      return DataResult.error(msg: Language.current.addPageErrorOverDateEmpty);
     }
     //如果没有设置提醒日，默认7天
     data.reminderDays ??= 7;

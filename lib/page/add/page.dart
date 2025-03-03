@@ -1,11 +1,13 @@
+import 'package:expiry_mate/db/data/expiry_type.dart';
+import 'package:expiry_mate/ext/date_ext.dart';
+import 'package:expiry_mate/gen/l10n.dart';
+import 'package:expiry_mate/page/add/provider.dart';
+import 'package:expiry_mate/widget/language_widget.dart';
+import 'package:expiry_mate/widget/theme_button_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:expiry_mate/db/data/expiry_type.dart';
-import 'package:expiry_mate/ext/date_ext.dart';
-import 'package:expiry_mate/page/add/provider.dart';
-import 'package:expiry_mate/widget/theme_button_widget.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AddPage extends StatelessWidget {
@@ -17,9 +19,12 @@ class AddPage extends StatelessWidget {
       appBar: AppBar(
         leading: BackButton(),
         title: Text(
-          '添加食品',
+          Language.current.addPageTitle,
         ),
-        actions: [ThemeButton()],
+        actions: [
+          LanguageWidget(),
+          ThemeButton(),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -96,7 +101,7 @@ class _ItemNameWidget extends HookConsumerWidget {
       },
       decoration: InputDecoration(
         counterText: '',
-        labelText: '名称',
+        labelText: Language.current.addPageItemName,
         suffixIcon: IconButton(
           icon: Icon(
             Icons.clear,
@@ -154,7 +159,7 @@ class _CreateDateWidget extends HookConsumerWidget {
         child: TextField(
           controller: editCtl,
           decoration: InputDecoration(
-            labelText: '生产日期',
+            labelText: Language.current.createDate,
             errorText: errorText,
             filled: false,
             suffixIcon: Icon(Icons.date_range),
@@ -178,7 +183,8 @@ class _OverDateContainer extends HookConsumerWidget {
           margin: EdgeInsets.only(top: 8),
           decoration: BoxDecoration(
             border: Border.all(
-                width: 2, color: themeData.colorScheme.primary.withValues(alpha: 0.6)),
+                width: 2,
+                color: themeData.colorScheme.primary.withValues(alpha: 0.6)),
             borderRadius: BorderRadius.circular(16),
           ),
           child: Column(
@@ -190,9 +196,10 @@ class _OverDateContainer extends HookConsumerWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Text('日期 or 天数',
-                    style: themeData.textTheme.bodyMedium
-                        ?.copyWith(color: themeData.colorScheme.primary.withValues(alpha: 0.6))),
+                child: Text(Language.current.dateOrDays,
+                    style: themeData.textTheme.bodyMedium?.copyWith(
+                        color: themeData.colorScheme.primary
+                            .withValues(alpha: 0.6))),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8, right: 8, bottom: 16),
@@ -206,9 +213,9 @@ class _OverDateContainer extends HookConsumerWidget {
           child: Padding(
             padding: const EdgeInsets.only(left: 8, right: 8),
             child: Text(
-              '保质期',
-              style: themeData.textTheme.titleSmall
-                  ?.copyWith(color: themeData.colorScheme.primary.withValues(alpha: 0.6)),
+              Language.current.overDate,
+              style: themeData.textTheme.titleSmall?.copyWith(
+                  color: themeData.colorScheme.primary.withValues(alpha: 0.6)),
             ),
           ),
         )
@@ -259,7 +266,7 @@ class _OverDateWidget extends HookConsumerWidget {
         child: TextField(
           controller: editCtl,
           decoration: InputDecoration(
-            labelText: '日期',
+            labelText: Language.current.date,
             filled: false,
             suffixIcon: Icon(Icons.date_range),
             errorText: errorText,
@@ -282,7 +289,7 @@ class _SafeDaysWidget extends HookConsumerWidget {
     editCtl.text = days != null ? '$days' : '';
     String? errorText;
     if (data.code == errorCodeSafeDays) {
-      errorText = '有效期必须大于0天';
+      errorText = Language.current.addPageErrorDateZero;
     }
     return TextField(
       controller: editCtl,
@@ -297,10 +304,10 @@ class _SafeDaysWidget extends HookConsumerWidget {
             .updateSafeDays(int.tryParse(value) ?? 0);
       },
       decoration: InputDecoration(
-        labelText: '天数',
+        labelText: Language.current.unitDays,
         filled: false,
         suffixIcon: Icon(Icons.access_time_rounded),
-        suffixText: '天',
+        suffixText: Language.current.unitDays,
         errorText: errorText,
       ),
       maxLength: 4,
@@ -337,9 +344,9 @@ class _RemindDaysWidget extends HookConsumerWidget {
             .updateRemindDays(int.tryParse(value) ?? 0);
       },
       decoration: InputDecoration(
-        labelText: '临期提醒',
-        helperText: '例如:临期前6天提醒你处理',
-        suffixText: '天',
+        labelText: Language.current.addPageItemReinder,
+        helperText: Language.current.addPageRemindHelper,
+        suffixText: Language.current.unitDays,
         errorText: errorText,
         suffixIcon: IconButton(
           icon: Icon(
@@ -397,10 +404,8 @@ class _TypeWidget extends ConsumerWidget {
           margin: EdgeInsets.only(left: 8, right: 8),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(16)),
-              color: Theme.of(context)
-                  .colorScheme
-                  .primary
-                  .withValues(alpha: 0.2)),
+              color:
+                  Theme.of(context).colorScheme.primary.withValues(alpha: 0.2)),
         ),
         children: _createItem(context),
       ),

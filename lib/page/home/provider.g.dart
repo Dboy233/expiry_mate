@@ -27,7 +27,7 @@ final getSoonExpiryItemProvider =
 // ignore: unused_element
 typedef GetSoonExpiryItemRef = AutoDisposeFutureProviderRef<List<ExpiryItem>>;
 String _$getExpiryItemTypeInfoHash() =>
-    r'f84c7fd26a53bf7b442fccee0800cd01bc8200c3';
+    r'6b68e1da5aa7343aaf0f807a5923f64d094035b4';
 
 /// See also [getExpiryItemTypeInfo].
 @ProviderFor(getExpiryItemTypeInfo)

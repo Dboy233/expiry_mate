@@ -1,6 +1,7 @@
 import 'package:expiry_mate/bean/expiry_filter_data.dart';
 import 'package:expiry_mate/db/data/expiry_type.dart';
 import 'package:expiry_mate/ext/date_ext.dart';
+import 'package:expiry_mate/gen/l10n.dart';
 import 'package:expiry_mate/page/all/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +64,7 @@ class FilterContentWidget extends HookConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '筛选',
+                      Language.current.allPageFilterTitle,
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
@@ -73,7 +74,7 @@ class FilterContentWidget extends HookConsumerWidget {
                           filterData.clear();
                           clearState.value += 1;
                         },
-                        child: Text('清空'))
+                        child: Text(Language.current.allPageFilterClear))
                   ],
                 ),
               ),
@@ -97,7 +98,7 @@ class FilterContentWidget extends HookConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '只看临期',
+                      Language.current.allPageFilterOnlyExpiry,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           fontWeight: onlyIsExpiryWitch.value
                               ? FontWeight.bold
@@ -117,7 +118,7 @@ class FilterContentWidget extends HookConsumerWidget {
               TextFormField(
                 controller: nameCtl,
                 decoration: InputDecoration(
-                    labelText: '名称',
+                    labelText: Language.current.allPageFilterItemName,
                     enabled: !onlyIsExpiryWitch.value,
                     counterText: '',
                     suffixIcon: IconButton(
@@ -155,8 +156,8 @@ class FilterContentWidget extends HookConsumerWidget {
                 controller: lastDaysCtl,
                 enabled: !onlyIsExpiryWitch.value,
                 decoration: InputDecoration(
-                    labelText: '剩余天数',
-                    suffixText: '天',
+                    labelText: Language.current.allPageFilterLastDays,
+                    suffixText: Language.current.unitDays,
                     suffixIcon: IconButton(
                       onPressed: () {
                         lastDaysCtl.clear();
@@ -224,7 +225,7 @@ class FilterContentWidget extends HookConsumerWidget {
                         children: [
                           Center(
                             child: Text(
-                              '未选择',
+                              Language.current.allPageFilterTypeUnknown,
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ),
@@ -295,7 +296,9 @@ class FilterContentWidget extends HookConsumerWidget {
                     }
                   },
                   decoration: InputDecoration(
-                      labelText: '${isSetCreateDateField ? '生产日期' : '保质期'}-开始',
+                      labelText: isSetCreateDateField
+                          ? Language.current.allPageFilterCreateDateStart
+                          : Language.current.allPageFilterOverDateStart,
                       suffixIcon: IconButton(
                         onPressed: () {
                           firstCtl.text = '';
@@ -315,7 +318,7 @@ class FilterContentWidget extends HookConsumerWidget {
                     }
                     if (value != null &&
                         DateFormat.yMd().tryParse(value) == null) {
-                      return '请输入正确日期格式';
+                      return Language.current.allPageFilterDateError;
                     }
                     return null;
                   },
@@ -363,7 +366,9 @@ class FilterContentWidget extends HookConsumerWidget {
                     }
                   },
                   decoration: InputDecoration(
-                      labelText: '${isSetCreateDateField ? '生产日期' : '保质期'}-结束',
+                      labelText: isSetCreateDateField
+                          ? Language.current.allPageFilterCreateDateEnd
+                          : Language.current.allPageFilterOverDateEnd,
                       suffixIcon: IconButton(
                         onPressed: () {
                           lastCtl.text = '';
@@ -383,7 +388,7 @@ class FilterContentWidget extends HookConsumerWidget {
                     }
                     if (value != null &&
                         DateFormat.yMd().tryParse(value) == null) {
-                      return '请输入正确日期格式';
+                      return Language.current.allPageFilterDateError;
                     }
                     return null;
                   },

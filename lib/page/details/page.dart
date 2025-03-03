@@ -1,7 +1,8 @@
 import 'package:expiry_mate/db/data/expiry_item.dart';
 import 'package:expiry_mate/db/data/expiry_type.dart';
 import 'package:expiry_mate/ext/date_ext.dart';
-import 'package:expiry_mate/page/preview/provider.dart';
+import 'package:expiry_mate/gen/l10n.dart';
+import 'package:expiry_mate/page/details/provider.dart';
 import 'package:expiry_mate/widget/page_state_widget.dart';
 import 'package:expiry_mate/widget/theme_button_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,7 +22,7 @@ class ItemDetailsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '临期详情',
+          Language.current.detailsPageTitle,
           style: Theme.of(context)
               .textTheme
               .titleLarge
@@ -116,7 +117,7 @@ class _Body extends ConsumerWidget {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('名称:         ', style: theme1),
+                    Text(Language.current.detailsPageItemName, style: theme1),
                     Text(item.name!, style: theme2)
                   ],
                 ),
@@ -126,7 +127,7 @@ class _Body extends ConsumerWidget {
                         context: context,
                         builder: (context) {
                           return _UniversalInputDialog(
-                            '名称',
+                            Language.current.detailsPageItemName,
                             hintText: item.name!,
                           );
                         },
@@ -147,7 +148,8 @@ class _Body extends ConsumerWidget {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('生产日期:  ', style: theme1),
+                    Text(Language.current.detailsPageItemCreateDate,
+                        style: theme1),
                     Text('${item.createDate?.format()}', style: theme2)
                   ],
                 ),
@@ -187,15 +189,18 @@ class _Body extends ConsumerWidget {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('保质期:     ', style: theme1),
+                    Text(Language.current.detailsPageItemOverDate,
+                        style: theme1),
                     Text('${item.overDate?.format()}', style: theme2),
                   ],
                 ),
                 subtitle: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(item.isExpired() ? '已经过期:' : '有效时长:'),
-                    Text("${item.lastDays.abs()}天"),
+                    Text(item.isExpired()
+                        ? Language.current.detailsPageItemTipsExpiry
+                        : Language.current.detailsPageItemTipsDays),
+                    Text("${item.lastDays.abs()} ${Language.current.unitDays}"),
                   ],
                 ),
                 trailing: IconButton(
@@ -234,8 +239,10 @@ class _Body extends ConsumerWidget {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('临期提醒:  ', style: theme1),
-                    Text('${item.reminderDays}天', style: theme2),
+                    Text(Language.current.detailsPageItemReminder,
+                        style: theme1),
+                    Text('${item.reminderDays} ${Language.current.unitDays}',
+                        style: theme2),
                   ],
                 ),
                 trailing: IconButton(
@@ -244,7 +251,7 @@ class _Body extends ConsumerWidget {
                         context: context,
                         builder: (context) {
                           return _UniversalInputDialog(
-                            '临期提醒',
+                            Language.current.detailsPageItemReminder,
                             hintText: item.reminderDays.toString(),
                             keyboardType: TextInputType.number,
                             inputFormatters: [
@@ -278,7 +285,7 @@ class _Body extends ConsumerWidget {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('分类:', style: theme1),
+                    Text(Language.current.detailsPageItemType, style: theme1),
                     Text(item.typeEnum.getTypeName(), style: theme2)
                   ],
                 ),
@@ -345,14 +352,14 @@ class _UniversalInputDialog extends HookWidget {
                 Navigator.of(context).pop(null);
               },
               child: Text(
-                '取消',
+                Language.current.cancel,
               ),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(textEditingController.text);
               },
-              child: Text('确认'),
+              child: Text(Language.current.confirm),
             ),
           ],
         )
@@ -402,14 +409,14 @@ class _ChoiceTypeDialog extends HookWidget {
                 Navigator.of(context).pop(null);
               },
               child: Text(
-                '取消',
+                Language.current.cancel,
               ),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(ctl.selectedItem);
               },
-              child: Text('确认'),
+              child: Text(Language.current.confirm),
             ),
           ],
         )
@@ -447,7 +454,7 @@ class _ConfirmTheDeletionDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("确认要删除?"),
+      title: Text(Language.current.confirmTheDeletion),
       content: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         spacing: 8,
@@ -457,7 +464,7 @@ class _ConfirmTheDeletionDialog extends StatelessWidget {
               Navigator.of(context).pop(null);
             },
             child: Text(
-              '取消',
+              Language.current.cancel,
             ),
           ),
           TextButton(
@@ -465,7 +472,7 @@ class _ConfirmTheDeletionDialog extends StatelessWidget {
               Navigator.of(context).pop(true);
             },
             child: Text(
-              '确认',
+              Language.current.confirm,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Theme.of(context).colorScheme.error,
                   fontWeight: FontWeight.bold),

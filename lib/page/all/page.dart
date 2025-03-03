@@ -1,9 +1,11 @@
 import 'package:expiry_mate/db/data/expiry_item.dart';
 import 'package:expiry_mate/db/data/expiry_type.dart';
 import 'package:expiry_mate/ext/date_ext.dart';
+import 'package:expiry_mate/gen/l10n.dart';
 import 'package:expiry_mate/page/all/filter_page.dart';
 import 'package:expiry_mate/page/all/provider.dart';
-import 'package:expiry_mate/page/preview/page.dart';
+import 'package:expiry_mate/page/details/page.dart';
+import 'package:expiry_mate/widget/language_widget.dart';
 import 'package:expiry_mate/widget/page_state_widget.dart';
 import 'package:expiry_mate/widget/theme_button_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,7 +24,9 @@ class ExpiryItemListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String title = isOnlyExpiry ? '即将过期' : type?.getTypeName() ?? "全部";
+    String title = isOnlyExpiry
+        ? Language.current.allPageTitleSoonExpiry
+        : type?.getTypeName() ?? Language.current.allPageTitle;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -33,6 +37,8 @@ class ExpiryItemListPage extends StatelessWidget {
         ),
         leading: BackButton(),
         actions: [
+          LanguageWidget(),
+
           ///只看临期不显示过滤
           if (!isOnlyExpiry)
             Consumer(
@@ -107,10 +113,14 @@ class _ListViewWidget extends ConsumerWidget {
           delayBeforeResize: const Duration(milliseconds: 500),
           ltrDismissedColor: themeData.colorScheme.primary,
           rtlDismissedColor: themeData.colorScheme.error,
-          ltrOverlay: Text('修改', style: onArchiveTextTheme),
-          ltrOverlayDismissed: Text('修改', style: onArchiveTextTheme),
-          rtlOverlay: Text('删除', style: onErrorTextTheme),
-          rtlOverlayDismissed: Text('删除', style: onErrorTextTheme),
+          ltrOverlay: Text(Language.current.allPageItemModify,
+              style: onArchiveTextTheme),
+          ltrOverlayDismissed: Text(Language.current.allPageItemModify,
+              style: onArchiveTextTheme),
+          rtlOverlay:
+              Text(Language.current.allPageItemDelete, style: onErrorTextTheme),
+          rtlOverlayDismissed:
+              Text(Language.current.allPageItemDelete, style: onErrorTextTheme),
           child: _listTile(context, item),
           onDismissed: (d) {
             ref.invalidate(expiryItemListProvider(type));
@@ -164,15 +174,15 @@ class _ListViewWidget extends ConsumerWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text('生产日期:'),
-                Text('保质期:'),
+                Text(Language.current.createDate),
+                Text(Language.current.overDate),
               ],
             ),
             SizedBox(width: 8),
             Column(
               children: [
-                Text('${item.createDate?.format()}'),
-                Text('${item.overDate?.format()}'),
+                Text(': ${item.createDate?.format()}'),
+                Text(': ${item.overDate?.format()}'),
               ],
             ),
           ],
@@ -193,7 +203,7 @@ class _ExpiryTipsWidget extends StatelessWidget {
     var theme = Theme.of(context).textTheme.labelSmall;
     if (item.isExpired()) {
       return Text(
-        '已过期',
+        Language.current.allPageHasExpired,
         style: theme?.copyWith(color: Theme.of(context).colorScheme.error),
       );
     }
@@ -203,7 +213,7 @@ class _ExpiryTipsWidget extends StatelessWidget {
     }
 
     return Text(
-      '${item.lastDays}天后过期',
+      Language.current.allPageExpiresAfterAFewDays(item.lastDays),
       style: theme,
     );
   }
@@ -215,7 +225,7 @@ class _ConfirmTheDeletionDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("确认要删除?"),
+      title: Text(Language.current.confirmTheDeletion),
       content: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         spacing: 8,
@@ -225,7 +235,7 @@ class _ConfirmTheDeletionDialog extends StatelessWidget {
               Navigator.of(context).pop(null);
             },
             child: Text(
-              '取消',
+              Language.current.cancel,
             ),
           ),
           TextButton(
@@ -233,7 +243,7 @@ class _ConfirmTheDeletionDialog extends StatelessWidget {
               Navigator.of(context).pop(true);
             },
             child: Text(
-              '确认',
+              Language.current.confirm,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Theme.of(context).colorScheme.error,
                   fontWeight: FontWeight.bold),

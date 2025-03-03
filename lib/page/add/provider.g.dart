@@ -6,7 +6,7 @@ part of 'provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$createNewItemHash() => r'895d773e322c86311ca746178a039999008f0a72';
+String _$createNewItemHash() => r'bd780b1fa2be383d912bb20696eab33499846ab4';
 
 ///fixme: 有一个更好的更新优化逻辑：
 ///       更新时间，只修改时间，然后再去将自己更新后的时间交给附属有关联的
