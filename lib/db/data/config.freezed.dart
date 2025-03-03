@@ -30,6 +30,10 @@ mixin _$Config {
   int get themeMode => throw _privateConstructorUsedError;
   @JsonKey(name: 'theme_mode')
   set themeMode(int value) => throw _privateConstructorUsedError;
+  @JsonKey(name: 'language')
+  String get language => throw _privateConstructorUsedError;
+  @JsonKey(name: 'language')
+  set language(String value) => throw _privateConstructorUsedError;
 
   /// Serializes this Config to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -47,7 +51,8 @@ abstract class $ConfigCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'id') @Id() int id,
-      @JsonKey(name: 'theme_mode') int themeMode});
+      @JsonKey(name: 'theme_mode') int themeMode,
+      @JsonKey(name: 'language') String language});
 }
 
 /// @nodoc
@@ -67,6 +72,7 @@ class _$ConfigCopyWithImpl<$Res, $Val extends Config>
   $Res call({
     Object? id = null,
     Object? themeMode = null,
+    Object? language = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -77,6 +83,10 @@ class _$ConfigCopyWithImpl<$Res, $Val extends Config>
           ? _value.themeMode
           : themeMode // ignore: cast_nullable_to_non_nullable
               as int,
+      language: null == language
+          ? _value.language
+          : language // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -90,7 +100,8 @@ abstract class _$$ConfigImplCopyWith<$Res> implements $ConfigCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'id') @Id() int id,
-      @JsonKey(name: 'theme_mode') int themeMode});
+      @JsonKey(name: 'theme_mode') int themeMode,
+      @JsonKey(name: 'language') String language});
 }
 
 /// @nodoc
@@ -108,6 +119,7 @@ class __$$ConfigImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? themeMode = null,
+    Object? language = null,
   }) {
     return _then(_$ConfigImpl(
       id: null == id
@@ -118,6 +130,10 @@ class __$$ConfigImplCopyWithImpl<$Res>
           ? _value.themeMode
           : themeMode // ignore: cast_nullable_to_non_nullable
               as int,
+      language: null == language
+          ? _value.language
+          : language // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -128,7 +144,8 @@ class __$$ConfigImplCopyWithImpl<$Res>
 class _$ConfigImpl implements _Config {
   _$ConfigImpl(
       {@JsonKey(name: 'id') @Id() this.id = 0,
-      @JsonKey(name: 'theme_mode') this.themeMode = 0});
+      @JsonKey(name: 'theme_mode') this.themeMode = 0,
+      @JsonKey(name: 'language') this.language = 'zh'});
 
   factory _$ConfigImpl.fromJson(Map<String, dynamic> json) =>
       _$$ConfigImplFromJson(json);
@@ -140,10 +157,13 @@ class _$ConfigImpl implements _Config {
   @override
   @JsonKey(name: 'theme_mode')
   int themeMode;
+  @override
+  @JsonKey(name: 'language')
+  String language;
 
   @override
   String toString() {
-    return 'Config(id: $id, themeMode: $themeMode)';
+    return 'Config(id: $id, themeMode: $themeMode, language: $language)';
   }
 
   /// Create a copy of Config
@@ -165,7 +185,8 @@ class _$ConfigImpl implements _Config {
 abstract class _Config implements Config {
   factory _Config(
       {@JsonKey(name: 'id') @Id() int id,
-      @JsonKey(name: 'theme_mode') int themeMode}) = _$ConfigImpl;
+      @JsonKey(name: 'theme_mode') int themeMode,
+      @JsonKey(name: 'language') String language}) = _$ConfigImpl;
 
   factory _Config.fromJson(Map<String, dynamic> json) = _$ConfigImpl.fromJson;
 
@@ -181,6 +202,11 @@ abstract class _Config implements Config {
   int get themeMode;
   @JsonKey(name: 'theme_mode')
   set themeMode(int value);
+  @override
+  @JsonKey(name: 'language')
+  String get language;
+  @JsonKey(name: 'language')
+  set language(String value);
 
   /// Create a copy of Config
   /// with the given fields replaced by the non-null parameter values.

@@ -9,10 +9,12 @@ part of 'config.dart';
 _$ConfigImpl _$$ConfigImplFromJson(Map<String, dynamic> json) => _$ConfigImpl(
       id: (json['id'] as num?)?.toInt() ?? 0,
       themeMode: (json['theme_mode'] as num?)?.toInt() ?? 0,
+      language: json['language'] as String? ?? 'zh',
     );
 
 Map<String, dynamic> _$$ConfigImplToJson(_$ConfigImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'theme_mode': instance.themeMode,
+      'language': instance.language,
     };

@@ -29,7 +29,6 @@ Future<List<ExpiryCardInfo>> getExpiryItemTypeInfo(Ref ref) async {
     var result = await appRepository.getSizeByType(fc);
     var i = result.data ?? 0;
     list.add(ExpiryCardInfo(
-      fc.getTypeName(),
       fc.getExample().join(','),
       fc.getIconAsset().path,
       i,
@@ -50,10 +49,9 @@ Future<int> dbAllExpirySize(Ref ref) async {
 }
 
 class ExpiryCardInfo {
-  String name;
   String example;
   String iconAssets;
   int size;
   ExpiryType type;
-  ExpiryCardInfo(this.name, this.example, this.iconAssets, this.size,this.type);
+  ExpiryCardInfo(this.example, this.iconAssets, this.size,this.type);
 }

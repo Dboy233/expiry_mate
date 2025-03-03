@@ -1,10 +1,12 @@
 import 'package:expiry_mate/db/data/expiry_item.dart';
 import 'package:expiry_mate/db/data/expiry_type.dart';
 import 'package:expiry_mate/ext/date_ext.dart';
+import 'package:expiry_mate/gen/l10n.dart';
 import 'package:expiry_mate/page/add/page.dart';
 import 'package:expiry_mate/page/all/page.dart';
 import 'package:expiry_mate/page/home/provider.dart';
 import 'package:expiry_mate/page/preview/page.dart';
+import 'package:expiry_mate/widget/language_widget.dart';
 import 'package:expiry_mate/widget/theme_button_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,9 +22,10 @@ class Home extends StatelessWidget {
         slivers: [
           SliverAppBar.large(
             title: Text(
-              '临期助手',
+              Language.current.homeTitle,
             ),
             actions: [
+              LanguageWidget(),
               ThemeButton(),
             ],
           ),
@@ -69,11 +72,11 @@ class _OverDateTitle extends StatelessWidget {
         builder: (context, ref, child) {
           var data = ref.watch(getSoonExpiryItemProvider);
           var hasOverDateItem = data.value != null && data.value!.isNotEmpty;
-          return _HomeTitle('即将过期',
+          return _HomeTitle(Language.current.homeSoonExpiryTitle,
               moreTap: !hasOverDateItem
                   ? null
                   : () {
-                      goAllItemPage(context,isOnlyExpiry: true);
+                      goAllItemPage(context, isOnlyExpiry: true);
                     });
         },
       ),
@@ -93,7 +96,7 @@ class _TypeListTitle extends StatelessWidget {
           var data = ref.watch(dbAllExpirySizeProvider);
           var hasItem = data.value != null && data.requireValue > 0;
           return _HomeTitle(
-            '分类',
+            Language.current.homeTypeTitle,
             moreTap: !hasItem
                 ? null
                 : () {
@@ -208,7 +211,7 @@ class _OverdueItemCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 8, bottom: 8, right: 16),
       child: SizedBox(
-        width: 200,
+        width: 230,
         height: double.infinity,
         child: Card(
           margin: EdgeInsets.zero,
@@ -228,20 +231,41 @@ class _OverdueItemCard extends StatelessWidget {
                 children: [
                   Text(
                     item.name!,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold
-                    ),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  Row(
+                    children: [
+                      Column(
+                        children: [
+                          Text(
+                            Language.current.createDate,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          Text(
+                            Language.current.overDate,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Text(
+                            " : ${item.createDate?.format()}",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          Text(
+                            " : ${item.overDate?.format()}",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ],
+                      )
+                    ],
                   ),
                   Text(
-                    "生产日期 : ${item.createDate?.format()}",
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  Text(
-                    "失效日期 : ${item.overDate?.format()}",
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  Text(
-                    "剩余有效天数 :${item.overDate?.difference(DateTime.now()).inDays ?? 0}",
+                    "${Language.current.homeSoonExpiryCardLastDays} :${item.overDate?.difference(DateTime.now()).inDays ?? 0}",
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
@@ -305,21 +329,26 @@ class _ItemTypeCard extends ConsumerWidget {
           goAllItemPage(context, lockType: info.type);
         },
         child: GridTile(
-          header: GridTileBar(
-            leading: Image.asset(
-              info.iconAssets,
-              height: 24,
-              width: 24,
-              color: Theme.of(context).iconTheme.color,
-            ),
-            title: Text(
-              info.name,
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
-            subtitle: Text(
-              info.example,
-              style: Theme.of(context).textTheme.labelSmall,
-            ),
+          header: Column(
+            mainAxisSize: MainAxisSize.max,
+            spacing: 8,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset(
+                    info.iconAssets,
+                    height: 30,
+                    width: 30,
+                    color: Theme.of(context).iconTheme.color,
+                  ),
+              ),
+                Text(
+                  info.type.getTypeName(),
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+            ],
           ),
           footer: Padding(
             padding: const EdgeInsets.only(
@@ -329,8 +358,8 @@ class _ItemTypeCard extends ConsumerWidget {
               bottom: 10,
             ),
             child: Text(
-              '已录入 ${info.size}',
-              style: Theme.of(context).textTheme.bodySmall,
+              Language.current.homeTypeCardRecord(info.size),
+              style: Theme.of(context).textTheme.labelSmall,
             ),
           ),
           child: Container(),

@@ -23,7 +23,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(3, 9211070878658700025),
       name: 'Config',
-      lastPropertyId: const obx_int.IdUid(2, 3331200561438842247),
+      lastPropertyId: const obx_int.IdUid(3, 1273685681911887589),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -35,6 +35,11 @@ final _entities = <obx_int.ModelEntity>[
             id: const obx_int.IdUid(2, 3331200561438842247),
             name: 'themeMode',
             type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 1273685681911887589),
+            name: 'language',
+            type: 9,
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
@@ -159,9 +164,11 @@ obx_int.ModelDefinition getObjectBoxModel() {
           object.id = id;
         },
         objectToFB: (Config object, fb.Builder fbb) {
-          fbb.startTable(3);
+          final languageOffset = fbb.writeString(object.language);
+          fbb.startTable(4);
           fbb.addInt64(0, object.id);
           fbb.addInt64(1, object.themeMode);
+          fbb.addOffset(2, languageOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -172,7 +179,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
           final themeModeParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0);
-          final object = Config(id: idParam, themeMode: themeModeParam);
+          final languageParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 8, '');
+          final object = Config(
+              id: idParam, themeMode: themeModeParam, language: languageParam);
 
           return object;
         }),
@@ -252,6 +262,10 @@ class Config_ {
   /// See [Config.themeMode].
   static final themeMode =
       obx.QueryIntegerProperty<Config>(_entities[0].properties[1]);
+
+  /// See [Config.language].
+  static final language =
+      obx.QueryStringProperty<Config>(_entities[0].properties[2]);
 }
 
 /// [ExpiryItem] entity fields to define ObjectBox queries.

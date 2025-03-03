@@ -84,6 +84,9 @@ class $AssetsImagesGen {
   AssetGenImage get iconVegetables =>
       const AssetGenImage('assets/images/icon_vegetables.png');
 
+  /// Directory path: assets/images/language
+  $AssetsImagesLanguageGen get language => const $AssetsImagesLanguageGen();
+
   /// List of all assets
   List<AssetGenImage> get values => [
         iconAlcoholic,
@@ -105,6 +108,21 @@ class $AssetsImagesGen {
         iconTubers,
         iconVegetables
       ];
+}
+
+class $AssetsImagesLanguageGen {
+  const $AssetsImagesLanguageGen();
+
+  /// File path: assets/images/language/img_en.png
+  AssetGenImage get imgEn =>
+      const AssetGenImage('assets/images/language/img_en.png');
+
+  /// File path: assets/images/language/img_zh.png
+  AssetGenImage get imgZh =>
+      const AssetGenImage('assets/images/language/img_zh.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [imgEn, imgZh];
 }
 
 class Assets {

@@ -1,4 +1,6 @@
 // 定义食物分类的枚举类型
+import 'package:expiry_mate/gen/l10n.dart';
+
 import '../../gen/assets.gen.dart';
 
 enum ExpiryType {
@@ -13,9 +15,6 @@ enum ExpiryType {
 
   /// 蔬菜类及其制品
   vegetablesAndProducts,
-
-  /// 菌藻类
-  mushroomsAndAlgae,
 
   /// 水果类及其制品
   fruitsAndProducts,
@@ -62,7 +61,6 @@ extension FoodTypeExt on ExpiryType {
       ExpiryType.tubersStarchesAndProducts => Assets.images.iconTubers,
       ExpiryType.dryBeansAndProducts => Assets.images.iconDry,
       ExpiryType.vegetablesAndProducts => Assets.images.iconVegetables,
-      ExpiryType.mushroomsAndAlgae => Assets.images.iconMushrooms,
       ExpiryType.fruitsAndProducts => Assets.images.iconFruits,
       ExpiryType.nutsAndSeeds => Assets.images.iconNuts,
       ExpiryType.meat => Assets.images.iconMeat,
@@ -81,23 +79,22 @@ extension FoodTypeExt on ExpiryType {
   ///类别枚举名称
   String getTypeName() {
     return switch (this) {
-      ExpiryType.grainsAndProducts => '谷物类',
-      ExpiryType.tubersStarchesAndProducts => '淀粉及其制品',
-      ExpiryType.dryBeansAndProducts => '豆类及其制品',
-      ExpiryType.vegetablesAndProducts => '蔬菜及其制品',
-      ExpiryType.mushroomsAndAlgae => '菌藻类',
-      ExpiryType.fruitsAndProducts => '水果类',
-      ExpiryType.nutsAndSeeds => '坚果类',
-      ExpiryType.meat => '肉类',
-      ExpiryType.dairyAndProducts => '乳制品',
-      ExpiryType.eggsAndProducts => '蛋类及其制品',
-      ExpiryType.snackFoods => '休闲食品',
-      ExpiryType.beveragesAndColdDrinks => '饮料类',
-      ExpiryType.alcoholicBeverages => '酒精饮料',
-      ExpiryType.oilsAndFats => '油脂类',
-      ExpiryType.seasonings => '调味品',
-      ExpiryType.medicalProducts => '医疗药品',
-      ExpiryType.other => '其他',
+      ExpiryType.grainsAndProducts => Language.current.typeGrains,
+      ExpiryType.tubersStarchesAndProducts => Language.current.typeTubers,
+      ExpiryType.dryBeansAndProducts => Language.current.typeBeans,
+      ExpiryType.vegetablesAndProducts => Language.current.typeVegetables,
+      ExpiryType.fruitsAndProducts => Language.current.typeFruits,
+      ExpiryType.nutsAndSeeds => Language.current.typeNuts,
+      ExpiryType.meat => Language.current.typeMeat,
+      ExpiryType.dairyAndProducts => Language.current.typeDairy,
+      ExpiryType.eggsAndProducts => Language.current.typeEggs,
+      ExpiryType.snackFoods => Language.current.typeSnackFoods,
+      ExpiryType.beveragesAndColdDrinks => Language.current.typeBeverages,
+      ExpiryType.alcoholicBeverages => Language.current.typeAlcoholicBeverages,
+      ExpiryType.oilsAndFats => Language.current.typeOilsAndFats,
+      ExpiryType.seasonings => Language.current.typeSeasonings,
+      ExpiryType.medicalProducts => Language.current.typeMedicalProducts,
+      ExpiryType.other => Language.current.typeOther,
     };
   }
 
@@ -116,7 +113,6 @@ extension FoodTypeExt on ExpiryType {
           '茄子',
           '西兰花'
         ],
-      ExpiryType.mushroomsAndAlgae => ['香菇', '木耳', '海带', '紫菜'],
       ExpiryType.fruitsAndProducts => ['苹果', '香蕉', '橙子', '西瓜', '葡萄', '草莓'],
       ExpiryType.nutsAndSeeds => ['花生', '核桃', '杏仁', '瓜子', '芝麻'],
       ExpiryType.meat => ['猪肉', '牛肉', '羊肉', '鸡肉', '鸭肉'],

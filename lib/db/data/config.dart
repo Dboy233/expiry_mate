@@ -10,6 +10,7 @@ class Config with _$Config {
   factory Config({
      @JsonKey(name: 'id') @Default(0) @Id()  int id,
     @JsonKey(name: 'theme_mode') @Default(0) int themeMode,
+    @JsonKey(name: 'language') @Default('zh') String language,
   }) = _Config;
 
   factory Config.fromJson(Map<String, Object?> json) => _$ConfigFromJson(json);

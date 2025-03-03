@@ -1,6 +1,7 @@
 import 'package:expiry_mate/app_theme.dart';
 import 'package:expiry_mate/config_provider.dart';
 import 'package:expiry_mate/db/db.dart';
+import 'package:expiry_mate/gen/l10n.dart';
 import 'package:expiry_mate/page/home/page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,7 @@ class _InitWidget extends ConsumerWidget {
         ? child
         : _InitLoadingPage(key: ValueKey('_InitLoadingPage'));
 
+    //获取主模式
     var themeModeData = ref.watch(themeConfigProvider);
     var themeCode = themeModeData.valueOrNull ?? 3;
     var themeMode = themeCode == 0
@@ -39,8 +41,12 @@ class _InitWidget extends ConsumerWidget {
             ? ThemeMode.dark
             : ThemeMode.system;
 
-    const locale =   Locale('zh');
-    Intl.defaultLocale = 'zh';
+    //获取多语言设置
+    final languageProvider = ref.watch(languageConfigProvider);
+    final languageCode = languageProvider.valueOrNull ?? 'zh';
+    debugPrint("语言代码：$languageCode");
+    final locale = Locale(languageCode);
+    Intl.defaultLocale = languageCode;
 
     return MaterialApp(
       scrollBehavior: MyScroll(),
@@ -48,14 +54,12 @@ class _InitWidget extends ConsumerWidget {
       darkTheme: AppTheme.dark,
       theme: AppTheme.light,
       localizationsDelegates: [
+        Language.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: [
-        const Locale('zh', "CH"),
-        const Locale('en', 'US'),
-      ],
+      supportedLocales: Language.delegate.supportedLocales,
       locale: locale,
       home: AnimatedSwitcher(
         duration: Duration(seconds: 2),
@@ -78,11 +82,12 @@ class _InitLoadingPage extends StatelessWidget {
   }
 }
 
+///适配鼠标拖拽
 class MyScroll extends MaterialScrollBehavior {
   @override
   Set<PointerDeviceKind> get dragDevices => <PointerDeviceKind>{
         PointerDeviceKind.touch,
-        PointerDeviceKind.mouse,
+        PointerDeviceKind.mouse, //this
         PointerDeviceKind.stylus,
         PointerDeviceKind.invertedStylus,
         PointerDeviceKind.trackpad,

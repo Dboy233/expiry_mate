@@ -6,7 +6,7 @@ part of 'db.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$dbStoreHash() => r'0f5563097cfc21caa6e33a84ddbb153ca9c53cff';
+String _$dbStoreHash() => r'd696137fecdc0e0e444853925d0c65bf1334398d';
 
 /// See also [dbStore].
 @ProviderFor(dbStore)
