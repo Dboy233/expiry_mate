@@ -96,6 +96,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "homeTypeTitle": MessageLookupByLibrary.simpleMessage("分类"),
     "language": MessageLookupByLibrary.simpleMessage("语言"),
     "overDate": MessageLookupByLibrary.simpleMessage("保质期"),
+    "statePageEmpty": MessageLookupByLibrary.simpleMessage("空空如也"),
+    "statePageRetry": MessageLookupByLibrary.simpleMessage("出错了,点击重试"),
     "typeAlcoholicBeverages": MessageLookupByLibrary.simpleMessage("酒精饮料"),
     "typeBeans": MessageLookupByLibrary.simpleMessage("豆类"),
     "typeBeverages": MessageLookupByLibrary.simpleMessage("饮料类"),

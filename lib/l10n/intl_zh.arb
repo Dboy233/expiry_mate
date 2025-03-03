@@ -65,5 +65,7 @@
   "addPageErrorRDaysOverflow": "天数不能超过有效期范围",
   "addPageErrorNameEmpty": "名称不能为空",
   "addPageErrorCreateDateEmpty": "生产日期不能为空",
-  "addPageErrorOverDateEmpty": "保质期不能为空"
+  "addPageErrorOverDateEmpty": "保质期不能为空",
+  "statePageEmpty": "空空如也",
+  "statePageRetry": "出错了,点击重试"
 }

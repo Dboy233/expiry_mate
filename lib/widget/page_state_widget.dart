@@ -1,3 +1,4 @@
+import 'package:expiry_mate/gen/l10n.dart';
 import 'package:flutter/material.dart';
 
 import '../gen/assets.gen.dart';
@@ -67,7 +68,7 @@ class _EmptyWidget extends StatelessWidget {
             color: Theme.of(context).iconTheme.color,
           ),
           Text(
-            '空空如也',
+            Language.current.statePageEmpty,
             style: Theme.of(context)
                 .textTheme
                 .bodyMedium
@@ -96,7 +97,7 @@ class _ErrorWidget extends StatelessWidget {
             size: 50,
             color: Theme.of(context).colorScheme.error,
           ),
-          ElevatedButton(onPressed: onRetry, child: Text('出错了,点击重试')),
+          ElevatedButton(onPressed: onRetry, child: Text(Language.current.statePageRetry)),
         ],
       ),
     );

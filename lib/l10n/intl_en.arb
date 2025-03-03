@@ -65,5 +65,7 @@
   "addPageErrorRDaysOverflow": "Days cannot exceed validity period.",
   "addPageErrorNameEmpty": "Name cannot be empty",
   "addPageErrorCreateDateEmpty": "Production date cannot be empty",
-  "addPageErrorOverDateEmpty": "Shelf life cannot be empty"
+  "addPageErrorOverDateEmpty": "Shelf life cannot be empty",
+  "statePageEmpty": "Empty",
+  "statePageRetry": "Error, click to retry."
 }

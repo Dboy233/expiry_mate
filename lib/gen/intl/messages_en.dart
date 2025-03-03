@@ -130,6 +130,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "homeTypeTitle": MessageLookupByLibrary.simpleMessage("Category"),
     "language": MessageLookupByLibrary.simpleMessage("Language"),
     "overDate": MessageLookupByLibrary.simpleMessage("Shelf Life"),
+    "statePageEmpty": MessageLookupByLibrary.simpleMessage("Empty"),
+    "statePageRetry": MessageLookupByLibrary.simpleMessage(
+      "Error, click to retry.",
+    ),
     "typeAlcoholicBeverages": MessageLookupByLibrary.simpleMessage(
       "Alcoholic Drinks",
     ),

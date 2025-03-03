@@ -544,6 +544,16 @@ class Language {
       args: [],
     );
   }
+
+  /// `空空如也`
+  String get statePageEmpty {
+    return Intl.message('空空如也', name: 'statePageEmpty', desc: '', args: []);
+  }
+
+  /// `出错了,点击重试`
+  String get statePageRetry {
+    return Intl.message('出错了,点击重试', name: 'statePageRetry', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<Language> {
