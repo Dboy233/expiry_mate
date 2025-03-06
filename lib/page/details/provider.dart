@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:expiry_mate/db/data/expiry_item.dart';
+import 'package:expiry_mate/repository/data_dir_provider.dart';
 import 'package:expiry_mate/repository/expiry_repository_provider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'provider.g.dart';
@@ -34,7 +38,7 @@ class ItemDetails extends _$ItemDetails {
         return p0.copyWith(name: name);
       },
     );
-    _notifyUpdate();
+    _onlyUpdateDb();
   }
 
   String? canUpdateCreateDate(DateTime dateTime) {
@@ -49,7 +53,7 @@ class ItemDetails extends _$ItemDetails {
     update(
       (p0) => p0.copyWith(createDate: dateTime),
     );
-    _notifyUpdate();
+    _onlyUpdateDb();
   }
 
   String? canUpdateOverDate(DateTime dateTime) {
@@ -70,7 +74,7 @@ class ItemDetails extends _$ItemDetails {
         safeDays: dateTime.difference(p0.createDate!).inDays,
       ),
     );
-    _notifyUpdate();
+    _onlyUpdateDb();
   }
 
   String? canUpdateRemindDays(int days) {
@@ -85,19 +89,39 @@ class ItemDetails extends _$ItemDetails {
     update(
       (p0) => p0.copyWith(reminderDays: days),
     );
-    _notifyUpdate();
+    _onlyUpdateDb();
   }
 
   void updateType(int type) {
     update(
       (p0) => p0.copyWith(type: type),
     );
-    _notifyUpdate();
+    _onlyUpdateDb();
   }
 
-  void _notifyUpdate() async {
+  Future<String?> updateCover(String newFilePath) async {
+    //处理封面图片内容
+    final dirData = ref.read(appDirDataManagerProvider.notifier);
+    var newPath = await dirData.saveImage(File(newFilePath),deleteSrc: Platform.isIOS||Platform.isAndroid);
+    if(newPath!=null){
+      update(
+            (p0) => p0.copyWith(coverPath: newPath.path),
+      );
+      _onlyUpdateDb();
+      return null;
+    }else{
+      return "Error";
+    }
+
+  }
+
+  ///只更新数据库，而不通知新当前state的改变
+  void _onlyUpdateDb() async {
     final repository = await ref.read(appRepositoryProvider.future);
     await repository.updateExpiryItem(state.requireValue);
+    debugPrint("更新${state.requireValue}");
     ref.invalidate(appRepositoryProvider);
   }
+
+
 }

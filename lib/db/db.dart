@@ -1,10 +1,9 @@
 import 'package:expiry_mate/db/data/config.dart';
 import 'package:expiry_mate/db/data/expiry_item.dart';
+import 'package:expiry_mate/repository/data_dir_provider.dart';
 import 'package:expiry_mate/repository/fake_data_generation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path/path.dart' as p;
-import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../objectbox.g.dart';
@@ -14,10 +13,9 @@ part 'db.g.dart';
 @riverpod
 Future<Store> dbStore(Ref ref) async {
   debugPrint("正在初始化数据库...");
-  final docsDir = await getApplicationDocumentsDirectory();
-  debugPrint("本地数据库位置：$docsDir");
-  final store =
-      await openStore(directory: p.join(docsDir.path, "ExpiryMate_db"));
+  final appDir = await ref.read(appDirDataManagerProvider.future);
+  final store = await openStore(directory: appDir.db);
+
   ///添加假数据
   var expiryBox = Box<ExpiryItem>(store);
   if (expiryBox.isEmpty()) {

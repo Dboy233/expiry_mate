@@ -90,6 +90,14 @@ mixin _$ExpiryItem {
   @JsonKey(name: 'tag')
   set tag(String? value) => throw _privateConstructorUsedError;
 
+  ///封面照片存储路径
+  @JsonKey(name: 'cover_path')
+  String? get coverPath => throw _privateConstructorUsedError;
+
+  ///封面照片存储路径
+  @JsonKey(name: 'cover_path')
+  set coverPath(String? value) => throw _privateConstructorUsedError;
+
   /// Serializes this ExpiryItem to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -118,7 +126,8 @@ abstract class $ExpiryItemCopyWith<$Res> {
       @JsonKey(name: 'safeDays') int? safeDays,
       @JsonKey(name: 'type') int? type,
       @JsonKey(name: 'reminderDays') int? reminderDays,
-      @JsonKey(name: 'tag') String? tag});
+      @JsonKey(name: 'tag') String? tag,
+      @JsonKey(name: 'cover_path') String? coverPath});
 }
 
 /// @nodoc
@@ -144,6 +153,7 @@ class _$ExpiryItemCopyWithImpl<$Res, $Val extends ExpiryItem>
     Object? type = freezed,
     Object? reminderDays = freezed,
     Object? tag = freezed,
+    Object? coverPath = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -178,6 +188,10 @@ class _$ExpiryItemCopyWithImpl<$Res, $Val extends ExpiryItem>
           ? _value.tag
           : tag // ignore: cast_nullable_to_non_nullable
               as String?,
+      coverPath: freezed == coverPath
+          ? _value.coverPath
+          : coverPath // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -202,7 +216,8 @@ abstract class _$$ExpiryItemImplCopyWith<$Res>
       @JsonKey(name: 'safeDays') int? safeDays,
       @JsonKey(name: 'type') int? type,
       @JsonKey(name: 'reminderDays') int? reminderDays,
-      @JsonKey(name: 'tag') String? tag});
+      @JsonKey(name: 'tag') String? tag,
+      @JsonKey(name: 'cover_path') String? coverPath});
 }
 
 /// @nodoc
@@ -226,6 +241,7 @@ class __$$ExpiryItemImplCopyWithImpl<$Res>
     Object? type = freezed,
     Object? reminderDays = freezed,
     Object? tag = freezed,
+    Object? coverPath = freezed,
   }) {
     return _then(_$ExpiryItemImpl(
       id: freezed == id
@@ -260,6 +276,10 @@ class __$$ExpiryItemImplCopyWithImpl<$Res>
           ? _value.tag
           : tag // ignore: cast_nullable_to_non_nullable
               as String?,
+      coverPath: freezed == coverPath
+          ? _value.coverPath
+          : coverPath // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -280,7 +300,8 @@ class _$ExpiryItemImpl implements _ExpiryItem {
       @JsonKey(name: 'safeDays') this.safeDays,
       @JsonKey(name: 'type') this.type,
       @JsonKey(name: 'reminderDays') this.reminderDays,
-      @JsonKey(name: 'tag') this.tag});
+      @JsonKey(name: 'tag') this.tag,
+      @JsonKey(name: 'cover_path') this.coverPath});
 
   factory _$ExpiryItemImpl.fromJson(Map<String, dynamic> json) =>
       _$$ExpiryItemImplFromJson(json);
@@ -328,9 +349,14 @@ class _$ExpiryItemImpl implements _ExpiryItem {
   @JsonKey(name: 'tag')
   String? tag;
 
+  ///封面照片存储路径
+  @override
+  @JsonKey(name: 'cover_path')
+  String? coverPath;
+
   @override
   String toString() {
-    return 'ExpiryItem(id: $id, name: $name, createDate: $createDate, overDate: $overDate, safeDays: $safeDays, type: $type, reminderDays: $reminderDays, tag: $tag)';
+    return 'ExpiryItem(id: $id, name: $name, createDate: $createDate, overDate: $overDate, safeDays: $safeDays, type: $type, reminderDays: $reminderDays, tag: $tag, coverPath: $coverPath)';
   }
 
   /// Create a copy of ExpiryItem
@@ -362,7 +388,8 @@ abstract class _ExpiryItem implements ExpiryItem {
       @JsonKey(name: 'safeDays') int? safeDays,
       @JsonKey(name: 'type') int? type,
       @JsonKey(name: 'reminderDays') int? reminderDays,
-      @JsonKey(name: 'tag') String? tag}) = _$ExpiryItemImpl;
+      @JsonKey(name: 'tag') String? tag,
+      @JsonKey(name: 'cover_path') String? coverPath}) = _$ExpiryItemImpl;
 
   factory _ExpiryItem.fromJson(Map<String, dynamic> json) =
       _$ExpiryItemImpl.fromJson;
@@ -444,6 +471,15 @@ abstract class _ExpiryItem implements ExpiryItem {
   ///标签
   @JsonKey(name: 'tag')
   set tag(String? value);
+
+  ///封面照片存储路径
+  @override
+  @JsonKey(name: 'cover_path')
+  String? get coverPath;
+
+  ///封面照片存储路径
+  @JsonKey(name: 'cover_path')
+  set coverPath(String? value);
 
   /// Create a copy of ExpiryItem
   /// with the given fields replaced by the non-null parameter values.

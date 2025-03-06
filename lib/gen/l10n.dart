@@ -554,6 +554,26 @@ class Language {
   String get statePageRetry {
     return Intl.message('出错了,点击重试', name: 'statePageRetry', desc: '', args: []);
   }
+
+  /// `Error：拍照失败！`
+  String get errorFailedToTakeAPhoto {
+    return Intl.message(
+      'Error：拍照失败！',
+      name: 'errorFailedToTakeAPhoto',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `封面设置失败！`
+  String get errorCoverSetFailed {
+    return Intl.message(
+      '封面设置失败！',
+      name: 'errorCoverSetFailed',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<Language> {

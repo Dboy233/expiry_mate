@@ -104,28 +104,30 @@ class LocalRepository extends ExpiryRepository {
   @override
   Future<DataResult<ExpiryItem>> updateExpiryItem(ExpiryItem newItem) async {
     if (newItem.id == null) {
-      return Future.value(DataResult.error(msg: "id不能为空"));
+      return Future.value(DataResult.error(msg: "更新Item，id不能为空"));
     }
     var box = Box<ExpiryItem>(_store);
-    ExpiryItem? item = await box
-        .query(ExpiryItem_.id.equals(newItem.id!))
-        .build()
-        .findFirstAsync();
-    if (item == null) {
-      return DataResult.error(msg: "id不存在");
-    }
-    var call = item.copyWith.call(
-      name: newItem.name,
-      createDate: newItem.createDate,
-      safeDays: newItem.safeDays,
-      overDate: newItem.overDate,
-      reminderDays: newItem.reminderDays,
-      type: newItem.type,
-      tag: newItem.tag,
-    );
+    // ExpiryItem? item = await box
+    //     .query(ExpiryItem_.id.equals(newItem.id!))
+    //     .build()
+    //     .findFirstAsync();
+    // if (item == null) {
+    //   return DataResult.error(msg: "id不存在");
+    // }
+    //
+    // var call = item.copyWith.call(
+    //   name: newItem.name,
+    //   createDate: newItem.createDate,
+    //   safeDays: newItem.safeDays,
+    //   overDate: newItem.overDate,
+    //   reminderDays: newItem.reminderDays,
+    //   type: newItem.type,
+    //   tag: newItem.tag,
+    //   coverPath: newItem.coverPath
+    // );
     //更新
-    await box.putAsync(call);
-    return DataResult.success(call);
+    await box.putAsync(newItem);
+    return DataResult.success(newItem);
   }
 
   @override

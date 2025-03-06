@@ -84,6 +84,10 @@ class $AssetsImagesGen {
   AssetGenImage get iconVegetables =>
       const AssetGenImage('assets/images/icon_vegetables.png');
 
+  /// File path: assets/images/img_cover_def.png
+  AssetGenImage get imgCoverDef =>
+      const AssetGenImage('assets/images/img_cover_def.png');
+
   /// Directory path: assets/images/language
   $AssetsImagesLanguageGen get language => const $AssetsImagesLanguageGen();
 
@@ -106,7 +110,8 @@ class $AssetsImagesGen {
         iconSeasonings,
         iconSnackFood,
         iconTubers,
-        iconVegetables
+        iconVegetables,
+        imgCoverDef
       ];
 }
 

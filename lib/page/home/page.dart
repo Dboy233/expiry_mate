@@ -336,18 +336,19 @@ class _ItemTypeCard extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Image.asset(
-                    info.iconAssets,
-                    height: 30,
-                    width: 30,
-                    color: Theme.of(context).iconTheme.color,
-                  ),
-              ),
-                Text(
-                  info.type.getTypeName(),
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.bold
-                  ),
+                  info.iconAssets,
+                  height: 30,
+                  width: 30,
+                  color: Theme.of(context).iconTheme.color,
                 ),
+              ),
+              Text(
+                info.type.getTypeName(),
+                style: Theme.of(context)
+                    .textTheme
+                    .titleSmall
+                    ?.copyWith(fontWeight: FontWeight.bold),
+              ),
             ],
           ),
           footer: Padding(

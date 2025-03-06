@@ -37,6 +37,9 @@ class ExpiryItem with _$ExpiryItem {
 
     ///标签
     @JsonKey(name: 'tag') String? tag,
+
+    ///封面照片存储路径
+    @JsonKey(name:'cover_path') String? coverPath,
   }) = _ExpiryItem;
 
   factory ExpiryItem.fromJson(Map<String, Object?> json) =>

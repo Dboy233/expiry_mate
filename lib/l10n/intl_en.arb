@@ -67,5 +67,7 @@
   "addPageErrorCreateDateEmpty": "Production date cannot be empty",
   "addPageErrorOverDateEmpty": "Shelf life cannot be empty",
   "statePageEmpty": "Empty",
-  "statePageRetry": "Error, click to retry."
+  "statePageRetry": "Error, click to retry.",
+  "errorFailedToTakeAPhoto": "Error: Failed to take a photo!",
+  "errorCoverSetFailed":"Cover setting failed!"
 }

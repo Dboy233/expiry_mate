@@ -20,6 +20,7 @@ _$ExpiryItemImpl _$$ExpiryItemImplFromJson(Map<String, dynamic> json) =>
       type: (json['type'] as num?)?.toInt(),
       reminderDays: (json['reminderDays'] as num?)?.toInt(),
       tag: json['tag'] as String?,
+      coverPath: json['cover_path'] as String?,
     );
 
 Map<String, dynamic> _$$ExpiryItemImplToJson(_$ExpiryItemImpl instance) =>
@@ -32,4 +33,5 @@ Map<String, dynamic> _$$ExpiryItemImplToJson(_$ExpiryItemImpl instance) =>
       'type': instance.type,
       'reminderDays': instance.reminderDays,
       'tag': instance.tag,
+      'cover_path': instance.coverPath,
     };

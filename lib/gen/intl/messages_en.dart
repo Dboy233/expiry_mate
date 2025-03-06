@@ -119,6 +119,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "detailsPageItemType": MessageLookupByLibrary.simpleMessage("Category:"),
     "detailsPageTitle": MessageLookupByLibrary.simpleMessage("Details"),
+    "errorCoverSetFailed": MessageLookupByLibrary.simpleMessage(
+      "Cover setting failed!",
+    ),
+    "errorFailedToTakeAPhoto": MessageLookupByLibrary.simpleMessage(
+      "Error: Failed to take a photo!",
+    ),
     "homeSoonExpiryCardLastDays": MessageLookupByLibrary.simpleMessage(
       "Remaining Valid Days: ",
     ),

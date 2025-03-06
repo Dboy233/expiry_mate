@@ -67,5 +67,7 @@
   "addPageErrorCreateDateEmpty": "生产日期不能为空",
   "addPageErrorOverDateEmpty": "保质期不能为空",
   "statePageEmpty": "空空如也",
-  "statePageRetry": "出错了,点击重试"
+  "statePageRetry": "出错了,点击重试",
+  "errorFailedToTakeAPhoto": "Error：拍照失败！",
+  "errorCoverSetFailed":"封面设置失败！"
 }

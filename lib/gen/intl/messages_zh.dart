@@ -87,6 +87,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "detailsPageItemTipsExpiry": MessageLookupByLibrary.simpleMessage("已经过期："),
     "detailsPageItemType": MessageLookupByLibrary.simpleMessage("分类："),
     "detailsPageTitle": MessageLookupByLibrary.simpleMessage("临期详情"),
+    "errorCoverSetFailed": MessageLookupByLibrary.simpleMessage("封面设置失败！"),
+    "errorFailedToTakeAPhoto": MessageLookupByLibrary.simpleMessage(
+      "Error：拍照失败！",
+    ),
     "homeSoonExpiryCardLastDays": MessageLookupByLibrary.simpleMessage(
       "剩余有效天数 : ",
     ),

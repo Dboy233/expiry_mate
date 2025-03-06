@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:expiry_mate/db/data/expiry_type.dart';
 import 'package:expiry_mate/ext/date_ext.dart';
 import 'package:expiry_mate/gen/l10n.dart';
 import 'package:expiry_mate/page/add/provider.dart';
+import 'package:expiry_mate/page/camera/page.dart';
 import 'package:expiry_mate/widget/language_widget.dart';
 import 'package:expiry_mate/widget/theme_button_widget.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,6 +36,7 @@ class AddPage extends StatelessWidget {
           spacing: 16,
           children: [
             // _DebugPrintFood(),
+            _CreatePictures(),
             _ItemNameWidget(),
             _CreateDateWidget(),
             _OverDateContainer(),
@@ -42,6 +47,96 @@ class AddPage extends StatelessWidget {
       ),
       floatingActionButton: _CreateWidget(),
     );
+  }
+}
+
+class _CreatePictures extends ConsumerWidget {
+  const _CreatePictures({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final watch = ref.watch(createNewItemProvider);
+    bool showImg = watch.requiredData.coverPath?.isNotEmpty == true;
+
+    return Container(
+      height: 100,
+      width: 100,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        border: Border.all(
+          width: 2,
+          color: Theme.of(context).colorScheme.primary,
+        ),
+        shape: BoxShape.circle,
+      ),
+      child: Container(
+        width: 98,
+        height: 98,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+        ),
+        child: Stack(
+          children: [
+            if (showImg)
+              Positioned.fill(
+                  child: Image.file(
+                File(watch.requiredData.coverPath!),
+                alignment: Alignment.center,
+                fit: BoxFit.cover,
+                isAntiAlias: true,
+              ))
+            else
+              Positioned.fill(
+                child: Icon(
+                  Icons.camera_alt_outlined,
+                  size: 50,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            InkWell(
+              onTap: () {
+                _picturesOfThePlatform(context, ref);
+              },
+              borderRadius: BorderRadius.circular(50),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  ///不同平台的图片选择
+  void _picturesOfThePlatform(BuildContext context, WidgetRef ref) async {
+    String? srcImgPath;
+    if (Platform.isIOS || Platform.isAndroid) {
+      srcImgPath = await Navigator.push(
+        context,
+        CupertinoPageRoute(
+          builder: (context) => CameraPage(),
+        ),
+      );
+    } else {
+      srcImgPath = await _desktopSelectImage(ref);
+    }
+    if (srcImgPath != null) {
+      final read = ref.read(createNewItemProvider.notifier);
+      read.updateCover(srcImgPath);
+    }
+  }
+
+  ///桌面平台选择图片
+  Future<String?> _desktopSelectImage(WidgetRef ref) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      allowMultiple: false,
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'jpeg', 'png'],
+    );
+    if (result != null && result.count > 0) {
+      var selectedImage = result.files[0];
+      return selectedImage.path;
+    }
+    return null;
   }
 }
 

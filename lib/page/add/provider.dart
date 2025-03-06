@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:expiry_mate/bean/result.dart';
 import 'package:expiry_mate/db/data/expiry_item.dart';
 import 'package:expiry_mate/gen/l10n.dart';
+import 'package:expiry_mate/repository/data_dir_provider.dart';
 import 'package:expiry_mate/repository/expiry_repository_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +41,15 @@ class CreateNewItem extends _$CreateNewItem {
       //没有调整类型的话默认0=谷物类,因为UI默认选中位置就是0
       type: 0,
     ));
+  }
+
+  void updateCover(String srcImagePath) {
+    state = state.copyWith(
+      code: resultSuccessCode,
+      callData: (data) => data?.copyWith(
+        coverPath: srcImagePath,
+      ),
+    );
   }
 
   void updateName(String? name) {
@@ -253,6 +265,18 @@ class CreateNewItem extends _$CreateNewItem {
     }
     //如果没有设置提醒日，默认7天
     data.reminderDays ??= 7;
+
+    //处理封面图片内容
+    final dirData = ref.read(appDirDataManagerProvider.notifier);
+    if (data.coverPath != null) {
+      var appFile = await dirData.saveImage(
+        File(data.coverPath!),
+        deleteSrc: (Platform.isAndroid || Platform.isIOS),
+      );
+      if (appFile != null) {
+        data.coverPath = appFile.path;
+      }
+    }
 
     var repository = await ref.read(appRepositoryProvider.future);
     var dataResult = await repository.addExpiryItem(state.requiredData);
