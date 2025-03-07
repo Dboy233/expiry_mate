@@ -67,12 +67,12 @@ allprojects {
 
 ## 截图
 
-| Android                      | IOS                      |
-|:----------------------------:|:------------------------:|
-| ![](readme_img/android1.png) | ![](readme_img/ios1.png) |
-| ![](readme_img/android2.png) | ![](readme_img/ios2.png) |
-| ![](readme_img/android3.png) | ![](readme_img/ios3.png) |
-| ![](readme_img/android4.png) | ![](readme_img/ios4.png) |
+|                                 Android                                  | IOS                                                                 |
+|:------------------------------------------------------------------------:|:-------------------------------------------------------------------:|
+| <img src="readme_img/android1.png"  title="" alt="" data-align="center"> | <img src="readme_img/ios1.png" title="" alt="" data-align="center"> |
+|                       ![](readme_img/android2.png)                       | ![](readme_img/ios2.png)                                            |
+|                       ![](readme_img/android3.png)                       | ![](readme_img/ios3.png)                                            |
+|                       ![](readme_img/android4.png)                       | ![](readme_img/ios4.png)                                            |
 
 | Windows                  | MacOS                    |
 |:------------------------:|:------------------------:|
