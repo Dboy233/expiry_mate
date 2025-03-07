@@ -18,9 +18,10 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverAppBar.large(
+            centerTitle: true,
             title: Text(
               Language.current.homeTitle,
             ),
@@ -28,20 +29,25 @@ class Home extends StatelessWidget {
               LanguageWidget(),
               ThemeButton(),
             ],
-          ),
-          _OverDateTitle(),
-          SliverPadding(
-            padding: const EdgeInsets.only(top: 16, bottom: 16),
-            sliver: SliverToBoxAdapter(
-              child: SizedBox(
-                height: 150,
-                child: _OverdueItem(),
-              ),
-            ),
-          ),
-          _TypeListTitle(),
-          _ItemTypeList(),
+          )
         ],
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _OverDateTitle(),
+              Padding(
+                padding: const EdgeInsets.only(top: 16, bottom: 16),
+                child: SizedBox(
+                  height: 150,
+                  child: _OverdueItem(),
+                ),
+              ),
+              _TypeListTitle(),
+              _ItemTypeList(),
+            ],
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).colorScheme.tertiary,
@@ -67,19 +73,17 @@ class _OverDateTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Consumer(
-        builder: (context, ref, child) {
-          var data = ref.watch(getSoonExpiryItemProvider);
-          var hasOverDateItem = data.value != null && data.value!.isNotEmpty;
-          return _HomeTitle(Language.current.homeSoonExpiryTitle,
-              moreTap: !hasOverDateItem
-                  ? null
-                  : () {
-                      goAllItemPage(context, isOnlyExpiry: true);
-                    });
-        },
-      ),
+    return Consumer(
+      builder: (context, ref, child) {
+        var data = ref.watch(getSoonExpiryItemProvider);
+        var hasOverDateItem = data.value != null && data.value!.isNotEmpty;
+        return _HomeTitle(Language.current.homeSoonExpiryTitle,
+            moreTap: !hasOverDateItem
+                ? null
+                : () {
+                    goAllItemPage(context, isOnlyExpiry: true);
+                  });
+      },
     );
   }
 }
@@ -90,21 +94,19 @@ class _TypeListTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Consumer(
-        builder: (context, ref, child) {
-          var data = ref.watch(dbAllExpirySizeProvider);
-          var hasItem = data.value != null && data.requireValue > 0;
-          return _HomeTitle(
-            Language.current.homeTypeTitle,
-            moreTap: !hasItem
-                ? null
-                : () {
-                    goAllItemPage(context);
-                  },
-          );
-        },
-      ),
+    return Consumer(
+      builder: (context, ref, child) {
+        var data = ref.watch(dbAllExpirySizeProvider);
+        var hasItem = data.value != null && data.requireValue > 0;
+        return _HomeTitle(
+          Language.current.homeTypeTitle,
+          moreTap: !hasItem
+              ? null
+              : () {
+                  goAllItemPage(context);
+                },
+        );
+      },
     );
   }
 }
@@ -118,41 +120,44 @@ class _HomeTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: 16, right: 16),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.tertiaryContainer,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: 16,
-          right: 16,
-          top: 8,
-          bottom: 8,
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxWidth: 640),
+      child: Container(
+        margin: EdgeInsets.only(left: 16, right: 16),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.tertiaryContainer,
+          borderRadius: BorderRadius.circular(16),
         ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              title,
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 16,
+            right: 16,
+            top: 8,
+            bottom: 8,
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.onTertiaryContainer,
+                    ),
+              ),
+              AnimatedOpacity(
+                duration: Duration(milliseconds: 400),
+                opacity: moreTap != null ? 1 : 0,
+                child: IconButton(
+                  onPressed: moreTap,
+                  icon: Icon(
+                    Icons.list,
                     color: Theme.of(context).colorScheme.onTertiaryContainer,
                   ),
-            ),
-            AnimatedOpacity(
-              duration: Duration(milliseconds: 400),
-              opacity: moreTap != null ? 1 : 0,
-              child: IconButton(
-                onPressed: moreTap,
-                icon: Icon(
-                  Icons.list,
-                  color: Theme.of(context).colorScheme.onTertiaryContainer,
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -286,30 +291,25 @@ class _ItemTypeList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var data = ref.watch(getExpiryItemTypeInfoProvider);
     if (!data.hasValue) {
-      return SliverToBoxAdapter(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: CircularProgressIndicator(),
-          ),
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: CircularProgressIndicator(),
         ),
       );
     }
-    return SliverPadding(
+    return GridView.builder(
       padding: EdgeInsets.all(16),
-      sliver: SliverGrid(
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            return _ItemTypeCard(data.requireValue[index]);
-          },
-          childCount: data.requireValue.length,
-        ),
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 150,
-            crossAxisSpacing: 10,
-            childAspectRatio: 1,
-            mainAxisSpacing: 10),
-      ),
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      scrollDirection: Axis.vertical,
+      itemBuilder: (context, index) => _ItemTypeCard(data.requireValue[index]),
+      itemCount: data.requireValue.length,
+      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 150,
+          crossAxisSpacing: 10,
+          childAspectRatio: 1,
+          mainAxisSpacing: 10),
     );
   }
 }
@@ -342,21 +342,23 @@ class _ItemTypeCard extends ConsumerWidget {
                   color: Theme.of(context).iconTheme.color,
                 ),
               ),
-              Text(
-                info.type.getTypeName(),
-                style: Theme.of(context)
-                    .textTheme
-                    .titleSmall
-                    ?.copyWith(fontWeight: FontWeight.bold),
+              Padding(
+                padding: const EdgeInsets.only(left: 3, right: 3),
+                child: Text(
+                  info.type.getTypeName(),
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleSmall
+                      ?.copyWith(fontWeight: FontWeight.bold),
+                ),
               ),
             ],
           ),
           footer: Padding(
             padding: const EdgeInsets.only(
               left: 8,
-              right: 8,
-              top: 8,
-              bottom: 10,
+              bottom: 4,
             ),
             child: Text(
               Language.current.homeTypeCardRecord(info.size),

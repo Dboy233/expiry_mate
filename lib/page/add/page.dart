@@ -30,19 +30,24 @@ class AddPage extends StatelessWidget {
           ThemeButton(),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          spacing: 16,
-          children: [
-            // _DebugPrintFood(),
-            _CreatePictures(),
-            _ItemNameWidget(),
-            _CreateDateWidget(),
-            _OverDateContainer(),
-            _RemindDaysWidget(),
-            _TypeWidget(),
-          ],
+      body: Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 640),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              spacing: 16,
+              children: [
+                // _DebugPrintFood(),
+                _CreatePictures(),
+                _ItemNameWidget(),
+                _CreateDateWidget(),
+                _OverDateContainer(),
+                _RemindDaysWidget(),
+                _TypeWidget(),
+              ],
+            ),
+          ),
         ),
       ),
       floatingActionButton: _CreateWidget(),

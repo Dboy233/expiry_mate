@@ -14,7 +14,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ItemDetailsPage extends ConsumerWidget {
   final int id;
@@ -43,7 +43,7 @@ class ItemDetailsPage extends ConsumerWidget {
   }
 }
 
-class _Body extends ConsumerWidget {
+class _Body extends HookConsumerWidget {
   final ExpiryItem item;
 
   const _Body(this.item, {super.key});
@@ -58,272 +58,299 @@ class _Body extends ConsumerWidget {
         .textTheme
         .titleMedium
         ?.copyWith(color: Theme.of(context).colorScheme.primary);
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxWidth: 640,
-      ),
-      child: CustomScrollView(
-        slivers: [
-          SliverAppBar.large(
-            flexibleSpace: FlexibleSpaceBar(
-              collapseMode: CollapseMode.parallax,
-              centerTitle: true,
-              title: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(width: 40),
-                  Text(item.name!, style: theme1),
-                  IconButton(
-                    onPressed: () async {
-                      await _modifyName(context, ref);
-                    },
-                    icon: Icon(Icons.edit, size: 20),
-                  ),
-                ],
+    Color beginColor = Theme.of(context).colorScheme.onInverseSurface;
+    Color endColor = Theme.of(context).colorScheme.inverseSurface;
+    final appBarDynamicDisplayColor = useState<Color?>(beginColor);
+    return NotificationListener(
+      onNotification: (notification) {
+        if (notification is ScrollUpdateNotification) {
+          var offset = notification.metrics.pixels;
+          var minHeight = 64;
+          var maxHeight = 152;
+          //计算offset在 maxHeight和minHeight 经过是的百分比
+          var percent = offset / (maxHeight - minHeight);
+          if (percent < 0) {
+            percent = 0;
+          }
+          //通过百分比来动态得出Appbar内容显示的颜色。
+          appBarDynamicDisplayColor.value =
+              Color.lerp(beginColor, endColor, percent);
+        }
+        return false;
+      },
+      child: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return [
+            SliverAppBar.large(
+              toolbarHeight: 64,
+              expandedHeight: 152,
+              leading: BackButton(
+                color: appBarDynamicDisplayColor.value,
               ),
-              background: Stack(
-                children: [
-                  Positioned.fill(
-                    child: GestureDetector(
-                      onTap: () {
-                        ///show img
+              flexibleSpace: FlexibleSpaceBar(
+                collapseMode: CollapseMode.parallax,
+                centerTitle: true,
+                title: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(width: 40),
+                    Text(item.name!,
+                        style: theme1?.copyWith(
+                            color: appBarDynamicDisplayColor.value)),
+                    IconButton(
+                      onPressed: () async {
+                        await _modifyName(context, ref);
                       },
-                      child: item.coverPath != null
-                          ? Image.file(
-                              File(item.coverPath!),
-                              fit: BoxFit.cover,
-                            )
-                          : Image.asset(
-                              Assets.images.imgCoverDef.path,
-                              fit: BoxFit.cover,
-                            ),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: IconButton(
-                        onPressed: () async {
-                          await _modifyCover(context, ref);
-                        },
-                        icon: Icon(Icons.add_a_photo_outlined),
+                      icon: Icon(
+                        Icons.edit,
+                        size: 20,
+                        color: appBarDynamicDisplayColor.value,
                       ),
                     ),
-                  )
-                ],
-              ),
-            ),
-            actions: [
-              //删除按钮
-              IconButton(
-                onPressed: () async {
-                  final confirm = await showDialog(
-                      context: context,
-                      builder: (context) => _ConfirmTheDeletionDialog());
-                  if (confirm == true) {
-                    var bool = await ref
-                        .read(itemDetailsProvider(item.id!).notifier)
-                        .delete(item.id!);
-                    if (bool && context.mounted) {
-                      Navigator.of(context).pop("delete");
-                    }
-                  }
-                },
-                icon: Icon(
-                  Icons.delete_forever,
-                  color: Theme.of(context).colorScheme.error,
+                  ],
+                ),
+                background: Stack(
+                  children: [
+                    Positioned.fill(
+                      child: GestureDetector(
+                        onTap: () {
+                          ///show img
+                        },
+                        child: item.coverPath != null
+                            ? Image.file(
+                                File(item.coverPath!),
+                                fit: BoxFit.cover,
+                              )
+                            : Image.asset(
+                                Assets.images.imgCoverDef.path,
+                                fit: BoxFit.cover,
+                              ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: IconButton(
+                          onPressed: () async {
+                            await _modifyCover(context, ref);
+                          },
+                          icon: Icon(
+                            Icons.add_a_photo_outlined,
+                            color: appBarDynamicDisplayColor.value,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               ),
-              //修改主题按钮
-              ThemeButton(),
-            ],
-          ),
-          SliverToBoxAdapter(
-            child: ListTile(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(Language.current.detailsPageItemCreateDate,
-                      style: theme1),
-                  Text('${item.createDate?.format()}', style: theme2)
-                ],
-              ),
-              trailing: IconButton(
+              actions: [
+                //删除按钮
+                IconButton(
                   onPressed: () async {
-                    final now = DateTime.now();
-                    DateTime? dateTime = await showDatePicker(
-                      context: context,
-                      firstDate: DateTime(now.year - 5),
-                      lastDate: DateTime(now.year + 5),
-                      initialDate: item.createDate,
-                    );
-                    if (!context.mounted) {
-                      return;
-                    }
-                    if (dateTime != null) {
-                      var read =
-                          ref.read(itemDetailsProvider(item.id!).notifier);
-                      var errorMsg = read.canUpdateCreateDate(dateTime);
-                      if (errorMsg != null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              content: Text(errorMsg), showCloseIcon: true),
-                        );
-                      } else {
-                        read.updateCreateDate(dateTime);
+                    final confirm = await showDialog(
+                        context: context,
+                        builder: (context) => _ConfirmTheDeletionDialog());
+                    if (confirm == true) {
+                      var bool = await ref
+                          .read(itemDetailsProvider(item.id!).notifier)
+                          .delete(item.id!);
+                      if (bool && context.mounted) {
+                        Navigator.of(context).pop("delete");
                       }
                     }
                   },
-                  icon: Icon(Icons.edit)),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Divider(
-              height: 1,
-              indent: 16,
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: ListTile(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(Language.current.detailsPageItemOverDate, style: theme1),
-                  Text('${item.overDate?.format()}', style: theme2),
-                ],
-              ),
-              subtitle: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(item.isExpired()
-                      ? Language.current.detailsPageItemTipsExpiry
-                      : Language.current.detailsPageItemTipsDays),
-                  Text("${item.lastDays.abs()} ${Language.current.unitDays}"),
-                ],
-              ),
-              trailing: IconButton(
-                  onPressed: () async {
-                    final now = DateTime.now();
-                    DateTime? dateTime = await showDatePicker(
-                      context: context,
-                      firstDate: DateTime(now.year - 5),
-                      lastDate: DateTime(now.year + 5),
-                      initialDate: item.overDate,
-                    );
-                    if (!context.mounted) {
-                      return;
-                    }
-                    if (dateTime != null) {
-                      var read =
-                          ref.read(itemDetailsProvider(item.id!).notifier);
-                      var errorMsg = read.canUpdateOverDate(dateTime);
-                      if (errorMsg != null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              content: Text(errorMsg), showCloseIcon: true),
-                        );
-                      } else {
-                        read.updateOverDate(dateTime);
+                  icon: Icon(
+                    Icons.delete_forever,
+                    color: Theme.of(context).colorScheme.error,
+                  ),
+                ),
+                //修改主题按钮
+                ThemeButton(),
+              ],
+            )
+          ];
+        },
+        body: Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 640),
+            child: Column(children: [
+              ListTile(
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(Language.current.detailsPageItemCreateDate,
+                        style: theme1),
+                    Text('${item.createDate?.format()}', style: theme2)
+                  ],
+                ),
+                trailing: IconButton(
+                    onPressed: () async {
+                      final now = DateTime.now();
+                      DateTime? dateTime = await showDatePicker(
+                        context: context,
+                        firstDate: DateTime(now.year - 5),
+                        lastDate: DateTime(now.year + 5),
+                        initialDate: item.createDate,
+                      );
+                      if (!context.mounted) {
+                        return;
                       }
-                    }
-                  },
-                  icon: Icon(Icons.edit)),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Divider(
-              height: 1,
-              indent: 16,
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: ListTile(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(Language.current.detailsPageItemReminder, style: theme1),
-                  Text('${item.reminderDays} ${Language.current.unitDays}',
-                      style: theme2),
-                ],
+                      if (dateTime != null) {
+                        var read =
+                            ref.read(itemDetailsProvider(item.id!).notifier);
+                        var errorMsg = read.canUpdateCreateDate(dateTime);
+                        if (errorMsg != null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text(errorMsg), showCloseIcon: true),
+                          );
+                        } else {
+                          read.updateCreateDate(dateTime);
+                        }
+                      }
+                    },
+                    icon: Icon(Icons.edit)),
               ),
-              trailing: IconButton(
+              Divider(
+                height: 1,
+                indent: 16,
+              ),
+              ListTile(
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(Language.current.detailsPageItemOverDate,
+                        style: theme1),
+                    Text('${item.overDate?.format()}', style: theme2),
+                  ],
+                ),
+                subtitle: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(item.isExpired()
+                        ? Language.current.detailsPageItemTipsExpiry
+                        : Language.current.detailsPageItemTipsDays),
+                    Text("${item.lastDays.abs()} ${Language.current.unitDays}"),
+                  ],
+                ),
+                trailing: IconButton(
+                    onPressed: () async {
+                      final now = DateTime.now();
+                      DateTime? dateTime = await showDatePicker(
+                        context: context,
+                        firstDate: DateTime(now.year - 5),
+                        lastDate: DateTime(now.year + 5),
+                        initialDate: item.overDate,
+                      );
+                      if (!context.mounted) {
+                        return;
+                      }
+                      if (dateTime != null) {
+                        var read =
+                            ref.read(itemDetailsProvider(item.id!).notifier);
+                        var errorMsg = read.canUpdateOverDate(dateTime);
+                        if (errorMsg != null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text(errorMsg), showCloseIcon: true),
+                          );
+                        } else {
+                          read.updateOverDate(dateTime);
+                        }
+                      }
+                    },
+                    icon: Icon(Icons.edit)),
+              ),
+              Divider(
+                height: 1,
+                indent: 16,
+              ),
+              ListTile(
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(Language.current.detailsPageItemReminder,
+                        style: theme1),
+                    Text('${item.reminderDays} ${Language.current.unitDays}',
+                        style: theme2),
+                  ],
+                ),
+                trailing: IconButton(
+                    onPressed: () async {
+                      final newData = await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return _UniversalInputDialog(
+                            Language.current.detailsPageItemReminder,
+                            hintText: item.reminderDays.toString(),
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                          );
+                        },
+                      );
+                      if (newData != null && context.mounted) {
+                        var read =
+                            ref.read(itemDetailsProvider(item.id!).notifier);
+                        var errorMsg =
+                            read.canUpdateRemindDays(int.parse(newData));
+                        if (errorMsg != null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text(errorMsg), showCloseIcon: true),
+                          );
+                        } else {
+                          read.updateRemindDays(int.parse(newData));
+                        }
+                      }
+                    },
+                    icon: Icon(Icons.edit)),
+              ),
+              Divider(
+                height: 1,
+                indent: 16,
+              ),
+              ListTile(
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(Language.current.detailsPageItemType, style: theme1),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Image.asset(
+                          item.typeEnum.getIconAsset().path,
+                          width: 20,
+                          height: 20,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        SizedBox(width: 8),
+                        Text(item.typeEnum.getTypeName(), style: theme2),
+                      ],
+                    )
+                  ],
+                ),
+                trailing: IconButton(
                   onPressed: () async {
                     final newData = await showDialog(
                       context: context,
-                      builder: (context) {
-                        return _UniversalInputDialog(
-                          Language.current.detailsPageItemReminder,
-                          hintText: item.reminderDays.toString(),
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                        );
-                      },
+                      builder: (context) => _ChoiceTypeDialog(item.typeEnum),
                     );
                     if (newData != null && context.mounted) {
                       var read =
                           ref.read(itemDetailsProvider(item.id!).notifier);
-                      var errorMsg =
-                          read.canUpdateRemindDays(int.parse(newData));
-                      if (errorMsg != null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              content: Text(errorMsg), showCloseIcon: true),
-                        );
-                      } else {
-                        read.updateRemindDays(int.parse(newData));
-                      }
+                      read.updateType(newData);
                     }
                   },
-                  icon: Icon(Icons.edit)),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Divider(
-              height: 1,
-              indent: 16,
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: ListTile(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(Language.current.detailsPageItemType, style: theme1),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(
-                        item.typeEnum.getIconAsset().path,
-                        width: 20,
-                        height: 20,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      SizedBox(width: 8),
-                      Text(item.typeEnum.getTypeName(), style: theme2),
-                    ],
-                  )
-                ],
+                  icon: Icon(Icons.edit),
+                ),
               ),
-              trailing: IconButton(
-                onPressed: () async {
-                  final newData = await showDialog(
-                    context: context,
-                    builder: (context) => _ChoiceTypeDialog(item.typeEnum),
-                  );
-                  if (newData != null && context.mounted) {
-                    var read = ref.read(itemDetailsProvider(item.id!).notifier);
-                    read.updateType(newData);
-                  }
-                },
-                icon: Icon(Icons.edit),
-              ),
-            ),
+            ]),
           ),
-          SliverPadding(padding: EdgeInsets.only(bottom: 300))
-        ],
+        ),
       ),
     );
   }

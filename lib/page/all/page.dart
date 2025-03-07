@@ -102,52 +102,57 @@ class _ListViewWidget extends ConsumerWidget {
       color: Colors.white.withValues(alpha: 0.8),
       fontWeight: FontWeight.bold,
     );
-    return ListView.builder(
-      padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
-      itemBuilder: (_, index) {
-        final item = items[index];
-        return DismissibleTile(
-          key: ValueKey(item.id),
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          borderRadius: const BorderRadius.all(Radius.circular(16)),
-          delayBeforeResize: const Duration(milliseconds: 500),
-          ltrDismissedColor: themeData.colorScheme.primary,
-          rtlDismissedColor: themeData.colorScheme.error,
-          ltrOverlay: Text(Language.current.allPageItemModify,
-              style: onArchiveTextTheme),
-          ltrOverlayDismissed: Text(Language.current.allPageItemModify,
-              style: onArchiveTextTheme),
-          rtlOverlay:
-              Text(Language.current.allPageItemDelete, style: onErrorTextTheme),
-          rtlOverlayDismissed:
-              Text(Language.current.allPageItemDelete, style: onErrorTextTheme),
-          child: _listTile(context, item),
-          onDismissed: (d) {
-            ref.invalidate(expiryItemListProvider(type));
+    return Center(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: 640),
+        child: ListView.builder(
+          padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
+          itemBuilder: (_, index) {
+            final item = items[index];
+            return DismissibleTile(
+              key: ValueKey(item.id),
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              borderRadius: const BorderRadius.all(Radius.circular(16)),
+              delayBeforeResize: const Duration(milliseconds: 500),
+              ltrDismissedColor: themeData.colorScheme.primary,
+              rtlDismissedColor: themeData.colorScheme.error,
+              ltrOverlay: Text(Language.current.allPageItemModify,
+                  style: onArchiveTextTheme),
+              ltrOverlayDismissed: Text(Language.current.allPageItemModify,
+                  style: onArchiveTextTheme),
+              rtlOverlay:
+                  Text(Language.current.allPageItemDelete, style: onErrorTextTheme),
+              rtlOverlayDismissed:
+                  Text(Language.current.allPageItemDelete, style: onErrorTextTheme),
+              child: _listTile(context, item),
+              onDismissed: (d) {
+                ref.invalidate(expiryItemListProvider(type));
+              },
+              confirmDismiss: (direction) async {
+                if (direction == DismissibleTileDirection.leftToRight) {
+                  return await Navigator.of(context).push(CupertinoPageRoute(
+                          builder: (context) => ItemDetailsPage(item.id!, true))) ==
+                      'delete';
+                } else {
+                  //二次确认
+                  final isConfirm = await showDialog(
+                      context: context,
+                      builder: (context) => _ConfirmTheDeletionDialog());
+                  if (isConfirm == true) {
+                    await ref
+                        .read(expiryItemListProvider(type).notifier)
+                        .delete(item.id!);
+                    return true;
+                  } else {
+                    return false;
+                  }
+                }
+              },
+            );
           },
-          confirmDismiss: (direction) async {
-            if (direction == DismissibleTileDirection.leftToRight) {
-              return await Navigator.of(context).push(CupertinoPageRoute(
-                      builder: (context) => ItemDetailsPage(item.id!, true))) ==
-                  'delete';
-            } else {
-              //二次确认
-              final isConfirm = await showDialog(
-                  context: context,
-                  builder: (context) => _ConfirmTheDeletionDialog());
-              if (isConfirm == true) {
-                await ref
-                    .read(expiryItemListProvider(type).notifier)
-                    .delete(item.id!);
-                return true;
-              } else {
-                return false;
-              }
-            }
-          },
-        );
-      },
-      itemCount: items.length,
+          itemCount: items.length,
+        ),
+      ),
     );
   }
 
