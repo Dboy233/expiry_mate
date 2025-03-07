@@ -27,6 +27,8 @@
 
 [flex_color_scheme | Flutter package](https://pub.dev/packages/flex_color_scheme)——实现主题更改。
 
+[intl | Dart package](https://pub.dev/packages/intl)——实现国际化
+
 本地我使用的是[FVM](https://github.com/leoafarias/fvm)管理Flutter版本号，在运行项目前先确认自己的开发环境Flutter版本为3.27.4。
 
 ```
