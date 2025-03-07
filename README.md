@@ -2,8 +2,6 @@
 
 帮助你记录家中会过期的产品。
 
-
-
 ## 已完成功能
 
 - [x] 首页数据分类展示
@@ -12,14 +10,11 @@
 - [x] 查看筛选内容
 - [x] 夜间模式
 - [x] 国际化支持
-- [ ] 增加物品照片设置功能
+- [x] 增加物品照片设置功能
 - [ ] 拍照识别名称自动录入-ocr
 - [ ] 自动识别物品类型-ocr
 
-
 ## 开发环境
-
- 
 
 | 库       | 版本号    |
 |:-------:|:------:|
@@ -44,7 +39,6 @@
 
 ```
 dart run build_runner build --delete-conflicting-outputs
-
 ```
 
 项目中第三方包存在jdk版本冲突。为了解决java8，java11冲突问题。
@@ -71,18 +65,18 @@ allprojects {
 }
 ```
 
-
-
 ## 截图
 
-| Android                   | IOS                       |
-|:-------------------------:|:-------------------------:|
-| ![](images/cscreen8.png)  | ![](images/cscreen16.png) | 
-| ![](images/cscreen9.png)  | ![](images/cscreen17.png) |
-| ![](images/cscreen10.png) | ![](images/cscreen25.png) |
+| Android                      | IOS                      |
+|:----------------------------:|:------------------------:|
+| ![](readme_img/android1.png) | ![](readme_img/ios1.png) |
+| ![](readme_img/android2.png) | ![](readme_img/ios2.png) |
+| ![](readme_img/android3.png) | ![](readme_img/ios3.png) |
+| ![](readme_img/android4.png) | ![](readme_img/ios4.png) |
 
-| Windows                                                             | MacOS                    |
-|:-------------------------------------------------------------------:|:------------------------:|
-| <img title="" src="images/cscreen1.png" alt="" data-align="center"> | ![](images/cscreen2.png) |
-|                                                                     | ![](images/cscreen5.png) |
-|                                                                     | ![](images/cscreen4.png) |
+| Windows                  | MacOS                    |
+|:------------------------:|:------------------------:|
+| ![](readme_img/win1.png) | ![](readme_img/mac1.png) |
+| ![](readme_img/win2.png) | ![](readme_img/mac2.png) |
+| ![](readme_img/win3.png) | ![](readme_img/mac3.png) |
+| ![](readme_img/win4.png) | ![](readme_img/mac4.png) |
