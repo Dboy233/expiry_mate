@@ -69,14 +69,14 @@ allprojects {
 
 |                                 Android                                  | IOS                                                                 |
 |:------------------------------------------------------------------------:|:-------------------------------------------------------------------:|
-| <img src="readme_img/android1.png"  title="" alt="" data-align="center"> | <img src="readme_img/ios1.png" title="" alt="" data-align="center"> |
-|                       ![](readme_img/android2.png)                       | ![](readme_img/ios2.png)                                            |
-|                       ![](readme_img/android3.png)                       | ![](readme_img/ios3.png)                                            |
-|                       ![](readme_img/android4.png)                       | ![](readme_img/ios4.png)                                            |
+| <img src="readme_img/android1.png" height="500" title="" alt="" data-align="center"> | <img src="readme_img/ios1.png" height="500" title="" alt="" data-align="center"> |
+| <img src="readme_img/android2.png" height="500" title="" alt="" data-align="center"> | <img src="readme_img/ios2.png" height="500" title="" alt="" data-align="center">  |
+| <img src="readme_img/android3.png" height="500" title="" alt="" data-align="center"> | <img src="readme_img/ios3.png" height="500" title="" alt="" data-align="center">  |
+| <img src="readme_img/android4.png" height="500" title="" alt="" data-align="center"> | <img src="readme_img/ios4.png" height="500" title="" alt="" data-align="center">  |
 
 | Windows                  | MacOS                    |
 |:------------------------:|:------------------------:|
-| ![](readme_img/win1.png) | ![](readme_img/mac1.png) |
-| ![](readme_img/win2.png) | ![](readme_img/mac2.png) |
-| ![](readme_img/win3.png) | ![](readme_img/mac3.png) |
-| ![](readme_img/win4.png) | ![](readme_img/mac4.png) |
+| <img src="readme_img/win1.png" width="400" title="" alt="" data-align="center"> | <img src="readme_img/mac1.png" width="500" title="" alt="" data-align="center"> |
+| <img src="readme_img/win2.png" width="400" title="" alt="" data-align="center"> | <img src="readme_img/mac2.png" width="500" title="" alt="" data-align="center"> |
+| <img src="readme_img/win3.png" width="400" title="" alt="" data-align="center"> | <img src="readme_img/mac3.png" width="500" title="" alt="" data-align="center"> |
+| <img src="readme_img/win4.png" width="400" title="" alt="" data-align="center"> | <img src="readme_img/mac4.png" width="500" title="" alt="" data-align="center"> |
