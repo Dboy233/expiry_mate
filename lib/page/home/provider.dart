@@ -1,6 +1,6 @@
 import 'package:expiry_mate/db/data/expiry_item.dart';
 import 'package:expiry_mate/db/data/expiry_type.dart';
-import 'package:expiry_mate/repository/expiry_repository_provider.dart';
+import 'package:expiry_mate/repository/app_repository_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -9,9 +9,7 @@ part 'provider.g.dart';
 ///获取所有即将临期食品
 @riverpod
 Future<List<ExpiryItem>> getSoonExpiryItem(Ref ref) async {
-  var appRepository = await ref.watch(appRepositoryProvider.future);
-  // var all = await appRepository.getAllExpiryItems();
-  // all.data?.forEach((e) => debugPrint("${e.toJson()}"));
+  var appRepository = await ref.watch(appExpiryItemRepositoryProvider.future);
 
   ///获取快要过期的
   var result = await appRepository.getExpirationItem();
@@ -23,7 +21,7 @@ Future<List<ExpiryItem>> getSoonExpiryItem(Ref ref) async {
 
 @riverpod
 Future<List<ExpiryCardInfo>> getExpiryItemTypeInfo(Ref ref) async {
-  var appRepository = await ref.watch(appRepositoryProvider.future);
+  var appRepository = await ref.watch(appExpiryItemRepositoryProvider.future);
   var list = <ExpiryCardInfo>[];
   for (var fc in ExpiryType.values) {
     var result = await appRepository.getSizeByType(fc);
@@ -40,7 +38,7 @@ Future<List<ExpiryCardInfo>> getExpiryItemTypeInfo(Ref ref) async {
 
 @riverpod
 Future<int> dbAllExpirySize(Ref ref) async {
-  var appRepository = await ref.watch(appRepositoryProvider.future);
+  var appRepository = await ref.watch(appExpiryItemRepositoryProvider.future);
   var result = await appRepository.getAllExpiryItems();
   if (result.isSuccess) {
     return result.data!.length;

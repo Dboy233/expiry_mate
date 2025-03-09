@@ -1,6 +1,6 @@
-import 'package:expiry_mate/config_provider.dart';
 import 'package:expiry_mate/gen/assets.gen.dart';
 import 'package:expiry_mate/gen/l10n.dart';
+import 'package:expiry_mate/repository/app_repository_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -9,18 +9,18 @@ class LanguageWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provider = ref.read(languageConfigProvider);
-
+    final provider = ref.watch(appConfigRepositoryProvider);
     return IconButton(
       onPressed: provider.hasValue
           ? () async {
               final code = await showDialog(
                 context: context,
-                builder: (context) =>
-                    _SelectLanguageDialog(provider.requireValue),
+                builder: (context) => _SelectLanguageDialog(
+                    provider.requireValue.getAppLocalCode()),
               );
               if (context.mounted && code != null) {
-                ref.read(languageConfigProvider.notifier).setLanguage(code);
+                provider.requireValue.changeLocal(code);
+                ref.invalidate(appConfigRepositoryProvider);
               }
             }
           : null,
@@ -53,7 +53,7 @@ class _SelectLanguageDialog extends StatelessWidget {
   Widget _buildLanguageItem(BuildContext context, _LanguageData lang) {
     // country
     return Container(
-      margin: EdgeInsets.only(left: 16,right: 16,top: 8,bottom: 8),
+      margin: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(16)),
           border: Border.all(

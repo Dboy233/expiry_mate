@@ -76,7 +76,7 @@ class _OverDateTitle extends StatelessWidget {
     return Consumer(
       builder: (context, ref, child) {
         var data = ref.watch(getSoonExpiryItemProvider);
-        var hasOverDateItem = data.value != null && data.value!.isNotEmpty;
+        var hasOverDateItem = data.valueOrNull != null && data.value!.isNotEmpty;
         return _HomeTitle(Language.current.homeSoonExpiryTitle,
             moreTap: !hasOverDateItem
                 ? null
@@ -97,7 +97,7 @@ class _TypeListTitle extends StatelessWidget {
     return Consumer(
       builder: (context, ref, child) {
         var data = ref.watch(dbAllExpirySizeProvider);
-        var hasItem = data.value != null && data.requireValue > 0;
+        var hasItem = data.valueOrNull != null && data.requireValue > 0;
         return _HomeTitle(
           Language.current.homeTypeTitle,
           moreTap: !hasItem

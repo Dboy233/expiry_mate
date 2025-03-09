@@ -6,7 +6,7 @@ part of 'provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getSoonExpiryItemHash() => r'01006cc7342b259921e31f00ea36ef4342352bbe';
+String _$getSoonExpiryItemHash() => r'087b51df93fa9a54de942bfa84c6f2f104a88c1f';
 
 ///获取所有即将临期食品
 ///
@@ -27,7 +27,7 @@ final getSoonExpiryItemProvider =
 // ignore: unused_element
 typedef GetSoonExpiryItemRef = AutoDisposeFutureProviderRef<List<ExpiryItem>>;
 String _$getExpiryItemTypeInfoHash() =>
-    r'6b68e1da5aa7343aaf0f807a5923f64d094035b4';
+    r'b5d63e6576bc43fca26b1a48d575a4987eedbea7';
 
 /// See also [getExpiryItemTypeInfo].
 @ProviderFor(getExpiryItemTypeInfo)
@@ -46,7 +46,7 @@ final getExpiryItemTypeInfoProvider =
 // ignore: unused_element
 typedef GetExpiryItemTypeInfoRef
     = AutoDisposeFutureProviderRef<List<ExpiryCardInfo>>;
-String _$dbAllExpirySizeHash() => r'c16308cb70634a5cf6dfe2739347bfe856329195';
+String _$dbAllExpirySizeHash() => r'905e0fe1e6c878cd94003be60788f46ec60e36c9';
 
 /// See also [dbAllExpirySize].
 @ProviderFor(dbAllExpirySize)

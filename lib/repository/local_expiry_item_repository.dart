@@ -2,19 +2,20 @@ import 'package:expiry_mate/bean/expiry_filter_data.dart';
 import 'package:expiry_mate/bean/result.dart';
 import 'package:expiry_mate/db/data/expiry_type.dart';
 import 'package:expiry_mate/objectbox.g.dart';
-import 'package:expiry_mate/repository/expiry_repository.dart';
+import 'package:expiry_mate/repository/app_repository.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../db/data/expiry_item.dart';
 
-class LocalRepository extends ExpiryRepository {
-  final Store _store;
+///对于[ExpiryItem]数据表操作实现类
+class LocalExpiryItemRepository extends ExpiryItemRepository {
+  ///数据盒子
+  final Box<ExpiryItem> box;
 
-  LocalRepository(this._store);
+  LocalExpiryItemRepository(this.box);
 
   @override
   Future<DataResult<ExpiryItem>> getItem(int id) {
-    var box = Box<ExpiryItem>(_store);
     var expiryItem = box.get(id);
     if (expiryItem == null) {
       return Future.error('没有id:$id的数据');
@@ -24,14 +25,12 @@ class LocalRepository extends ExpiryRepository {
 
   @override
   Future<DataResult<ExpiryItem>> addExpiryItem(ExpiryItem item) {
-    var box = Box<ExpiryItem>(_store);
     box.put(item);
     return Future.value(DataResult.success(item));
   }
 
   @override
   Future<DataResult<bool>> deleteExpiryItem(int id) {
-    var box = Box<ExpiryItem>(_store);
     if (box.remove(id)) {
       return Future.value(DataResult.success(true));
     } else {
@@ -41,7 +40,6 @@ class LocalRepository extends ExpiryRepository {
 
   @override
   Future<DataResult<List<ExpiryItem>>> getAllExpiryItems() async {
-    var box = Box<ExpiryItem>(_store);
     var items = await box.getAllAsync();
     return Future.value(DataResult.success(items));
   }
@@ -49,7 +47,6 @@ class LocalRepository extends ExpiryRepository {
   @override
   Future<DataResult<List<ExpiryItem>>> getExpirationItem(
       {ExpiryType? type, int? lastDays}) async {
-    var box = Box<ExpiryItem>(_store);
     QueryBuilder<ExpiryItem> query;
     Condition<ExpiryItem>? condition;
     if (type != null) {
@@ -93,7 +90,6 @@ class LocalRepository extends ExpiryRepository {
 
   @override
   Future<DataResult<List<ExpiryItem>>> getExpiryByType(ExpiryType type) async {
-    var box = Box<ExpiryItem>(_store);
     var item = await box
         .query(ExpiryItem_.type.equals(type.index))
         .build()
@@ -106,25 +102,6 @@ class LocalRepository extends ExpiryRepository {
     if (newItem.id == null) {
       return Future.value(DataResult.error(msg: "更新Item，id不能为空"));
     }
-    var box = Box<ExpiryItem>(_store);
-    // ExpiryItem? item = await box
-    //     .query(ExpiryItem_.id.equals(newItem.id!))
-    //     .build()
-    //     .findFirstAsync();
-    // if (item == null) {
-    //   return DataResult.error(msg: "id不存在");
-    // }
-    //
-    // var call = item.copyWith.call(
-    //   name: newItem.name,
-    //   createDate: newItem.createDate,
-    //   safeDays: newItem.safeDays,
-    //   overDate: newItem.overDate,
-    //   reminderDays: newItem.reminderDays,
-    //   type: newItem.type,
-    //   tag: newItem.tag,
-    //   coverPath: newItem.coverPath
-    // );
     //更新
     await box.putAsync(newItem);
     return DataResult.success(newItem);
@@ -132,7 +109,6 @@ class LocalRepository extends ExpiryRepository {
 
   @override
   Future<DataResult<int>> getSizeByType(ExpiryType type) {
-    var box = Box<ExpiryItem>(_store);
     var query = box.query(ExpiryItem_.type.equals(type.index)).build();
     return Future.value(DataResult.success(query.count()));
   }
@@ -140,7 +116,6 @@ class LocalRepository extends ExpiryRepository {
   @override
   Future<DataResult<List<ExpiryItem>>> queryExpiryItem(
       ExpiryFilterData filter) async {
-    var box = Box<ExpiryItem>(_store);
     debugPrint(filter.toString());
     if (filter.isExpiry == true) {
       return getExpirationItem();
@@ -184,7 +159,7 @@ class LocalRepository extends ExpiryRepository {
     //剩余天数查询
     if (filter.lastDays != null) {
       final now = DateTime.now();
-      final lastDate = now.add(Duration(days: filter.lastDays!+1));
+      final lastDate = now.add(Duration(days: filter.lastDays! + 1));
       condition =
           condition.and(ExpiryItem_.overDate.betweenDate(now, lastDate));
     }

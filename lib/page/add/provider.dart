@@ -4,7 +4,7 @@ import 'package:expiry_mate/bean/result.dart';
 import 'package:expiry_mate/db/data/expiry_item.dart';
 import 'package:expiry_mate/gen/l10n.dart';
 import 'package:expiry_mate/repository/data_dir_provider.dart';
-import 'package:expiry_mate/repository/expiry_repository_provider.dart';
+import 'package:expiry_mate/repository/app_repository_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -278,10 +278,10 @@ class CreateNewItem extends _$CreateNewItem {
       }
     }
 
-    var repository = await ref.read(appRepositoryProvider.future);
+    var repository = await ref.read(appExpiryItemRepositoryProvider.future);
     var dataResult = await repository.addExpiryItem(state.requiredData);
     debugPrint('${dataResult.data?.toJson()}');
-    ref.invalidate(appRepositoryProvider);
+    ref.invalidate(appExpiryItemRepositoryProvider);
     return DataResult.success(0);
   }
 }

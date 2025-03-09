@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:expiry_mate/db/data/expiry_item.dart';
 import 'package:expiry_mate/repository/data_dir_provider.dart';
-import 'package:expiry_mate/repository/expiry_repository_provider.dart';
+import 'package:expiry_mate/repository/app_repository_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -12,7 +12,7 @@ part 'provider.g.dart';
 class ItemDetails extends _$ItemDetails {
   @override
   Future<ExpiryItem> build(int id) async {
-    final repository = await ref.read(appRepositoryProvider.future);
+    final repository = await ref.read(appExpiryItemRepositoryProvider.future);
     final result = await repository.getItem(id);
     if (result.isSuccess) {
       return result.requiredData;
@@ -22,10 +22,10 @@ class ItemDetails extends _$ItemDetails {
   }
 
   Future<bool> delete(int id) async {
-    final repository = await ref.read(appRepositoryProvider.future);
+    final repository = await ref.read(appExpiryItemRepositoryProvider.future);
     var dataResult = await repository.deleteExpiryItem(id);
     if (dataResult.isSuccess) {
-      ref.invalidate(appRepositoryProvider);
+      ref.invalidate(appExpiryItemRepositoryProvider);
       return true;
     } else {
       return false;
@@ -115,12 +115,12 @@ class ItemDetails extends _$ItemDetails {
 
   }
 
-  ///只更新数据库，而不通知新当前state的改变
+  ///更新数据库
   void _onlyUpdateDb() async {
-    final repository = await ref.read(appRepositoryProvider.future);
+    final repository = await ref.read(appExpiryItemRepositoryProvider.future);
     await repository.updateExpiryItem(state.requireValue);
     debugPrint("更新${state.requireValue}");
-    ref.invalidate(appRepositoryProvider);
+    ref.invalidate(appExpiryItemRepositoryProvider);
   }
 
 

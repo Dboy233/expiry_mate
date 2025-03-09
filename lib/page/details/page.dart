@@ -7,6 +7,7 @@ import 'package:expiry_mate/gen/assets.gen.dart';
 import 'package:expiry_mate/gen/l10n.dart';
 import 'package:expiry_mate/page/camera/page.dart';
 import 'package:expiry_mate/page/details/provider.dart';
+import 'package:expiry_mate/widget/language_widget.dart';
 import 'package:expiry_mate/widget/page_state_widget.dart';
 import 'package:expiry_mate/widget/theme_button_widget.dart';
 import 'package:file_picker/file_picker.dart';
@@ -166,7 +167,7 @@ class _Body extends HookConsumerWidget {
                     color: Theme.of(context).colorScheme.error,
                   ),
                 ),
-                //修改主题按钮
+                LanguageWidget(),
                 ThemeButton(),
               ],
             )
@@ -180,8 +181,10 @@ class _Body extends HookConsumerWidget {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(Language.current.detailsPageItemCreateDate,
-                        style: theme1),
+                    Text(
+                      Language.current.detailsPageItemCreateDate,
+                      style: theme1,
+                    ),
                     Text('${item.createDate?.format()}', style: theme2)
                   ],
                 ),
@@ -221,8 +224,10 @@ class _Body extends HookConsumerWidget {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(Language.current.detailsPageItemOverDate,
-                        style: theme1),
+                    Text(
+                      Language.current.detailsPageItemOverDate,
+                      style: theme1,
+                    ),
                     Text('${item.overDate?.format()}', style: theme2),
                   ],
                 ),
@@ -271,8 +276,10 @@ class _Body extends HookConsumerWidget {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(Language.current.detailsPageItemReminder,
-                        style: theme1),
+                    Text(
+                      Language.current.detailsPageItemReminder,
+                      style: theme1,
+                    ),
                     Text('${item.reminderDays} ${Language.current.unitDays}',
                         style: theme2),
                   ],
@@ -317,7 +324,10 @@ class _Body extends HookConsumerWidget {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(Language.current.detailsPageItemType, style: theme1),
+                    Text(
+                      Language.current.detailsPageItemType,
+                      style: theme1,
+                    ),
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [

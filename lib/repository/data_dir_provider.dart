@@ -16,6 +16,7 @@ const _dbDirName = 'DbStore';
 class AppDirDataManager extends _$AppDirDataManager {
   @override
   FutureOr<AppDir> build() async {
+    debugPrint("初始化文件数据管理...");
     Directory dir = await getApplicationCacheDirectory();
     var imageDir = Directory(p.join(dir.path, _imageDirName));
     if (!imageDir.existsSync()) {

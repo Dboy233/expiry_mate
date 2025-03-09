@@ -37,8 +37,6 @@ class ExpiryItemListPage extends StatelessWidget {
         ),
         leading: BackButton(),
         actions: [
-          LanguageWidget(),
-
           ///只看临期不显示过滤
           if (!isOnlyExpiry)
             Consumer(
@@ -60,18 +58,21 @@ class ExpiryItemListPage extends StatelessWidget {
                 );
               },
             ),
+          LanguageWidget(),
           ThemeButton(),
         ],
       ),
       body: Consumer(
         builder: (context, ref, child) {
           var watch = ref.watch(expiryItemListProvider(type));
-          PageState? state = watch.isLoading
-              ? PageState.loading
-              : watch.hasValue
-                  ? watch.requireValue.isEmpty
-                      ? PageState.empty
-                      : null
+          debugPrint(
+              "刷新：${watch.hasValue},${watch.valueOrNull?.isEmpty}, ${watch.isLoading}");
+          PageState? state = watch.hasValue
+              ? watch.requireValue.isEmpty
+                  ? PageState.empty
+                  : null
+              : watch.isLoading
+                  ? PageState.loading
                   : PageState.error;
           return PageStateWidget(
             state: state,
@@ -106,7 +107,9 @@ class _ListViewWidget extends ConsumerWidget {
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: 640),
         child: ListView.builder(
-          padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
+          key: ValueKey("_ListViewWidget:ListView"),
+          padding:
+              const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
           itemBuilder: (_, index) {
             final item = items[index];
             return DismissibleTile(
@@ -120,19 +123,22 @@ class _ListViewWidget extends ConsumerWidget {
                   style: onArchiveTextTheme),
               ltrOverlayDismissed: Text(Language.current.allPageItemModify,
                   style: onArchiveTextTheme),
-              rtlOverlay:
-                  Text(Language.current.allPageItemDelete, style: onErrorTextTheme),
-              rtlOverlayDismissed:
-                  Text(Language.current.allPageItemDelete, style: onErrorTextTheme),
+              rtlOverlay: Text(Language.current.allPageItemDelete,
+                  style: onErrorTextTheme),
+              rtlOverlayDismissed: Text(Language.current.allPageItemDelete,
+                  style: onErrorTextTheme),
               child: _listTile(context, item),
-              onDismissed: (d) {
-                ref.invalidate(expiryItemListProvider(type));
+              onDismissed: (direction) {
+                ref.read(expiryItemListProvider(type).notifier).updateList();
               },
               confirmDismiss: (direction) async {
                 if (direction == DismissibleTileDirection.leftToRight) {
-                  return await Navigator.of(context).push(CupertinoPageRoute(
-                          builder: (context) => ItemDetailsPage(item.id!, true))) ==
-                      'delete';
+                  return 'delete' ==
+                      await Navigator.of(context).push(
+                        CupertinoPageRoute(
+                          builder: (context) => ItemDetailsPage(item.id!, true),
+                        ),
+                      );
                 } else {
                   //二次确认
                   final isConfirm = await showDialog(
@@ -141,7 +147,7 @@ class _ListViewWidget extends ConsumerWidget {
                   if (isConfirm == true) {
                     await ref
                         .read(expiryItemListProvider(type).notifier)
-                        .delete(item.id!);
+                        .deleteFromDB(item.id!);
                     return true;
                   } else {
                     return false;
@@ -162,37 +168,47 @@ class _ListViewWidget extends ConsumerWidget {
         borderRadius: BorderRadius.all(Radius.circular(16)),
         color: Theme.of(context).colorScheme.surfaceContainer,
       ),
-      child: ListTile(
-        title: Text(
-          item.name ?? '',
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        minTileHeight: 50,
-        leading: Image.asset(
-          ExpiryType.values[item.type!].getIconAsset().path,
-          width: 30,
-          height: 30,
-          color: Theme.of(context).colorScheme.primary,
-        ),
-        subtitle: Row(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(Language.current.createDate),
-                Text(Language.current.overDate),
-              ],
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(
+            CupertinoPageRoute(
+              builder: (context) => ItemDetailsPage(item.id!, true),
             ),
-            SizedBox(width: 8),
-            Column(
-              children: [
-                Text(': ${item.createDate?.format()}'),
-                Text(': ${item.overDate?.format()}'),
-              ],
-            ),
-          ],
+          );
+        },
+        child: ListTile(
+          title: Text(
+            item.name ?? '',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          minTileHeight: 50,
+          leading: Image.asset(
+            ExpiryType.values[item.type!].getIconAsset().path,
+            width: 30,
+            height: 30,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+          subtitle: Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(Language.current.createDate),
+                  Text(Language.current.overDate),
+                ],
+              ),
+              SizedBox(width: 8),
+              Column(
+                children: [
+                  Text(': ${item.createDate?.format()}'),
+                  Text(': ${item.overDate?.format()}'),
+                ],
+              ),
+            ],
+          ),
+          trailing: _ExpiryTipsWidget(item: item),
         ),
-        trailing: _ExpiryTipsWidget(item: item),
       ),
     );
   }

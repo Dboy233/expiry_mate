@@ -97,7 +97,8 @@ class _ErrorWidget extends StatelessWidget {
             size: 50,
             color: Theme.of(context).colorScheme.error,
           ),
-          ElevatedButton(onPressed: onRetry, child: Text(Language.current.statePageRetry)),
+          ElevatedButton(
+              onPressed: onRetry, child: Text(Language.current.statePageRetry)),
         ],
       ),
     );

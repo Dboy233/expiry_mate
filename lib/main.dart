@@ -1,8 +1,7 @@
 import 'package:expiry_mate/app_theme.dart';
-import 'package:expiry_mate/config_provider.dart';
-import 'package:expiry_mate/db/db.dart';
 import 'package:expiry_mate/gen/l10n.dart';
 import 'package:expiry_mate/page/home/page.dart';
+import 'package:expiry_mate/repository/app_repository_provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -27,25 +26,26 @@ class _InitWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var watch = ref.watch(dbStoreProvider);
-    var view = watch.hasValue
+    ///获取配置信息
+    var config = ref.watch(appConfigRepositoryProvider);
+    debugPrint("config change ： ${config.isLoading} ${config.hasValue}");
+    ///如果配置信息正在初始化展示加载页面
+    var view = config.hasValue
         ? child
         : _InitLoadingPage(key: ValueKey('_InitLoadingPage'));
 
     //获取主模式
-    var themeModeData = ref.watch(themeConfigProvider);
-    var themeCode = themeModeData.valueOrNull ?? 3;
+    var themeCode = config.valueOrNull?.getAppThemeMode();
     var themeMode = themeCode == 0
         ? ThemeMode.light
         : themeCode == 1
             ? ThemeMode.dark
             : ThemeMode.system;
 
-    //获取多语言设置
-    final languageProvider = ref.watch(languageConfigProvider);
-    final languageCode = languageProvider.valueOrNull ?? 'zh';
-    debugPrint("语言代码：$languageCode");
-    final locale = Locale(languageCode);
+    //获取地区码
+    final languageCode = config.valueOrNull?.getAppLocalCode() ?? 'zh';
+
+    ///设施国际化默认语言代码，涉及到DateTime格式化和DatePickerDialog的内容显示
     Intl.defaultLocale = languageCode;
 
     return MaterialApp(
@@ -60,9 +60,9 @@ class _InitWidget extends ConsumerWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: Language.delegate.supportedLocales,
-      locale: locale,
+      locale: Locale(languageCode),
       home: AnimatedSwitcher(
-        duration: Duration(seconds: 2),
+        duration: Duration(seconds: 1),
         child: view,
       ),
     );

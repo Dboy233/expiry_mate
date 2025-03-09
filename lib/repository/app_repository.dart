@@ -1,11 +1,13 @@
+//对特定数据操作方法抽象
+
 import 'package:expiry_mate/bean/expiry_filter_data.dart';
 import 'package:expiry_mate/bean/result.dart';
+import 'package:expiry_mate/db/data/config.dart';
 import 'package:expiry_mate/db/data/expiry_item.dart';
 import 'package:expiry_mate/db/data/expiry_type.dart';
 
-abstract class ExpiryRepository {
-
-
+///针对数据库表：[ExpiryItem]的操作抽象
+abstract class ExpiryItemRepository {
   Future<DataResult<ExpiryItem>> getItem(int id);
 
   ///获取所有临期项目
@@ -37,4 +39,21 @@ abstract class ExpiryRepository {
 
   ///查询
   Future<DataResult<List<ExpiryItem>>> queryExpiryItem(ExpiryFilterData filter);
+}
+
+///针对数据库表[Config]的操作抽象
+abstract class ConfigRepository {
+  Config getCurrentConfig();
+
+  ///获取应用主题模式
+  int getAppThemeMode();
+
+  ///改变应用主题模式
+  void changeMode();
+
+  ///获取app地区码
+  String getAppLocalCode();
+
+  ///改变app地区码
+  void changeLocal(String localCode);
 }
